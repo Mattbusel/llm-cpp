@@ -2,13 +2,12 @@
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Mattbusel/llm-cpp&type=Date)](https://star-history.com/#Mattbusel/llm-cpp)
 
-
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![26 Libraries](https://img.shields.io/badge/libraries-26-orange.svg)
 ![Zero Deps Core](https://img.shields.io/badge/core_deps-zero-brightgreen.svg)
 
-A suite of 26 single-header C++17 libraries for integrating large language models into native applications. Each library is a self-contained `.hpp` file — drop in what you need, define one implementation macro, and ship. No Python, no SDKs, no package manager required.
+A suite of 26 single-header C++17 libraries for integrating large language models into native applications. Each library is a self-contained `.hpp` file -- drop in what you need, define one implementation macro, and ship. No Python, no SDKs, no package manager required.
 
 ---
 
@@ -26,18 +25,18 @@ A suite of 26 single-header C++17 libraries for integrating large language model
 
 ## The Suite
 
-### Core — foundational primitives every LLM app needs
+### Core -- foundational primitives every LLM app needs
 
 | Library | Description | Deps |
 |---------|-------------|------|
 | **[llm-stream](https://github.com/Mattbusel/llm-stream)** | Stream OpenAI & Anthropic responses via SSE | libcurl |
 | **[llm-retry](https://github.com/Mattbusel/llm-retry)** | Retry with exponential backoff + circuit breaker | None |
 | **[llm-cost](https://github.com/Mattbusel/llm-cost)** | Token counting + cost estimation for 6 models | None |
-| **[llm-cache](https://github.com/Mattbusel/llm-cache)** | LRU response cache — skip identical API calls | None |
+| **[llm-cache](https://github.com/Mattbusel/llm-cache)** | LRU response cache -- skip identical API calls | None |
 | **[llm-format](https://github.com/Mattbusel/llm-format)** | JSON schema enforcement + structured output | None |
 | **[llm-json](https://github.com/Mattbusel/llm-json)** | Recursive-descent JSON parser and builder | None |
 
-### Data — move, retrieve, and reshape information
+### Data -- move, retrieve, and reshape information
 
 | Library | Description | Deps |
 |---------|-------------|------|
@@ -48,18 +47,18 @@ A suite of 26 single-header C++17 libraries for integrating large language model
 | **[llm-parse](https://github.com/Mattbusel/llm-parse)** | Offline HTML/markdown parsing, chunking, TextStats | None |
 | **[llm-batch](https://github.com/Mattbusel/llm-batch)** | Batch processing with thread pool, rate limiting, checkpointing | libcurl |
 
-### Ops — observe, test, and operate at scale
+### Ops -- observe, test, and operate at scale
 
 | Library | Description | Deps |
 |---------|-------------|------|
 | **[llm-log](https://github.com/Mattbusel/llm-log)** | Structured JSONL logging for every LLM call | None |
 | **[llm-trace](https://github.com/Mattbusel/llm-trace)** | RAII span tracing with OTLP JSON export | None |
 | **[llm-pool](https://github.com/Mattbusel/llm-pool)** | Concurrent request pool with priority queue + rate limiting | None |
-| **[llm-mock](https://github.com/Mattbusel/llm-mock)** | Mock LLM provider for unit testing — zero network | None |
+| **[llm-mock](https://github.com/Mattbusel/llm-mock)** | Mock LLM provider for unit testing -- zero network | None |
 | **[llm-eval](https://github.com/Mattbusel/llm-eval)** | N-run evaluation + consistency scoring + model comparison | libcurl |
 | **[llm-ab](https://github.com/Mattbusel/llm-ab)** | A/B testing with Welch t-test and Cohen d | libcurl |
 
-### App — build complete user-facing features
+### App -- build complete user-facing features
 
 | Library | Description | Deps |
 |---------|-------------|------|
@@ -68,7 +67,7 @@ A suite of 26 single-header C++17 libraries for integrating large language model
 | **[llm-vision](https://github.com/Mattbusel/llm-vision)** | Multimodal image+text for OpenAI and Anthropic | libcurl |
 | **[llm-template](https://github.com/Mattbusel/llm-template)** | Mustache-style prompt templating | None |
 | **[llm-router](https://github.com/Mattbusel/llm-router)** | Route prompts to the right model by complexity | None |
-| **[llm-guard](https://github.com/Mattbusel/llm-guard)** | PII detection + prompt injection scoring — fully offline | None |
+| **[llm-guard](https://github.com/Mattbusel/llm-guard)** | PII detection + prompt injection scoring -- fully offline | None |
 | **[llm-audio](https://github.com/Mattbusel/llm-audio)** | Whisper transcription, translation, and TTS | libcurl |
 | **[llm-finetune](https://github.com/Mattbusel/llm-finetune)** | Fine-tuning job lifecycle: upload, create, poll, manage models | libcurl |
 
@@ -92,31 +91,31 @@ Libraries compose naturally. Here is a production-ready pattern using llm-log, l
 #include "llm_stream.hpp"
 
 int main() {
-    llm::Logger logger("calls.jsonl");
+ llm::Logger logger("calls.jsonl");
 
-    llm::Config cfg;
-    cfg.api_key = std::getenv("OPENAI_API_KEY");
-    cfg.model   = "gpt-4o-mini";
+ llm::Config cfg;
+ cfg.api_key = std::getenv("OPENAI_API_KEY");
+ cfg.model = "gpt-4o-mini";
 
-    const std::string prompt = "Explain backpressure in one paragraph.";
-    auto log_id = logger.log_request(prompt, cfg.model);
+ const std::string prompt = "Explain backpressure in one paragraph.";
+ auto log_id = logger.log_request(prompt, cfg.model);
 
-    auto result = llm::with_retry<std::string>([&]() -> std::string {
-        std::string output;
-        llm::stream_openai(prompt, cfg,
-            [&](std::string_view tok) { std::cout << tok << std::flush; output += tok; },
-            [](const llm::StreamStats& s) {
-                std::cout << "\n[" << s.token_count << " tokens, " << s.tokens_per_sec << " tok/s]\n";
-            }
-        );
-        return output;
-    });
+ auto result = llm::with_retry<std::string>([&]() -> std::string {
+ std::string output;
+ llm::stream_openai(prompt, cfg,
+ [&](std::string_view tok) { std::cout << tok << std::flush; output += tok; },
+ [](const llm::StreamStats& s) {
+ std::cout << "\n[" << s.token_count << " tokens, " << s.tokens_per_sec << " tok/s]\n";
+ }
+ );
+ return output;
+ });
 
-    logger.log_response(log_id, result);
+ logger.log_response(log_id, result);
 }
 ```
 
-Another example — guard, route, and chat together:
+Another example -- guard, route, and chat together:
 
 ```cpp
 #define LLM_GUARD_IMPLEMENTATION
@@ -129,22 +128,22 @@ Another example — guard, route, and chat together:
 #include "llm_chat.hpp"
 
 int main() {
-    // 1. Check input for PII / injection
-    auto guard = llm::scan(user_input);
-    if (!guard.safe) user_input = guard.scrubbed;
+ // 1. Check input for PII / injection
+ auto guard = llm::scan(user_input);
+ if (!guard.safe) user_input = guard.scrubbed;
 
-    // 2. Route to the right model
-    llm::RouterConfig rcfg;
-    rcfg.strategy = llm::RoutingStrategy::Balanced;
-    rcfg.models   = {{"gpt-4o-mini", 0.15, 0.5, 0.7, 40}, {"gpt-4o", 5.0, 1.0, 0.9, 100}};
-    auto decision = llm::Router(rcfg).route(user_input);
+ // 2. Route to the right model
+ llm::RouterConfig rcfg;
+ rcfg.strategy = llm::RoutingStrategy::Balanced;
+ rcfg.models = {{"gpt-4o-mini", 0.15, 0.5, 0.7, 40}, {"gpt-4o", 5.0, 1.0, 0.9, 100}};
+ auto decision = llm::Router(rcfg).route(user_input);
 
-    // 3. Send with conversation memory
-    llm::ChatConfig ccfg;
-    ccfg.api_key = std::getenv("OPENAI_API_KEY");
-    ccfg.model   = decision.model_name;
-    llm::Conversation conv(ccfg);
-    std::cout << conv.chat(user_input) << "\n";
+ // 3. Send with conversation memory
+ llm::ChatConfig ccfg;
+ ccfg.api_key = std::getenv("OPENAI_API_KEY");
+ ccfg.model = decision.model_name;
+ llm::Conversation conv(ccfg);
+ std::cout << conv.chat(user_input) << "\n";
 }
 ```
 
@@ -222,7 +221,7 @@ All other translation units just `#include` without the macro.
 | Requirement | Detail |
 |-------------|--------|
 | C++ standard | C++17 or later |
-| Compiler | GCC, Clang, MSVC — all supported |
+| Compiler | GCC, Clang, MSVC -- all supported |
 | External deps | libcurl for network libraries (see table above). All others: zero deps. |
 | Build system | Any. Works with CMake, Make, Bazel, MSVC, plain `g++`. |
 
@@ -230,8 +229,7 @@ All other translation units just `#include` without the macro.
 
 ## License
 
-All 26 libraries: MIT — Copyright (c) 2026 Mattbusel.
-
+All 26 libraries: MIT -- Copyright (c) 2026 Mattbusel.
 
 ---
 ## Related Projects by @Mattbusel
