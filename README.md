@@ -1,5 +1,7 @@
 # llm-cpp
 
+[![CI](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml)
+
 [![Star History Chart](https://api.star-history.com/svg?repos=Mattbusel/llm-cpp&type=Date)](https://star-history.com/#Mattbusel/llm-cpp)
 
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
