@@ -1,0 +1,390 @@
+{
+ "libraries": [
+  {
+   "name": "llm-stream",
+   "cat": "core",
+   "desc": "Stream OpenAI and Anthropic chat responses token by token over SSE",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 481,
+   "bytes": 17715,
+   "macro": "LLM_STREAM_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-retry",
+   "cat": "core",
+   "desc": "Exponential backoff with jitter, provider failover and a circuit breaker",
+   "deps": "none",
+   "needs": "none",
+   "lines": 267,
+   "bytes": 9253,
+   "macro": "LLM_RETRY_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-cost",
+   "cat": "core",
+   "desc": "Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks",
+   "deps": "none",
+   "needs": "none",
+   "lines": 336,
+   "bytes": 11499,
+   "macro": "LLM_COST_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-cache",
+   "cat": "core",
+   "desc": "LRU response cache with TTL and hit/miss stats, so identical prompts skip the API",
+   "deps": "none",
+   "needs": "none",
+   "lines": 210,
+   "bytes": 5897,
+   "macro": "LLM_CACHE_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-format",
+   "cat": "core",
+   "desc": "Define a schema, validate model JSON against it, and re-prompt until the output conforms",
+   "deps": "none",
+   "needs": "none",
+   "lines": 572,
+   "bytes": 18824,
+   "macro": "LLM_FORMAT_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-json",
+   "cat": "core",
+   "desc": "Small JSON parser and builder for request bodies and model output",
+   "deps": "none",
+   "needs": "none",
+   "lines": 441,
+   "bytes": 16883,
+   "macro": "LLM_JSON_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-parse",
+   "cat": "data",
+   "desc": "Strip HTML and markdown, extract titles, links, headings and code blocks, chunk text",
+   "deps": "none",
+   "needs": "none",
+   "lines": 537,
+   "bytes": 19059,
+   "macro": "LLM_PARSE_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-embed",
+   "cat": "data",
+   "desc": "OpenAI embeddings, cosine/dot/euclidean similarity and a small on-disk vector store",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 379,
+   "bytes": 13415,
+   "macro": "LLM_EMBED_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-rag",
+   "cat": "data",
+   "desc": "End-to-end RAG: chunk, embed, persist an index, retrieve top-k and answer",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 362,
+   "bytes": 12388,
+   "macro": "LLM_RAG_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-rank",
+   "cat": "data",
+   "desc": "Rerank passages with offline BM25, LLM relevance scoring, or a hybrid of both",
+   "deps": "curl",
+   "needs": "libcurl (linked; BM25 itself is offline)",
+   "lines": 302,
+   "bytes": 10314,
+   "macro": "LLM_RANK_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-compress",
+   "cat": "data",
+   "desc": "Shrink conversation history: head/tail/smart truncation, sliding window, LLM summary",
+   "deps": "none",
+   "needs": "none (libcurl only with LLM_COMPRESS_SUMMARIZE)",
+   "lines": 290,
+   "bytes": 10489,
+   "macro": "LLM_COMPRESS_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-batch",
+   "cat": "data",
+   "desc": "Run a JSONL file of prompts through a thread pool with rate limiting and resumable checkpoints",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 362,
+   "bytes": 12355,
+   "macro": "LLM_BATCH_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-log",
+   "cat": "ops",
+   "desc": "Structured JSONL log of every call with latency, tokens and cost, plus query and summary",
+   "deps": "none",
+   "needs": "none",
+   "lines": 261,
+   "bytes": 9334,
+   "macro": "LLM_LOG_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-trace",
+   "cat": "ops",
+   "desc": "RAII spans with parent/child nesting, token and cost attributes, OTLP-style JSON export",
+   "deps": "none",
+   "needs": "none",
+   "lines": 248,
+   "bytes": 8295,
+   "macro": "LLM_TRACE_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-pool",
+   "cat": "ops",
+   "desc": "Worker pool with priority queue and requests-per-minute and tokens-per-minute limits",
+   "deps": "none",
+   "needs": "none",
+   "lines": 309,
+   "bytes": 8669,
+   "macro": "LLM_POOL_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-mock",
+   "cat": "ops",
+   "desc": "Fake LLM with scripted, pattern, random or echo responses, simulated latency and streaming",
+   "deps": "none",
+   "needs": "none",
+   "lines": 248,
+   "bytes": 7372,
+   "macro": "LLM_MOCK_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-eval",
+   "cat": "ops",
+   "desc": "Run a prompt N times, measure consistency, compare models or prompts, score responses",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 315,
+   "bytes": 11823,
+   "macro": "LLM_EVAL_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-ab",
+   "cat": "ops",
+   "desc": "A/B test prompts or models with Welch's t-test, Cohen's d and custom scorers",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 330,
+   "bytes": 11373,
+   "macro": "LLM_AB_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-chat",
+   "cat": "app",
+   "desc": "Multi-turn conversation with token-budget trimming, pinned system prompt, save and restore",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 351,
+   "bytes": 11271,
+   "macro": "LLM_CHAT_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-agent",
+   "cat": "app",
+   "desc": "Tool-calling agent loop: register C++ lambdas as tools and let the model call them",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 385,
+   "bytes": 14284,
+   "macro": "LLM_AGENT_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-vision",
+   "cat": "app",
+   "desc": "Send images (file or URL) plus a prompt to OpenAI or Anthropic vision models",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 337,
+   "bytes": 12500,
+   "macro": "LLM_VISION_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-template",
+   "cat": "app",
+   "desc": "Mustache-style prompt templates with loops, conditionals and token-budget truncation",
+   "deps": "none",
+   "needs": "none",
+   "lines": 211,
+   "bytes": 7640,
+   "macro": "LLM_TEMPLATE_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-router",
+   "cat": "app",
+   "desc": "Pick a model per prompt from a complexity score and a cost, latency, quality or budget strategy",
+   "deps": "none",
+   "needs": "none",
+   "lines": 219,
+   "bytes": 7666,
+   "macro": "LLM_ROUTER_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-guard",
+   "cat": "app",
+   "desc": "Detect and scrub PII (email, phone, SSN, card numbers, API keys) and score prompt-injection risk",
+   "deps": "none",
+   "needs": "none",
+   "lines": 313,
+   "bytes": 10423,
+   "macro": "LLM_GUARD_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-audio",
+   "cat": "app",
+   "desc": "Whisper transcription and translation, and text-to-speech, via the OpenAI API",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 388,
+   "bytes": 15721,
+   "macro": "LLM_AUDIO_IMPLEMENTATION"
+  },
+  {
+   "name": "llm-finetune",
+   "cat": "app",
+   "desc": "OpenAI fine-tuning lifecycle: write JSONL, upload, create, poll, cancel, list models",
+   "deps": "curl",
+   "needs": "libcurl",
+   "lines": 469,
+   "bytes": 18183,
+   "macro": "LLM_FINETUNE_IMPLEMENTATION"
+  }
+ ],
+ "recipes": [
+  {
+   "ask": "Call a model and stream tokens",
+   "libs": [
+    "llm-stream"
+   ],
+   "text": "llm-stream"
+  },
+  {
+   "ask": "Build a chatbot with memory",
+   "libs": [
+    "llm-chat",
+    "llm-retry"
+   ],
+   "text": "llm-chat + llm-retry"
+  },
+  {
+   "ask": "Answer questions over my documents",
+   "libs": [
+    "llm-parse",
+    "llm-embed",
+    "llm-rag",
+    "llm-rank"
+   ],
+   "text": "llm-parse + llm-embed, or llm-rag + llm-rank"
+  },
+  {
+   "ask": "Get valid JSON back every time",
+   "libs": [
+    "llm-format",
+    "llm-json"
+   ],
+   "text": "llm-format + llm-json"
+  },
+  {
+   "ask": "Let the model call my C++ functions",
+   "libs": [
+    "llm-agent"
+   ],
+   "text": "llm-agent"
+  },
+  {
+   "ask": "Know what my calls cost and where time goes",
+   "libs": [
+    "llm-cost",
+    "llm-log",
+    "llm-trace"
+   ],
+   "text": "llm-cost + llm-log + llm-trace"
+  },
+  {
+   "ask": "Unit-test LLM code without the network",
+   "libs": [
+    "llm-mock"
+   ],
+   "text": "llm-mock"
+  }
+ ],
+ "hero": {
+  "file": "llm_cache.hpp",
+  "lines": [
+   "#pragma once",
+   "",
+   "// llm-cache: single-header LRU cache for LLM responses",
+   "// #define LLM_CACHE_IMPLEMENTATION in ONE .cpp file before including.",
+   "",
+   "#include <chrono>",
+   "#include <functional>",
+   "#include <list>",
+   "#include <mutex>",
+   "#include <optional>",
+   "#include <string>",
+   "#include <unordered_map>",
+   "",
+   "namespace llm {",
+   "",
+   "struct CacheConfig {",
+   "    size_t max_entries    = 1000;",
+   "    double ttl_seconds    = 3600.0;  // 0 = no expiry",
+   "    bool   case_sensitive = false;   // normalize keys to lowercase if false",
+   "};",
+   "",
+   "struct CacheStats {",
+   "    size_t hits;",
+   "    size_t misses;",
+   "    size_t evictions;",
+   "    size_t current_size;",
+   "    double hit_rate() const {",
+   "        size_t total = hits + misses;",
+   "        return total == 0 ? 0.0 : static_cast<double>(hits) / total;",
+   "    }",
+   "};",
+   "",
+   "struct CacheEntry {",
+   "    std::string value;",
+   "    std::chrono::steady_clock::time_point inserted_at;",
+   "};",
+   "",
+   "class ResponseCache {",
+   "public:",
+   "    explicit ResponseCache(CacheConfig config = {});",
+   "",
+   "    // Look up a cached response for the given prompt key.",
+   "    // Returns std::nullopt on miss or expiry (expired entries are evicted).",
+   "    std::optional<std::string> get(const std::string& key);",
+   "",
+   "    // Store a response. Evicts LRU entry if at capacity.",
+   "    void put(const std::string& key, const std::string& value);",
+   "",
+   "    // Remove a specific key.",
+   "    bool invalidate(const std::string& key);",
+   "",
+   "    // Clear all entries.",
+   "    void clear();",
+   "",
+   "    CacheStats stats() const;",
+   "    size_t size() const;",
+   "",
+   "    // Convenience: get cached or compute + store.",
+   "    // fn is only called on a cache miss.",
+   "    std::string get_or_compute(",
+   "        const std::string& key,",
+   "        std::function<std::string()> fn"
+  ],
+  "total": 210
+ }
+}

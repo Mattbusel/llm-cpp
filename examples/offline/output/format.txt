@@ -1,0 +1,11 @@
+valid: yes after 2 attempt(s)
+{
+  "priority": 1,
+  "tags": [
+    "auth"
+  ],
+  "title": "Login fails"
+}
+error: Field "title" has wrong type: expected string
+error: Missing required field: "priority"
+error: Missing required field: "tags"

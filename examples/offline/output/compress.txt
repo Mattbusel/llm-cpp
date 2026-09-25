@@ -1,0 +1,9 @@
+tokens 779 -> 203, dropped 18 of 25 messages
+
+system    You are a terse C++ reviewer.
+user      Q10: why is my iterator invalid? why is 
+assistant A10: push_back reallocated.
+user      Q11: why is my iterator invalid? why is 
+assistant A11: push_back reallocated.
+user      Q12: why is my iterator invalid? why is 
+assistant A12: push_back reallocated.
