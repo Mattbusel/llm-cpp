@@ -5,9 +5,36 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  check:
+  offline-examples:
+    name: Build and run offline examples (g++)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check markdown files
-        run: echo "README check passed" && ls *.md
+      - name: Fetch current headers
+        run: |
+          mkdir -p third_party
+          for lib in cache cost guard json format compress; do
+            curl -fsSL -o third_party/llm_$lib.hpp \
+              https://raw.githubusercontent.com/Mattbusel/llm-$lib/main/include/llm_$lib.hpp
+          done
+      - name: Build, run, compare with committed output
+        run: |
+          mkdir -p build
+          for lib in cache cost guard json format compress; do
+            g++ -std=c++17 -O2 -Wall -Ithird_party examples/offline/$lib.cpp -o build/$lib
+            ./build/$lib > build/$lib.txt
+            diff -u examples/offline/output/$lib.txt build/$lib.txt
+            echo "ok: $lib"
+          done
+  site:
+    name: Site is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild docs/index.html and check for drift
+        run: |
+          python tools/build_site.py
+          git diff --exit-code docs/index.html

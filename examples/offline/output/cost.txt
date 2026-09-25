@@ -1,0 +1,8 @@
+gpt-4o-mini         4080 tokens  0.0612¢
+claude-haiku-4-5    4080 tokens  0.1020¢
+claude-sonnet-4-5   4080 tokens  $0.0122
+gpt-4o              4080 tokens  $0.0204
+gpt-4-turbo         4080 tokens  $0.0408
+claude-opus-4-5     4080 tokens  $0.0612
+
+blocked: Budget exceeded: estimated $0.0612 > limit $0.0100 (4080 tokens on claude-opus-4-5)

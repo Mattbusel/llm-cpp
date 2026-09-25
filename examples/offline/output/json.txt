@@ -1,0 +1,15 @@
+{
+  "model": "gpt-4o-mini",
+  "temperature": 0.5,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Say \"hi\""
+    }
+  ]
+}
+
+content: hi!
+tokens:  17
+
+bad input -> ok=false, json: unexpected char '}'

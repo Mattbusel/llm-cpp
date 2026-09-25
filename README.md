@@ -1,7 +1,13 @@
 # llm-cpp
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+  <img alt="llm-cpp: the llm_cache.hpp header next to a terminal that downloads it, compiles an example with MSVC and prints real cache hits and evictions" src="assets/banner-light.png">
+</picture>
+
 [![CI](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml)
-![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
+
+**[Browse the catalogue](https://mattbusel.github.io/llm-cpp/)**: filter all 26 libraries by what they need, see real output, and get an install command for the headers you pick.
 
 **26 single-header C++17 libraries for building LLM features into native code.** Streaming, retries, caching, cost estimation, RAG, reranking, tracing, structured output, agents and more. Each library is one `.hpp` file you copy into your project.
 
@@ -71,8 +77,13 @@ Most LLM tooling assumes Python or Node. If you are shipping a game, a desktop a
 
 ## Why single-header
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/one-file-dark.png">
+  <img alt="The llm-cache repo on the left with only include/llm_cache.hpp highlighted, copied with curl into third_party/ of your project on the right" src="assets/one-file-light.png">
+</picture>
+
 - **Nothing to install.** `curl -O` one file, `#include` it. It works the same with CMake, Make, Bazel, MSBuild or a one-line `g++` command.
-- **You can read all of it.** Each library is a few hundred lines. When something misbehaves you open one file, not a dependency tree.
+- **You can read all of it.** Each library is 210 to 572 lines; all 26 together are 8,923. When something misbehaves you open one file, not a dependency tree.
 - **You pay for what you use.** Need retries and a cache? Take two headers. Nothing else is pulled in, and the offline ones add no link dependencies at all.
 - **Easy to vendor.** Copy the headers into `third_party/`, pin them in your own repo, patch them if you need to. No version resolver involved.
 
@@ -89,9 +100,32 @@ done
 
 Every header follows the stb-style pattern: include it anywhere for the declarations, and in exactly one `.cpp` file define `LLM_<NAME>_IMPLEMENTATION` before including it to compile the implementation.
 
+## Real output, no API key
+
+Six of the offline libraries have complete example programs in [`examples/offline`](examples/offline), with the output they printed committed next to them. CI downloads each library's current header, builds every example with g++ and diffs the output, so these stay honest.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/example-guard-dark.png">
+  <img alt="guard.cpp scans a prompt for an email, a card number and an API key, scores it 0.75 for injection and prints the scrubbed text" src="assets/example-guard-light.png">
+</picture>
+
+| Example | Shows |
+|---|---|
+| [cache.cpp](examples/offline/cache.cpp) | LRU cache: case-insensitive hits, evictions, stats |
+| [cost.cpp](examples/offline/cost.cpp) | Price one prompt across the built-in models, block a call over budget |
+| [guard.cpp](examples/offline/guard.cpp) | Find and scrub PII and API keys, score prompt injection |
+| [format.cpp](examples/offline/format.cpp) | Validate JSON against a schema and re-prompt until it conforms |
+| [json.cpp](examples/offline/json.cpp) | Build a request body, read a response, reject bad input |
+| [compress.cpp](examples/offline/compress.cpp) | Keep a long chat inside a token budget with a sliding window |
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/Mattbusel/llm-guard/main/include/llm_guard.hpp
+g++ -std=c++17 -I. examples/offline/guard.cpp -o guard && ./guard
+```
+
 ## Using several together
 
-**Give each implementation its own `.cpp` file.** Several headers use the same internal helper names (for example `llm::detail::json_escape`), so defining two `*_IMPLEMENTATION` macros in one translation unit can fail to compile (llm-log with llm-stream is one such pair). In separate translation units they link together fine.
+**Give each implementation its own `.cpp` file.** Several headers use the same internal helper names (for example `llm::detail::json_escape`), so defining two `*_IMPLEMENTATION` macros in one translation unit can fail to compile (llm-log with llm-stream is one such pair). In separate translation units they link together fine. As a check, all 26 implementations, each in its own `.cpp`, were compiled and linked into a single binary with MSVC 19.44 and libcurl on 2026-09-25.
 
 ```cpp
 // llm_impl_log.cpp

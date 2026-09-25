@@ -1,0 +1,7 @@
+What is RAII?            -> answer #1
+what is raii?            -> answer #1
+Explain move semantics   -> answer #2
+What is SFINAE?          -> answer #3
+What is RAII?            -> answer #4
+
+api calls 4 | hits 1 | misses 4 | evictions 2
