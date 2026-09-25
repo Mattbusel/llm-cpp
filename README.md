@@ -195,3 +195,8 @@ These are small, focused libraries, not a full SDK. The HTTP code targets the pu
 ## Related
 
 - [LLMTokenStreamQuantEngine](https://github.com/Mattbusel/LLMTokenStreamQuantEngine): C++20 engine that turns streaming LLM tokens into trade signals.
+
+
+## Hire the author
+
+**Need this kind of engineering on your product?** I take on a small number of client builds: LLM features, iOS apps and performance work, fixed price. [Services and pricing](https://mattbusel.github.io/) · [Email](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
