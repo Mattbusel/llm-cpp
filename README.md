@@ -1,5 +1,3 @@
-# llm-cpp
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
   <img alt="llm-cpp: the llm_cache.hpp header next to a terminal that downloads it, compiles an example with MSVC and prints real cache hits and evictions" src="assets/banner-light.png">
