@@ -4,12 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>llm-cpp: single-header C++ libraries for LLM features</title>
-<meta name="description" content="26 single-header C++17 libraries for streaming, retries, caching, cost estimation, RAG, structured output and agents. Copy one .hpp file. 14 need nothing, 12 need only libcurl.">
+<meta name="description" content="26 single-header C++17 libraries for OpenAI and Anthropic: streaming, retries, caching, cost, RAG, JSON output, agents. Copy one .hpp file.">
+<link rel="canonical" href="https://mattbusel.github.io/llm-cpp/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="llm-cpp">
 <meta property="og:title" content="llm-cpp: 26 single-header C++17 libraries for LLM features">
 <meta property="og:description" content="Copy one .hpp file. No SDK, no package manager. 14 need nothing, 12 need only libcurl.">
-<meta property="og:image" content="https://mattbusel.github.io/llm-cpp/og.png">
+<meta property="og:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The llm_cache.hpp header and a terminal compiling it and printing real cache hits">
 <meta property="og:url" content="https://mattbusel.github.io/llm-cpp/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="llm-cpp: 26 single-header C++17 libraries for LLM features">
+<meta name="twitter:description" content="Copy one .hpp file. No SDK, no package manager. 14 need nothing, 12 need only libcurl.">
+<meta name="twitter:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"llm-cpp","description":"26 single-header C++17 libraries for building LLM features (streaming, retries, caching, cost estimation, RAG, structured output, agents) into native code with the OpenAI and Anthropic APIs.","url":"https://mattbusel.github.io/llm-cpp/","codeRepository":"https://github.com/Mattbusel/llm-cpp","programmingLanguage":"C++","runtimePlatform":"C++17","license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Matthew Busel","url":"https://mattbusel.github.io/"},"downloadUrl":"https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip","keywords":"C++, LLM, single-header, header-only, OpenAI, Anthropic, RAG, streaming, libcurl"}
+</script>
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23161513'/%3E%3Ctext x='16' y='21.5' font-family='Consolas,monospace' font-size='15' font-weight='700' fill='%23f0763a' text-anchor='middle'%3E%23h%3C/text%3E%3C/svg%3E">
 <style>
@@ -287,7 +299,8 @@ footer a{color:var(--ink2)}
       <h1>LLM features for <span class="cpp">C++</span>, one <code>.hpp</code> at a time.</h1>
       <p class="lede">26 single-header libraries for streaming, retries, caching, cost estimates, RAG, reranking, tracing, structured output and agents. Copy the file you need into your project. No SDK, no package manager, no framework.</p>
       <div class="cta">
-        <a class="btn primary" href="#libraries">Browse the 26 libraries</a>
+        <a class="btn primary" href="https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip">Download all 26 headers (.zip)</a>
+        <a class="btn" href="#libraries">Browse the 26 libraries</a>
         <a class="btn" href="#examples">See real output</a>
       </div>
       <dl class="stats">
@@ -419,10 +432,10 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
     </div>
     <div class="bars-wrap">
       <div>
-        <p>Every header, drawn to scale. The largest is <b>572</b> lines and all 26 together are <b>8,923</b>, so when something misbehaves you open one file you can read in a sitting.</p>
+        <p>Every header, drawn to scale. The largest is <b>572</b> lines and all 26 together are <b>8,948</b>, so when something misbehaves you open one file you can read in a sitting.</p>
         <div class="legend"><span>standard library only</span><span class="lc">uses libcurl</span></div>
       </div>
-      <ol class="bars" aria-label="Line count of each header, largest first"><li class="bar none" style="--h:100.0%" title="llm_format.hpp: 572 lines"><span class="bar-fill"></span><span class="bar-n">572</span><span class="bar-l">format</span></li><li class="bar none" style="--h:93.9%" title="llm_parse.hpp: 537 lines"><span class="bar-fill"></span><span class="bar-n">537</span><span class="bar-l">parse</span></li><li class="bar curl" style="--h:84.1%" title="llm_stream.hpp: 481 lines"><span class="bar-fill"></span><span class="bar-n">481</span><span class="bar-l">stream</span></li><li class="bar curl" style="--h:82.0%" title="llm_finetune.hpp: 469 lines"><span class="bar-fill"></span><span class="bar-n">469</span><span class="bar-l">finetune</span></li><li class="bar none" style="--h:77.1%" title="llm_json.hpp: 441 lines"><span class="bar-fill"></span><span class="bar-n">441</span><span class="bar-l">json</span></li><li class="bar curl" style="--h:67.8%" title="llm_audio.hpp: 388 lines"><span class="bar-fill"></span><span class="bar-n">388</span><span class="bar-l">audio</span></li><li class="bar curl" style="--h:67.3%" title="llm_agent.hpp: 385 lines"><span class="bar-fill"></span><span class="bar-n">385</span><span class="bar-l">agent</span></li><li class="bar curl" style="--h:66.3%" title="llm_embed.hpp: 379 lines"><span class="bar-fill"></span><span class="bar-n">379</span><span class="bar-l">embed</span></li><li class="bar curl" style="--h:63.3%" title="llm_rag.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">rag</span></li><li class="bar curl" style="--h:63.3%" title="llm_batch.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">batch</span></li><li class="bar curl" style="--h:61.4%" title="llm_chat.hpp: 351 lines"><span class="bar-fill"></span><span class="bar-n">351</span><span class="bar-l">chat</span></li><li class="bar curl" style="--h:58.9%" title="llm_vision.hpp: 337 lines"><span class="bar-fill"></span><span class="bar-n">337</span><span class="bar-l">vision</span></li><li class="bar none" style="--h:58.7%" title="llm_cost.hpp: 336 lines"><span class="bar-fill"></span><span class="bar-n">336</span><span class="bar-l">cost</span></li><li class="bar curl" style="--h:57.7%" title="llm_ab.hpp: 330 lines"><span class="bar-fill"></span><span class="bar-n">330</span><span class="bar-l">ab</span></li><li class="bar curl" style="--h:55.1%" title="llm_eval.hpp: 315 lines"><span class="bar-fill"></span><span class="bar-n">315</span><span class="bar-l">eval</span></li><li class="bar none" style="--h:54.7%" title="llm_guard.hpp: 313 lines"><span class="bar-fill"></span><span class="bar-n">313</span><span class="bar-l">guard</span></li><li class="bar none" style="--h:54.0%" title="llm_pool.hpp: 309 lines"><span class="bar-fill"></span><span class="bar-n">309</span><span class="bar-l">pool</span></li><li class="bar curl" style="--h:52.8%" title="llm_rank.hpp: 302 lines"><span class="bar-fill"></span><span class="bar-n">302</span><span class="bar-l">rank</span></li><li class="bar none" style="--h:50.7%" title="llm_compress.hpp: 290 lines"><span class="bar-fill"></span><span class="bar-n">290</span><span class="bar-l">compress</span></li><li class="bar none" style="--h:46.7%" title="llm_retry.hpp: 267 lines"><span class="bar-fill"></span><span class="bar-n">267</span><span class="bar-l">retry</span></li><li class="bar none" style="--h:45.6%" title="llm_log.hpp: 261 lines"><span class="bar-fill"></span><span class="bar-n">261</span><span class="bar-l">log</span></li><li class="bar none" style="--h:43.4%" title="llm_trace.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">trace</span></li><li class="bar none" style="--h:43.4%" title="llm_mock.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">mock</span></li><li class="bar none" style="--h:38.3%" title="llm_router.hpp: 219 lines"><span class="bar-fill"></span><span class="bar-n">219</span><span class="bar-l">router</span></li><li class="bar none" style="--h:36.9%" title="llm_template.hpp: 211 lines"><span class="bar-fill"></span><span class="bar-n">211</span><span class="bar-l">template</span></li><li class="bar none" style="--h:36.7%" title="llm_cache.hpp: 210 lines"><span class="bar-fill"></span><span class="bar-n">210</span><span class="bar-l">cache</span></li></ol>
+      <ol class="bars" aria-label="Line count of each header, largest first"><li class="bar none" style="--h:100.0%" title="llm_format.hpp: 572 lines"><span class="bar-fill"></span><span class="bar-n">572</span><span class="bar-l">format</span></li><li class="bar none" style="--h:93.9%" title="llm_parse.hpp: 537 lines"><span class="bar-fill"></span><span class="bar-n">537</span><span class="bar-l">parse</span></li><li class="bar curl" style="--h:84.1%" title="llm_stream.hpp: 481 lines"><span class="bar-fill"></span><span class="bar-n">481</span><span class="bar-l">stream</span></li><li class="bar curl" style="--h:82.0%" title="llm_finetune.hpp: 469 lines"><span class="bar-fill"></span><span class="bar-n">469</span><span class="bar-l">finetune</span></li><li class="bar none" style="--h:77.1%" title="llm_json.hpp: 441 lines"><span class="bar-fill"></span><span class="bar-n">441</span><span class="bar-l">json</span></li><li class="bar curl" style="--h:67.8%" title="llm_audio.hpp: 388 lines"><span class="bar-fill"></span><span class="bar-n">388</span><span class="bar-l">audio</span></li><li class="bar curl" style="--h:67.3%" title="llm_agent.hpp: 385 lines"><span class="bar-fill"></span><span class="bar-n">385</span><span class="bar-l">agent</span></li><li class="bar curl" style="--h:66.3%" title="llm_embed.hpp: 379 lines"><span class="bar-fill"></span><span class="bar-n">379</span><span class="bar-l">embed</span></li><li class="bar curl" style="--h:63.3%" title="llm_rag.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">rag</span></li><li class="bar curl" style="--h:63.3%" title="llm_batch.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">batch</span></li><li class="bar none" style="--h:62.4%" title="llm_cost.hpp: 357 lines"><span class="bar-fill"></span><span class="bar-n">357</span><span class="bar-l">cost</span></li><li class="bar curl" style="--h:61.4%" title="llm_chat.hpp: 351 lines"><span class="bar-fill"></span><span class="bar-n">351</span><span class="bar-l">chat</span></li><li class="bar curl" style="--h:58.9%" title="llm_vision.hpp: 337 lines"><span class="bar-fill"></span><span class="bar-n">337</span><span class="bar-l">vision</span></li><li class="bar curl" style="--h:58.4%" title="llm_ab.hpp: 334 lines"><span class="bar-fill"></span><span class="bar-n">334</span><span class="bar-l">ab</span></li><li class="bar curl" style="--h:55.1%" title="llm_eval.hpp: 315 lines"><span class="bar-fill"></span><span class="bar-n">315</span><span class="bar-l">eval</span></li><li class="bar none" style="--h:54.7%" title="llm_guard.hpp: 313 lines"><span class="bar-fill"></span><span class="bar-n">313</span><span class="bar-l">guard</span></li><li class="bar none" style="--h:54.0%" title="llm_pool.hpp: 309 lines"><span class="bar-fill"></span><span class="bar-n">309</span><span class="bar-l">pool</span></li><li class="bar curl" style="--h:52.8%" title="llm_rank.hpp: 302 lines"><span class="bar-fill"></span><span class="bar-n">302</span><span class="bar-l">rank</span></li><li class="bar none" style="--h:50.7%" title="llm_compress.hpp: 290 lines"><span class="bar-fill"></span><span class="bar-n">290</span><span class="bar-l">compress</span></li><li class="bar none" style="--h:46.7%" title="llm_retry.hpp: 267 lines"><span class="bar-fill"></span><span class="bar-n">267</span><span class="bar-l">retry</span></li><li class="bar none" style="--h:45.6%" title="llm_log.hpp: 261 lines"><span class="bar-fill"></span><span class="bar-n">261</span><span class="bar-l">log</span></li><li class="bar none" style="--h:43.4%" title="llm_trace.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">trace</span></li><li class="bar none" style="--h:43.4%" title="llm_mock.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">mock</span></li><li class="bar none" style="--h:38.3%" title="llm_router.hpp: 219 lines"><span class="bar-fill"></span><span class="bar-n">219</span><span class="bar-l">router</span></li><li class="bar none" style="--h:36.9%" title="llm_template.hpp: 211 lines"><span class="bar-fill"></span><span class="bar-n">211</span><span class="bar-l">template</span></li><li class="bar none" style="--h:36.7%" title="llm_cache.hpp: 210 lines"><span class="bar-fill"></span><span class="bar-n">210</span><span class="bar-l">cache</span></li></ol>
     </div>
   </div>
 </section>
@@ -476,8 +489,8 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
   </div>
 </article>
 <article class="card" data-name="llm-cost" data-cat="core" data-deps="none" data-text="llm-cost approximate token counts and cost estimates for built-in openai and anthropic models, budget checks">
-  <header class="card-tab"><span class="card-file">llm_cost.hpp</span><span class="card-lines">336 lines</span></header>
-  <div class="card-meter"><span style="width:58.7%"></span></div>
+  <header class="card-tab"><span class="card-file">llm_cost.hpp</span><span class="card-lines">357 lines</span></header>
+  <div class="card-meter"><span style="width:62.4%"></span></div>
   <h3><a href="https://github.com/Mattbusel/llm-cost">llm-cost</a></h3>
   <p class="card-desc">Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks</p>
   
@@ -686,8 +699,8 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
   </div>
 </article>
 <article class="card" data-name="llm-ab" data-cat="ops" data-deps="curl" data-text="llm-ab a/b test prompts or models with welch&#x27;s t-test, cohen&#x27;s d and custom scorers">
-  <header class="card-tab"><span class="card-file">llm_ab.hpp</span><span class="card-lines">330 lines</span></header>
-  <div class="card-meter"><span style="width:57.7%"></span></div>
+  <header class="card-tab"><span class="card-file">llm_ab.hpp</span><span class="card-lines">334 lines</span></header>
+  <div class="card-meter"><span style="width:58.4%"></span></div>
   <h3><a href="https://github.com/Mattbusel/llm-ab">llm-ab</a></h3>
   <p class="card-desc">A/B test prompts or models with Welch&#x27;s t-test, Cohen&#x27;s d and custom scorers</p>
   
@@ -873,7 +886,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2
   </div>
 </section>
 <section class="ex" id="ex-cost" role="tabpanel" aria-labelledby="tab-cost" hidden>
-  <p class="ex-blurb"><a href="https://github.com/Mattbusel/llm-cost">llm-cost</a> <span class="dim">(336 lines, no dependencies)</span>. Price a prompt across the built-in model table before you send it, and refuse calls over a budget.</p>
+  <p class="ex-blurb"><a href="https://github.com/Mattbusel/llm-cost">llm-cost</a> <span class="dim">(357 lines, no dependencies)</span>. Price a prompt across the built-in model table before you send it, and refuse calls over a budget.</p>
   <div class="ex-grid">
     <figure class="editor">
       <figcaption><span>cost.cpp</span><button class="btn tiny" type="button" data-copy-from="src-cost">copy</button></figcaption>
@@ -904,14 +917,20 @@ api calls 4 | hits 1 | misses 4 | evictions 2
       <pre><span class="t-prompt">C:\demo&gt;</span> cl /nologo /std:c++17 /EHsc /O2 cost.cpp
 cost.cpp
 <span class="t-prompt">C:\demo&gt;</span> cost.exe
+gpt-6-luna          4080 tokens  0.0408¢
 gpt-4o-mini         4080 tokens  0.0612¢
-claude-haiku-4-5    4080 tokens  0.1020¢
+claude-haiku-4-5    4080 tokens  0.4080¢
+gpt-6-sol           4080 tokens  0.8160¢
+claude-sonnet-5     4080 tokens  0.8160¢
+gpt-4o              4080 tokens  $0.0102
 claude-sonnet-4-5   4080 tokens  $0.0122
-gpt-4o              4080 tokens  $0.0204
+claude-opus-5-5     4080 tokens  $0.0163
+claude-opus-4-5     4080 tokens  $0.0204
+gpt-6-astra         4080 tokens  $0.0408
 gpt-4-turbo         4080 tokens  $0.0408
-claude-opus-4-5     4080 tokens  $0.0612
+claude-fable-5-1    4080 tokens  $0.0408
 
-<span class="t-warn">blocked: Budget exceeded: estimated $0.0612 &gt; limit $0.0100 (4080 tokens on claude-opus-4-5)</span>
+<span class="t-warn">blocked: Budget exceeded: estimated $0.0204 &gt; limit $0.0100 (4080 tokens on claude-opus-4-5)</span>
 <span class="t-prompt">C:\demo&gt;</span> <span class="cursor"></span></pre>
     </figure>
   </div>
@@ -1127,7 +1146,7 @@ assistant A12: push_back reallocated.
     </figure>
   </div>
 </section>
-    <p class="provenance">Compiled with MSVC 19.44 x64 (<code>/std:c++17 /EHsc /O2</code>) against each library's current header and run on 2026-09-25. Sources: <a href="https://github.com/Mattbusel/llm-cpp/tree/main/examples/offline">examples/offline</a>, rebuilt with g++ on every CI run. Prices come from llm-cost's built-in table.</p>
+    <p class="provenance">Compiled with MSVC 19.44 x64 (<code>/std:c++17 /EHsc /O2</code>) against each library's current header and run on 2026-09-28. Sources: <a href="https://github.com/Mattbusel/llm-cpp/tree/main/examples/offline">examples/offline</a>, rebuilt with g++ on every CI run. Prices come from llm-cost's built-in table.</p>
   </div>
 </section>
 
@@ -1147,7 +1166,7 @@ assistant A12: push_back reallocated.
           <div><span>llm_impl_retry.cpp</span><span>#define LLM_RETRY_IMPLEMENTATION</span></div>
           <div><span>llm_impl_stream.cpp</span><span>#define LLM_STREAM_IMPLEMENTATION</span></div>
         </div>
-        <div class="verified"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 7.5l3 3 7-7"/></svg><span>Checked 2026-09-25: all 26 implementations, each in its own .cpp, compile and link into one binary (MSVC 19.44 x64, libcurl from vcpkg).</span></div>
+        <div class="verified"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 7.5l3 3 7-7"/></svg><span>Checked 2026-09-25: all 26 implementations, each in its own .cpp, compile and link into one binary (MSVC 19.44 x64, libcurl from vcpkg). CI repeats it with g++ on every push.</span></div>
       </div>
       <figure class="shell">
         <figcaption><span>main.cpp: stream, retry on failure, log the call</span><button class="btn tiny" type="button" data-copy-from="main-src">copy</button></figcaption>

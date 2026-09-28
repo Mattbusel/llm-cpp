@@ -1,0 +1,91 @@
+name: Release
+
+# Push a tag like v0.2.0. This fetches the current header from each of the
+# 26 library repos, proves every implementation compiles and that all 26 link
+# into one binary, rebuilds the offline examples and diffs their output, then
+# attaches llm-cpp-headers.zip to a GitHub release.
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to (re)build the zip for'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libcurl
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libcurl4-openssl-dev zip
+      - name: Fetch the 26 headers
+        run: |
+          mkdir -p pkg/llm-cpp-headers/include
+          python3 -c "import json;[print(l['name'], l['macro']) for l in json.load(open('tools/libraries.json'))['libraries']]" > libs.txt
+          while read name macro; do
+            file=$(echo "${name#llm-}" | tr - _)
+            curl -fsSL -o "pkg/llm-cpp-headers/include/llm_$file.hpp" \
+              "https://raw.githubusercontent.com/Mattbusel/$name/main/include/llm_$file.hpp"
+          done < libs.txt
+          ls pkg/llm-cpp-headers/include | wc -l
+      - name: Every implementation compiles, all 26 link into one binary
+        run: |
+          mkdir -p build/impl
+          while read name macro; do
+            file=$(echo "${name#llm-}" | tr - _)
+            printf '#define %s\n#include "llm_%s.hpp"\n' "$macro" "$file" > "build/impl/$file.cpp"
+            g++ -std=c++17 -O1 -Ipkg/llm-cpp-headers/include -c "build/impl/$file.cpp" -o "build/impl/$file.o"
+          done < libs.txt
+          echo 'int main() { return 0; }' > build/main.cpp
+          g++ -std=c++17 build/main.cpp build/impl/*.o -lcurl -lpthread -o build/all26
+          ./build/all26 && echo "linked $(ls build/impl/*.o | wc -l) implementations"
+      - name: Offline examples still print what the README shows
+        run: |
+          for lib in cache cost guard json format compress; do
+            g++ -std=c++17 -O2 -Ipkg/llm-cpp-headers/include examples/offline/$lib.cpp -o build/$lib
+            ./build/$lib > build/$lib.txt
+            diff -u examples/offline/output/$lib.txt build/$lib.txt
+          done
+      - name: Build the zip
+        run: |
+          d=pkg/llm-cpp-headers
+          mkdir -p $d/examples
+          cp -r examples/offline $d/examples/
+          cp LICENSE $d/
+          {
+            echo "llm-cpp $TAG: 26 single-header C++17 libraries for LLM features"
+            echo "https://github.com/Mattbusel/llm-cpp"
+            echo
+            echo "1. Copy the headers you want from include/ into your project."
+            echo "2. In exactly ONE .cpp file, define the implementation macro before including:"
+            echo "     #define LLM_CACHE_IMPLEMENTATION"
+            echo "     #include \"llm_cache.hpp\""
+            echo "   Every other file just includes the header."
+            echo "3. Compile as C++17. Headers marked libcurl also need -lcurl."
+            echo
+            echo "Try one with no API key:"
+            echo "  g++ -std=c++17 -Iinclude examples/offline/cache.cpp -o cache && ./cache"
+            echo "  cl /std:c++17 /EHsc /Iinclude examples\\offline\\cache.cpp"
+            echo
+            echo "Header                  needs     implementation macro"
+            python3 -c "import json;[print(f\"llm_{l['name'][4:].replace('-','_')}.hpp\".ljust(24)+('libcurl' if l['deps']=='curl' else 'none').ljust(10)+l['macro']) for l in json.load(open('tools/libraries.json'))['libraries']]"
+            echo
+            echo "Headers fetched from each library's main branch on $(date -u +%Y-%m-%d)."
+          } > $d/README.txt
+          (cd pkg && zip -qr ../llm-cpp-headers.zip llm-cpp-headers)
+          unzip -l llm-cpp-headers.zip | tail -1
+      - name: Publish
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" llm-cpp-headers.zip --clobber
+          else
+            gh release create "$TAG" llm-cpp-headers.zip --title "llm-cpp $TAG" --notes-file .github/RELEASE_NOTES.md
+          fi

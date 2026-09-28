@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 928" width="1000" height="928" role="img" aria-labelledby="t d"><title id="t">Which llm-cpp header solves which problem</title><desc id="d">Sixteen common tasks, each mapped to the one or two single-header files that do it. Green headers need only the C++ standard library; orange headers also need libcurl.</desc>
+<rect width="1000" height="928" rx="18" fill="#fbfaf6" stroke="#dcd8cd"/>
+<text x="40" y="58" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="28" font-weight="700" fill="#191816">I want to...</text>
+<text x="545" y="58" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="28" font-weight="700" fill="#191816">Copy this file</text>
+<circle cx="552" cy="90" r="7" fill="#2f6b1a"/>
+<text x="567" y="96" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" fill="#48453f">offline, std lib only</text>
+<circle cx="780.6" cy="90" r="7" fill="#9a3412"/>
+<text x="795.6" y="96" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" fill="#48453f">needs libcurl</text>
+<line x1="40" y1="116" x2="960" y2="116" stroke="#dcd8cd"/>
+<rect x="24" y="124" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="154.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Stream a model&#x27;s reply token by token</text>
+<path d="M505 147.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="131.0" width="182" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="147.0" r="5" fill="#9a3412"/>
+<text x="571" y="153.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_stream.hpp</text>
+<text x="40" y="200.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Retry failed calls, fail over to another provider</text>
+<path d="M505 193.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="177.0" width="172" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="193.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="199.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_retry.hpp</text>
+<rect x="24" y="216" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="246.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Stop paying twice for the same prompt</text>
+<path d="M505 239.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="223.0" width="172" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="239.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="245.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_cache.hpp</text>
+<text x="40" y="292.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Know what a prompt costs before you send it</text>
+<path d="M505 285.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="269.0" width="161" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="285.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="291.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_cost.hpp</text>
+<rect x="24" y="308" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="338.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Get valid JSON back every time</text>
+<path d="M505 331.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="315.0" width="182" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="331.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="337.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_format.hpp</text>
+<text x="737.4" y="338.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#7a766e">+</text>
+<rect x="759.4" y="315.0" width="161" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="774.4" cy="331.0" r="5" fill="#2f6b1a"/>
+<text x="785.4" y="337.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_json.hpp</text>
+<text x="40" y="384.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Build a chatbot that remembers the conversation</text>
+<path d="M505 377.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="361.0" width="161" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="377.0" r="5" fill="#9a3412"/>
+<text x="571" y="383.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_chat.hpp</text>
+<text x="716.2" y="384.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#7a766e">+</text>
+<rect x="738.2" y="361.0" width="172" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="753.2" cy="377.0" r="5" fill="#2f6b1a"/>
+<text x="764.2" y="383.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_retry.hpp</text>
+<rect x="24" y="400" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="430.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Answer questions over my own documents</text>
+<path d="M505 423.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="407.0" width="151" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="423.0" r="5" fill="#9a3412"/>
+<text x="571" y="429.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_rag.hpp</text>
+<text x="705.6" y="430.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#7a766e">+</text>
+<rect x="727.6" y="407.0" width="161" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="742.6" cy="423.0" r="5" fill="#9a3412"/>
+<text x="753.6" y="429.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_rank.hpp</text>
+<text x="40" y="476.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Keep a long chat under the token limit</text>
+<path d="M505 469.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="453.0" width="204" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="469.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="475.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_compress.hpp</text>
+<rect x="24" y="492" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="522.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Let the model call my C++ functions</text>
+<path d="M505 515.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="499.0" width="172" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="515.0" r="5" fill="#9a3412"/>
+<text x="571" y="521.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_agent.hpp</text>
+<text x="40" y="568.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Scrub emails, card numbers and API keys</text>
+<path d="M505 561.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="545.0" width="172" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="561.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="567.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_guard.hpp</text>
+<rect x="24" y="584" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="614.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Send easy prompts to a cheaper model</text>
+<path d="M505 607.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="591.0" width="182" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="607.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="613.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_router.hpp</text>
+<text x="40" y="660.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Log every call with latency, tokens and cost</text>
+<path d="M505 653.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="637.0" width="151" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="653.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="659.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_log.hpp</text>
+<text x="705.6" y="660.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#7a766e">+</text>
+<rect x="727.6" y="637.0" width="172" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="742.6" cy="653.0" r="5" fill="#2f6b1a"/>
+<text x="753.6" y="659.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_trace.hpp</text>
+<rect x="24" y="676" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="706.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Run a file of prompts in parallel, resumably</text>
+<path d="M505 699.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="683.0" width="172" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="699.0" r="5" fill="#9a3412"/>
+<text x="571" y="705.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_batch.hpp</text>
+<text x="40" y="752.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Unit-test LLM code without the network</text>
+<path d="M505 745.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="729.0" width="161" height="32" rx="16" fill="#e4eed6"/>
+<circle cx="560" cy="745.0" r="5" fill="#2f6b1a"/>
+<text x="571" y="751.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#2f6b1a">llm_mock.hpp</text>
+<rect x="24" y="768" width="952" height="46" rx="8" fill="#f3f1ea"/>
+<text x="40" y="798.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Send images to a vision model</text>
+<path d="M505 791.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="775.0" width="182" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="791.0" r="5" fill="#9a3412"/>
+<text x="571" y="797.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_vision.hpp</text>
+<text x="40" y="844.0" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#191816">Transcribe audio, or turn text into speech</text>
+<path d="M505 837.0 h22 m-7 -6 l7 6 l-7 6" fill="none" stroke="#7a766e" stroke-width="2"/>
+<rect x="545" y="821.0" width="172" height="32" rx="16" fill="#f9e1d3"/>
+<circle cx="560" cy="837.0" r="5" fill="#9a3412"/>
+<text x="571" y="843.0" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="600" fill="#9a3412">llm_audio.hpp</text>
+<text x="40" y="898" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" fill="#7a766e">All 26 headers, including embed, eval, ab, pool, template and finetune: mattbusel.github.io/llm-cpp</text>
+</svg>

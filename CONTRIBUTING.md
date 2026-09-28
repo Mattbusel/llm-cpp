@@ -1,29 +1,22 @@
 # Contributing to llm-cpp
 
-llm-cpp is a collection of 26 single-header C++20 libraries. Each header is intentionally self-contained — zero dependencies, drop-in integration.
+llm-cpp is the index for 26 single-header C++17 libraries. Each library has its own repository, `github.com/Mattbusel/llm-<name>`, with the header in `include/llm_<name>.hpp`.
 
-## What we want
+## Where to send what
 
-- **New headers** — if you need a primitive that fits the single-header philosophy, propose it
-- **Bug fixes** — correctness issues, edge cases, compiler compatibility
-- **Performance improvements** — anything that reduces overhead on the hot path
-- **New providers** — extending existing headers to support additional LLM APIs
-- **Tests** — the `tests/` directory uses a lightweight harness; more coverage is always welcome
+- **A bug or improvement in one library**: open the issue or pull request in that library's repo.
+- **This repo** holds the README, the catalogue site (`docs/`, built by `python tools/build_site.py` from `tools/libraries.json` and `tools/site_template.html`), the offline examples in `examples/offline/`, and the release workflow that zips all 26 headers.
 
-## What we don't want
+## Rules for the headers
 
-- Headers that require external dependencies (defeats the purpose)
-- C++17 or earlier features (this is a C++20 library)
-- Anything that adds build system requirements beyond a C++20 compiler
+- C++17, single file, stb-style: declarations always, implementation only under `#ifdef LLM_<NAME>_IMPLEMENTATION`.
+- Offline libraries use only the standard library. Network libraries may use libcurl and nothing else.
 
-## How to contribute
+## Checking a change here
 
-1. Fork and clone
-2. Add or modify a header in the appropriate location
-3. Add tests to `tests/`
-4. Verify with `g++ -std=c++20 -Wall -Wextra tests/your_test.cpp -o test && ./test` (or MSVC equivalent)
-5. Open a PR
+```bash
+python tools/build_site.py          # regenerates docs/index.html; CI fails if it drifts
+g++ -std=c++17 -Ithird_party examples/offline/cache.cpp -o cache && ./cache
+```
 
-## Questions
-
-Open a [Discussion](https://github.com/Mattbusel/llm-cpp/discussions).
+If an example's output changes, update the matching file in `examples/offline/output/`; CI diffs them.

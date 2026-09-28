@@ -38,3 +38,24 @@ jobs:
         run: |
           python tools/build_site.py
           git diff --exit-code docs/index.html
+  link-all:
+    name: All 26 implementations compile and link together (g++, libcurl)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install libcurl
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libcurl4-openssl-dev
+      - name: Fetch headers, compile each implementation, link one binary
+        run: |
+          mkdir -p third_party build/impl
+          python3 -c "import json;[print(l['name'], l['macro']) for l in json.load(open('tools/libraries.json'))['libraries']]" > libs.txt
+          while read name macro; do
+            file=$(echo "${name#llm-}" | tr - _)
+            curl -fsSL -o "third_party/llm_$file.hpp" \
+              "https://raw.githubusercontent.com/Mattbusel/$name/main/include/llm_$file.hpp"
+            printf '#define %s\n#include "llm_%s.hpp"\n' "$macro" "$file" > "build/impl/$file.cpp"
+            g++ -std=c++17 -O1 -Ithird_party -c "build/impl/$file.cpp" -o "build/impl/$file.o"
+          done < libs.txt
+          echo 'int main() { return 0; }' > build/main.cpp
+          g++ -std=c++17 build/main.cpp build/impl/*.o -lcurl -lpthread -o build/all26
+          ./build/all26 && echo "linked $(ls build/impl/*.o | wc -l) implementations"

@@ -26,8 +26,8 @@
    "desc": "Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks",
    "deps": "none",
    "needs": "none",
-   "lines": 336,
-   "bytes": 11499,
+   "lines": 357,
+   "bytes": 12730,
    "macro": "LLM_COST_IMPLEMENTATION"
   },
   {
@@ -176,8 +176,8 @@
    "desc": "A/B test prompts or models with Welch's t-test, Cohen's d and custom scorers",
    "deps": "curl",
    "needs": "libcurl",
-   "lines": 330,
-   "bytes": 11373,
+   "lines": 334,
+   "bytes": 11570,
    "macro": "LLM_AB_IMPLEMENTATION"
   },
   {

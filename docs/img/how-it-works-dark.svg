@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1134" width="1000" height="1134" role="img" aria-labelledby="t d"><title id="t">How a single-header llm-cpp library goes into your project</title><desc id="d">Four steps. 1: download llm_cache.hpp into your project. 2: the header holds declarations in lines 1 to 85 and the implementation in lines 86 to 210 behind #ifdef LLM_CACHE_IMPLEMENTATION. 3: exactly one .cpp file defines LLM_CACHE_IMPLEMENTATION before including it and gets the code; every other file just includes it. 4: compile with any C++17 compiler and run; the real output shows one cache hit, four misses and two evictions.</desc>
+<style>.dot{animation:drop 4s ease-in-out infinite}@keyframes drop{0%{transform:translateY(0);opacity:0}10%{opacity:1}80%{opacity:1}100%{transform:translateY(58px);opacity:0}}.ln{opacity:0;animation:show 9s linear infinite}@keyframes show{0%{opacity:0}4%{opacity:1}92%{opacity:1}100%{opacity:0}}.cur{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}.flow{stroke-dasharray:6 8;animation:dash 1.2s linear infinite}@keyframes dash{to{stroke-dashoffset:-28}}@media (prefers-reduced-motion:reduce){.dot,.ln,.cur,.flow{animation:none;opacity:1}}</style>
+<rect width="1000" height="1134" rx="18" fill="#0f0f0e" stroke="#34322d"/>
+<circle cx="58" cy="48" r="20" fill="#f07a3e"/>
+<text x="58" y="55" text-anchor="middle" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0f0f0e">1</text>
+<text x="92" y="56" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="25" font-weight="700" fill="#ebe8df">Copy one file into your project</text>
+<text x="92" y="84" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="#bdb8ac">No package manager. Any build system.</text>
+<rect x="92" y="100" width="876" height="80" rx="10" fill="#050505"/>
+<circle cx="110" cy="116" r="5" fill="#ff5f57" opacity=".8"/>
+<circle cx="126" cy="116" r="5" fill="#febc2e" opacity=".8"/>
+<circle cx="142" cy="116" r="5" fill="#28c840" opacity=".8"/>
+<text x="112" y="140" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc"><tspan fill="#8e897d">$ </tspan>curl -fsSLO \</text>
+<text x="112" y="164" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#e9e6dc" xml:space="preserve">  https://raw.githubusercontent.com/Mattbusel/llm-cache/main/include/llm_cache.hpp</text>
+<line x1="58" y1="196" x2="58" y2="254" stroke="#34322d" stroke-width="3"/>
+<circle class="dot" cx="58" cy="196" r="6" fill="#f07a3e"/>
+<circle cx="58" cy="270" r="20" fill="#f07a3e"/>
+<text x="58" y="277" text-anchor="middle" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0f0f0e">2</text>
+<text x="92" y="278" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="25" font-weight="700" fill="#ebe8df">The header has two halves</text>
+<rect x="92" y="300" width="500" height="196" rx="10" fill="#181816" stroke="#34322d"/>
+<text x="110" y="328" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="700" fill="#ebe8df">llm_cache.hpp</text>
+<text x="574" y="328" text-anchor="end" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" fill="#8f8a80">210 lines</text>
+<rect x="104" y="342" width="476" height="66" rx="6" fill="#1c2440"/>
+<text x="118" y="368" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#a9b8ff">lines 1-85</text>
+<text x="118" y="394" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#a9b8ff">struct CacheConfig; class ResponseCache;</text>
+<rect x="104" y="416" width="476" height="66" rx="6" fill="#3a1f12"/>
+<text x="118" y="442" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#f59a6a">lines 86-210</text>
+<text x="118" y="468" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#f59a6a">#ifdef LLM_CACHE_IMPLEMENTATION ... #endif</text>
+<text x="620" y="340" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">Top half: declarations.</text>
+<text x="620" y="366" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">Every file that includes</text>
+<text x="620" y="392" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">the header sees them.</text>
+<text x="620" y="418" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac"></text>
+<text x="620" y="444" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">Bottom half: the code.</text>
+<text x="620" y="470" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">It is only compiled where</text>
+<text x="620" y="496" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#bdb8ac">you ask for it.</text>
+<line x1="58" y1="510" x2="58" y2="568" stroke="#34322d" stroke-width="3"/>
+<circle class="dot" cx="58" cy="510" r="6" fill="#f07a3e"/>
+<circle cx="58" cy="580" r="20" fill="#f07a3e"/>
+<text x="58" y="587" text-anchor="middle" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0f0f0e">3</text>
+<text x="92" y="588" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="25" font-weight="700" fill="#ebe8df">Turn the code on in exactly one .cpp</text>
+<rect x="92" y="610" width="420" height="130" rx="10" fill="#181816" stroke="#34322d"/>
+<text x="110" y="638" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="700" fill="#ebe8df">cache.cpp</text>
+<text x="110" y="668" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#f59a6a">#define LLM_CACHE_IMPLEMENTATION</text>
+<text x="110" y="694" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#a9b8ff">#include &quot;llm_cache.hpp&quot;</text>
+<text x="110" y="726" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" fill="#8f8a80">gets both halves: compiled once</text>
+<rect x="548" y="610" width="420" height="130" rx="10" fill="#181816" stroke="#34322d"/>
+<text x="566" y="638" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="18" font-weight="700" fill="#ebe8df">any_other_file.cpp</text>
+<text x="566" y="668" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#a9b8ff">#include &quot;llm_cache.hpp&quot;</text>
+<text x="566" y="726" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="17" fill="#8f8a80">declarations only: no duplicate code</text>
+<line x1="58" y1="760" x2="58" y2="818" stroke="#34322d" stroke-width="3"/>
+<circle class="dot" cx="58" cy="760" r="6" fill="#f07a3e"/>
+<circle cx="58" cy="820" r="20" fill="#f07a3e"/>
+<text x="58" y="827" text-anchor="middle" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#0f0f0e">4</text>
+<text x="92" y="828" font-family="-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="25" font-weight="700" fill="#ebe8df">Compile and run</text>
+<rect x="92" y="846" width="876" height="262" rx="10" fill="#050505"/>
+<circle cx="110" cy="862" r="5" fill="#ff5f57" opacity=".8"/>
+<circle cx="126" cy="862" r="5" fill="#febc2e" opacity=".8"/>
+<circle cx="142" cy="862" r="5" fill="#28c840" opacity=".8"/>
+<text x="112" y="898" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc"><tspan fill="#8e897d">&gt; </tspan>cl /nologo /std:c++17 /EHsc cache.cpp &amp;&amp; cache.exe</text>
+<text class="ln" style="animation-delay:0.60s" x="112" y="922" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#8e897d">cache.cpp</text>
+<text class="ln" style="animation-delay:0.95s" x="112" y="946" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc">What is RAII?            -&gt; answer #1</text>
+<text class="ln" style="animation-delay:1.30s" x="112" y="970" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc">what is raii?            -&gt; answer #1</text>
+<text class="ln" style="animation-delay:1.65s" x="112" y="994" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc">Explain move semantics   -&gt; answer #2</text>
+<text class="ln" style="animation-delay:2.00s" x="112" y="1018" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc">What is SFINAE?          -&gt; answer #3</text>
+<text class="ln" style="animation-delay:2.35s" x="112" y="1042" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc">What is RAII?            -&gt; answer #4</text>
+<text class="ln" style="animation-delay:2.70s" x="112" y="1066" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc"></text>
+<text class="ln" style="animation-delay:3.05s" x="112" y="1090" xml:space="preserve" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#a9c77a">api calls 4 | hits 1 | misses 4 | evictions 2</text>
+</svg>

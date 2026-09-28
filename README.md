@@ -3,231 +3,118 @@
   <img alt="llm-cpp: the llm_cache.hpp header next to a terminal that downloads it, compiles an example with MSVC and prints real cache hits and evictions" src="assets/banner-light.png">
 </picture>
 
+# llm-cpp: single-header C++ libraries for LLM features
+
+**Add ChatGPT or Claude features to a C++ program by copying one file.** Streaming, retries, caching, cost estimates, RAG, structured JSON output, tool-calling agents and 19 more, as 26 single-header C++17 libraries for the OpenAI and Anthropic APIs. No SDK, no package manager.
+
+**Who it's for:** C++ developers shipping a game, desktop app, trading system, embedded tool or service who want LLM calls without a Python sidecar.
+
 [![CI](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://github.com/Mattbusel/llm-cpp/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**[Browse the catalogue](https://mattbusel.github.io/llm-cpp/)**: filter all 26 libraries by what they need, see real output, and get an install command for the headers you pick.
+## Download
 
-**26 single-header C++17 libraries for building LLM features into native code.** Streaming, retries, caching, cost estimation, RAG, reranking, tracing, structured output, agents and more. Each library is one `.hpp` file you copy into your project.
+### [Download all 26 headers (.zip)](https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip)
 
-Most LLM tooling assumes Python or Node. If you are shipping a game, a desktop app, a trading system, an embedded tool or a C++ service, you usually end up hand-rolling HTTP calls, retry loops and JSON parsing. llm-cpp is that plumbing, split into small pieces so you take only what you need: no SDK, no package manager, no framework. The offline libraries have no dependencies at all; the ones that talk to OpenAI or Anthropic need only libcurl.
-
-## Start here
-
-| I want to... | Use |
-|---|---|
-| Call a model and stream tokens | [llm-stream](https://github.com/Mattbusel/llm-stream) |
-| Build a chatbot with memory | [llm-chat](https://github.com/Mattbusel/llm-chat) + [llm-retry](https://github.com/Mattbusel/llm-retry) |
-| Answer questions over my documents | [llm-parse](https://github.com/Mattbusel/llm-parse) + [llm-embed](https://github.com/Mattbusel/llm-embed) or [llm-rag](https://github.com/Mattbusel/llm-rag) + [llm-rank](https://github.com/Mattbusel/llm-rank) |
-| Get valid JSON back every time | [llm-format](https://github.com/Mattbusel/llm-format) + [llm-json](https://github.com/Mattbusel/llm-json) |
-| Let the model call my C++ functions | [llm-agent](https://github.com/Mattbusel/llm-agent) |
-| Know what my calls cost and where time goes | [llm-cost](https://github.com/Mattbusel/llm-cost) + [llm-log](https://github.com/Mattbusel/llm-log) + [llm-trace](https://github.com/Mattbusel/llm-trace) |
-| Unit-test LLM code without the network | [llm-mock](https://github.com/Mattbusel/llm-mock) |
-
-## The libraries
-
-"libcurl" means the implementation makes HTTPS calls (OpenAI and/or Anthropic APIs). "none" means it is fully offline and uses only the standard library.
-
-### Core
-
-| Library | What it does | Needs |
-|---|---|---|
-| [llm-stream](https://github.com/Mattbusel/llm-stream) | Stream OpenAI and Anthropic chat responses token by token over SSE | libcurl |
-| [llm-retry](https://github.com/Mattbusel/llm-retry) | Exponential backoff with jitter, provider failover and a circuit breaker | none |
-| [llm-cost](https://github.com/Mattbusel/llm-cost) | Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks | none |
-| [llm-cache](https://github.com/Mattbusel/llm-cache) | LRU response cache with TTL and hit/miss stats, so identical prompts skip the API | none |
-| [llm-format](https://github.com/Mattbusel/llm-format) | Define a schema, validate model JSON against it, and re-prompt until the output conforms | none |
-| [llm-json](https://github.com/Mattbusel/llm-json) | Small JSON parser and builder for request bodies and model output | none |
-
-### Data and retrieval
-
-| Library | What it does | Needs |
-|---|---|---|
-| [llm-parse](https://github.com/Mattbusel/llm-parse) | Strip HTML and markdown, extract titles, links, headings and code blocks, chunk text | none |
-| [llm-embed](https://github.com/Mattbusel/llm-embed) | OpenAI embeddings, cosine/dot/euclidean similarity and a small on-disk vector store | libcurl |
-| [llm-rag](https://github.com/Mattbusel/llm-rag) | End-to-end RAG: chunk, embed, persist an index, retrieve top-k and answer | libcurl |
-| [llm-rank](https://github.com/Mattbusel/llm-rank) | Rerank passages with offline BM25, LLM relevance scoring, or a hybrid of both | libcurl (linked; BM25 itself is offline) |
-| [llm-compress](https://github.com/Mattbusel/llm-compress) | Shrink conversation history: head/tail/smart truncation, sliding window, LLM summary | none (libcurl only with `LLM_COMPRESS_SUMMARIZE`) |
-| [llm-batch](https://github.com/Mattbusel/llm-batch) | Run a JSONL file of prompts through a thread pool with rate limiting and resumable checkpoints | libcurl |
-
-### Operations and testing
-
-| Library | What it does | Needs |
-|---|---|---|
-| [llm-log](https://github.com/Mattbusel/llm-log) | Structured JSONL log of every call with latency, tokens and cost, plus query and summary | none |
-| [llm-trace](https://github.com/Mattbusel/llm-trace) | RAII spans with parent/child nesting, token and cost attributes, OTLP-style JSON export | none |
-| [llm-pool](https://github.com/Mattbusel/llm-pool) | Worker pool with priority queue and requests-per-minute and tokens-per-minute limits | none |
-| [llm-mock](https://github.com/Mattbusel/llm-mock) | Fake LLM with scripted, pattern, random or echo responses, simulated latency and streaming | none |
-| [llm-eval](https://github.com/Mattbusel/llm-eval) | Run a prompt N times, measure consistency, compare models or prompts, score responses | libcurl |
-| [llm-ab](https://github.com/Mattbusel/llm-ab) | A/B test prompts or models with Welch's t-test, Cohen's d and custom scorers | libcurl |
-
-### Application features
-
-| Library | What it does | Needs |
-|---|---|---|
-| [llm-chat](https://github.com/Mattbusel/llm-chat) | Multi-turn conversation with token-budget trimming, pinned system prompt, save and restore | libcurl |
-| [llm-agent](https://github.com/Mattbusel/llm-agent) | Tool-calling agent loop: register C++ lambdas as tools and let the model call them | libcurl |
-| [llm-vision](https://github.com/Mattbusel/llm-vision) | Send images (file or URL) plus a prompt to OpenAI or Anthropic vision models | libcurl |
-| [llm-template](https://github.com/Mattbusel/llm-template) | Mustache-style prompt templates with loops, conditionals and token-budget truncation | none |
-| [llm-router](https://github.com/Mattbusel/llm-router) | Pick a model per prompt from a complexity score and a cost, latency, quality or budget strategy | none |
-| [llm-guard](https://github.com/Mattbusel/llm-guard) | Detect and scrub PII (email, phone, SSN, card numbers, API keys) and score prompt-injection risk | none |
-| [llm-audio](https://github.com/Mattbusel/llm-audio) | Whisper transcription and translation, and text-to-speech, via the OpenAI API | libcurl |
-| [llm-finetune](https://github.com/Mattbusel/llm-finetune) | OpenAI fine-tuning lifecycle: write JSONL, upload, create, poll, cancel, list models | libcurl |
-
-## Why single-header
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/one-file-dark.png">
-  <img alt="The llm-cache repo on the left with only include/llm_cache.hpp highlighted, copied with curl into third_party/ of your project on the right" src="assets/one-file-light.png">
-</picture>
-
-- **Nothing to install.** `curl -O` one file, `#include` it. It works the same with CMake, Make, Bazel, MSBuild or a one-line `g++` command.
-- **You can read all of it.** Each library is 210 to 572 lines; all 26 together are 8,923. When something misbehaves you open one file, not a dependency tree.
-- **You pay for what you use.** Need retries and a cache? Take two headers. Nothing else is pulled in, and the offline ones add no link dependencies at all.
-- **Easy to vendor.** Copy the headers into `third_party/`, pin them in your own repo, patch them if you need to. No version resolver involved.
-
-## Install
-
-Grab the headers you want (each lives at `include/<name>.hpp` in its repo):
+The zip holds `include/` with every `llm_*.hpp`, six offline example programs and a short README. Or take just the one you need:
 
 ```bash
-mkdir -p third_party && cd third_party
-for lib in stream retry log; do
-  curl -fsSLO https://raw.githubusercontent.com/Mattbusel/llm-$lib/main/include/llm_$lib.hpp
-done
+curl -fsSLO https://raw.githubusercontent.com/Mattbusel/llm-cache/main/include/llm_cache.hpp
 ```
 
-Every header follows the stb-style pattern: include it anywhere for the declarations, and in exactly one `.cpp` file define `LLM_<NAME>_IMPLEMENTATION` before including it to compile the implementation.
+**[Browse the catalogue site](https://mattbusel.github.io/llm-cpp/)**: filter the 26 libraries, see real output, and get an install command written for the headers you pick.
 
-## Real output, no API key
+## Which header do I need?
 
-Six of the offline libraries have complete example programs in [`examples/offline`](examples/offline), with the output they printed committed next to them. CI downloads each library's current header, builds every example with g++ and diffs the output, so these stay honest.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/picker-dark.svg">
+  <img alt="A chart of sixteen tasks mapped to headers. Stream a reply: llm_stream. Retry and fail over: llm_retry. Skip repeat prompts: llm_cache. Price a prompt: llm_cost. Valid JSON: llm_format plus llm_json. Chatbot with memory: llm_chat plus llm_retry. Documents Q and A: llm_rag plus llm_rank. Long chats: llm_compress. Tool calling: llm_agent. Scrub PII and keys: llm_guard. Cheaper model routing: llm_router. Logging: llm_log plus llm_trace. Batch prompts: llm_batch. Tests without network: llm_mock. Images: llm_vision. Audio: llm_audio. Green headers are offline; orange ones need libcurl." src="docs/img/picker-light.svg" width="830">
+</picture>
+
+Green headers use only the C++ standard library. Orange ones call the OpenAI or Anthropic API and need libcurl. All 26, with one line each: [docs/REFERENCE.md](docs/REFERENCE.md).
+
+## How it works
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/how-it-works-dark.svg">
+  <img alt="Four steps. 1: curl llm_cache.hpp into your project. 2: the header's lines 1 to 85 are declarations, lines 86 to 210 are the implementation behind #ifdef LLM_CACHE_IMPLEMENTATION. 3: cache.cpp defines LLM_CACHE_IMPLEMENTATION before including it and gets the code; any other file just includes it. 4: cl compiles cache.cpp and the program prints one cache hit, four misses and two evictions." src="docs/img/how-it-works-light.svg" width="830">
+</picture>
+
+Every header follows this stb-style pattern, so once you have used one you have used all 26. Using several at once? Give each implementation its own `.cpp`: [docs/USING-SEVERAL.md](docs/USING-SEVERAL.md).
+
+## Examples (real output, no API key)
+
+These are real programs in [`examples/offline`](examples/offline). CI rebuilds them with g++ against each library's current header on every push and fails if the output below changes.
+
+**Scrub personal data and API keys before a prompt leaves your app** ([guard.cpp](examples/offline/guard.cpp), llm-guard):
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/example-guard-dark.png">
-  <img alt="guard.cpp scans a prompt for an email, a card number and an API key, scores it 0.75 for injection and prints the scrubbed text" src="assets/example-guard-light.png">
+  <img alt="guard.cpp scans a prompt for an email, a card number and an API key, scores it 0.75 for injection and prints the scrubbed text" src="assets/example-guard-light.png" width="830">
 </picture>
 
-| Example | Shows |
-|---|---|
-| [cache.cpp](examples/offline/cache.cpp) | LRU cache: case-insensitive hits, evictions, stats |
-| [cost.cpp](examples/offline/cost.cpp) | Price one prompt across the built-in models, block a call over budget |
-| [guard.cpp](examples/offline/guard.cpp) | Find and scrub PII and API keys, score prompt injection |
-| [format.cpp](examples/offline/format.cpp) | Validate JSON against a schema and re-prompt until it conforms |
-| [json.cpp](examples/offline/json.cpp) | Build a request body, read a response, reject bad input |
-| [compress.cpp](examples/offline/compress.cpp) | Keep a long chat inside a token budget with a sliding window |
+**Price one prompt across models, and refuse a call that would cost more than a cent** ([cost.cpp](examples/offline/cost.cpp), llm-cost):
 
-```bash
-curl -fsSLO https://raw.githubusercontent.com/Mattbusel/llm-guard/main/include/llm_guard.hpp
-g++ -std=c++17 -I. examples/offline/guard.cpp -o guard && ./guard
+```text
+C:\demo> cl /nologo /std:c++17 /EHsc cost.cpp && cost.exe
+cost.cpp
+gpt-6-luna          4080 tokens  0.0408¢
+gpt-4o-mini         4080 tokens  0.0612¢
+claude-haiku-4-5    4080 tokens  0.4080¢
+gpt-6-sol           4080 tokens  0.8160¢
+claude-sonnet-5     4080 tokens  0.8160¢
+gpt-4o              4080 tokens  $0.0102
+claude-sonnet-4-5   4080 tokens  $0.0122
+claude-opus-5-5     4080 tokens  $0.0163
+claude-opus-4-5     4080 tokens  $0.0204
+gpt-6-astra         4080 tokens  $0.0408
+gpt-4-turbo         4080 tokens  $0.0408
+claude-fable-5-1    4080 tokens  $0.0408
+
+blocked: Budget exceeded: estimated $0.0204 > limit $0.0100 (4080 tokens on claude-opus-4-5)
 ```
 
-## Using several together
+**Get schema-valid JSON, re-prompting until the model complies** ([format.cpp](examples/offline/format.cpp), llm-format; a stand-in lambda plays the model):
 
-**Give each implementation its own `.cpp` file.** Several headers use the same internal helper names (for example `llm::detail::json_escape`), so defining two `*_IMPLEMENTATION` macros in one translation unit can fail to compile (llm-log with llm-stream is one such pair). In separate translation units they link together fine. As a check, all 26 implementations, each in its own `.cpp`, were compiled and linked into a single binary with MSVC 19.44 and libcurl on 2026-09-25.
-
-```cpp
-// llm_impl_log.cpp
-#define LLM_LOG_IMPLEMENTATION
-#include "llm_log.hpp"
-
-// llm_impl_retry.cpp
-#define LLM_RETRY_IMPLEMENTATION
-#include "llm_retry.hpp"
-
-// llm_impl_stream.cpp
-#define LLM_STREAM_IMPLEMENTATION
-#include "llm_stream.hpp"
-```
-
-Then use them together anywhere. This streams a completion, retries it on failure and writes a JSONL log line:
-
-```cpp
-// main.cpp
-#include "llm_log.hpp"
-#include "llm_retry.hpp"
-#include "llm_stream.hpp"
-#include <cstdlib>
-#include <iostream>
-
-int main() {
-    const char* key = std::getenv("OPENAI_API_KEY");
-    if (!key) { std::cerr << "set OPENAI_API_KEY\n"; return 1; }
-
-    llm::Config cfg;
-    cfg.api_key = key;
-    cfg.model   = "gpt-4o-mini";
-    const std::string prompt = "Explain backpressure in one paragraph.";
-
-    llm::Logger logger(llm::LogConfig{"calls.jsonl"});
-    llm::Logger::ScopedCall call(logger, cfg.model, prompt);   // written on scope exit
-
-    auto result = llm::with_retry<std::string>([&]() -> std::string {
-        std::string text, error;
-        llm::stream(prompt, cfg,
-            [&](std::string_view tok) { std::cout << tok << std::flush; text += tok; },
-            nullptr,
-            [&](std::string_view err) { error = err; });
-        if (!error.empty()) throw llm::LLMError{0, error, true};   // retry
-        return text;
-    });
-
-    call.set_response(result.value);
-    std::cout << "\n(" << result.attempts_used << " attempt(s))\n";
+```text
+valid: yes after 2 attempt(s)
+{
+  "priority": 1,
+  "tags": [
+    "auth"
+  ],
+  "title": "Login fails"
 }
+error: Field "title" has wrong type: expected string
+error: Missing required field: "priority"
+error: Missing required field: "tags"
 ```
 
-```bash
-g++ -std=c++17 -O2 -Ithird_party main.cpp llm_impl_log.cpp llm_impl_retry.cpp llm_impl_stream.cpp -lcurl -o app
-```
+Also in the folder: [cache.cpp](examples/offline/cache.cpp) (the output in the diagram above), [json.cpp](examples/offline/json.cpp) and [compress.cpp](examples/offline/compress.cpp). Compiled with MSVC 19.44 on 2026-09-28; token counts in llm-cost are approximations.
 
-An offline pipeline needs no key and no network: clean a document with llm-parse, rank passages with llm-rank's BM25, and render the final prompt with llm-template.
+## Use it in 3 steps
 
-```cpp
-#include "llm_parse.hpp"
-#include "llm_rank.hpp"
-#include "llm_template.hpp"
-#include <iostream>
+1. **Copy** the header into your project (from the zip, or `curl -fsSLO` as above).
+2. **Turn on the code** in exactly one `.cpp`:
+   ```cpp
+   #define LLM_CACHE_IMPLEMENTATION
+   #include "llm_cache.hpp"
+   ```
+   Every other file just writes `#include "llm_cache.hpp"`.
+3. **Compile as C++17**: `g++ -std=c++17 main.cpp` or `cl /std:c++17 /EHsc main.cpp`. Headers marked libcurl also need `-lcurl` (preinstalled on macOS, `apt install libcurl4-openssl-dev`, `vcpkg install curl`).
 
-int main() {
-    std::string doc = llm::strip_html(
-        "<h1>Deploying</h1><p>Run make release to build the binary.</p>"
-        "<p>Copy config.yaml next to the binary.</p><p>Our office is in Berlin.</p>");
-    llm::ChunkConfig cc;
-    cc.chunk_size = 60;
-    cc.overlap    = 0;
-    auto passages = llm::chunk(doc, cc);
-
-    std::string question = "how do I build the binary";
-    auto ranked = llm::rerank_local(question, passages);
-
-    llm::Template prompt("Answer using only this context:\n"
-                         "{{#ctx}}- {{text}}\n{{/ctx}}\nQuestion: {{q}}\n");
-    llm::TemplateContext ctx;
-    ctx.vars["q"] = question;
-    for (size_t i = 0; i < ranked.size() && i < 2; ++i)
-        ctx.lists["ctx"].push_back({{"text", ranked[i].passage}});
-
-    std::cout << prompt.render(ctx);
-}
-```
-
-## Requirements
+## Documentation
 
 | | |
 |---|---|
-| Language | C++17 or later |
-| Compilers | GCC, Clang, MSVC. Each library repo builds its examples in CI with CMake. |
-| Network libraries | libcurl: preinstalled on macOS, `apt install libcurl4-openssl-dev` on Debian/Ubuntu, `vcpkg install curl` on Windows |
-| Providers | OpenAI-compatible chat, embeddings, audio and fine-tuning endpoints; Anthropic Messages API in llm-stream and llm-vision |
+| [Catalogue site](https://mattbusel.github.io/llm-cpp/) | Filter all 26, real output, generated install commands |
+| [docs/REFERENCE.md](docs/REFERENCE.md) | Every library with what it does and what it needs, requirements, status |
+| [docs/USING-SEVERAL.md](docs/USING-SEVERAL.md) | Combining headers: a stream + retry + log program, an offline RAG pipeline |
+| [examples/offline](examples/offline) | Six programs that need no API key, with their committed output |
+| [Releases](https://github.com/Mattbusel/llm-cpp/releases) | The headers zip, built and link-checked by CI |
 
-## Status
-
-These are small, focused libraries, not a full SDK. The HTTP code targets the public OpenAI and Anthropic endpoints and uses hand-written JSON handling, and token counts in llm-cost are approximations. Issues and pull requests are welcome in the individual repositories.
-
-## Related
-
-- [LLMTokenStreamQuantEngine](https://github.com/Mattbusel/LLMTokenStreamQuantEngine): C++20 engine that turns streaming LLM tokens into trade signals.
-
+Each library lives in its own repo (`github.com/Mattbusel/llm-<name>`); issues and pull requests are welcome there.
 
 ## Hire the author
 

@@ -1,8 +1,14 @@
+gpt-6-luna          4080 tokens  0.0408¢
 gpt-4o-mini         4080 tokens  0.0612¢
-claude-haiku-4-5    4080 tokens  0.1020¢
+claude-haiku-4-5    4080 tokens  0.4080¢
+gpt-6-sol           4080 tokens  0.8160¢
+claude-sonnet-5     4080 tokens  0.8160¢
+gpt-4o              4080 tokens  $0.0102
 claude-sonnet-4-5   4080 tokens  $0.0122
-gpt-4o              4080 tokens  $0.0204
+claude-opus-5-5     4080 tokens  $0.0163
+claude-opus-4-5     4080 tokens  $0.0204
+gpt-6-astra         4080 tokens  $0.0408
 gpt-4-turbo         4080 tokens  $0.0408
-claude-opus-4-5     4080 tokens  $0.0612
+claude-fable-5-1    4080 tokens  $0.0408
 
-blocked: Budget exceeded: estimated $0.0612 > limit $0.0100 (4080 tokens on claude-opus-4-5)
+blocked: Budget exceeded: estimated $0.0204 > limit $0.0100 (4080 tokens on claude-opus-4-5)
