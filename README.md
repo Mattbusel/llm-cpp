@@ -9,12 +9,12 @@
 
 **Who it's for:** C++ developers shipping a game, desktop app, trading system, embedded tool or service who want LLM calls without a Python sidecar.
 
-[![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://github.com/Mattbusel/llm-cpp/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://gitlab.com/mattbusel/llm-cpp/-/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 ## Download
 
-### [Download all 26 headers (.zip)](https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip)
+### [Download all 26 headers (.zip)](https://gitlab.com/mattbusel/llm-cpp/-/releases/permalink/latest/downloads/llm-cpp-headers.zip)
 
 The zip holds `include/` with every `llm_*.hpp`, six offline example programs and a short README. Or take just the one you need:
 
@@ -22,7 +22,7 @@ The zip holds `include/` with every `llm_*.hpp`, six offline example programs an
 curl -fsSLO https://gitlab.com/mattbusel/llm-cache/-/raw/main/include/llm_cache.hpp
 ```
 
-**[Browse the catalogue site](https://mattbusel.github.io/llm-cpp/)**: filter the 26 libraries, see real output, and get an install command written for the headers you pick.
+**[Browse the catalogue site](https://llm-cpp.vercel.app/)**: filter the 26 libraries, see real output, and get an install command written for the headers you pick.
 
 ## Which header do I need?
 
@@ -107,14 +107,14 @@ Also in the folder: [cache.cpp](examples/offline/cache.cpp) (the output in the d
 
 | | |
 |---|---|
-| [Catalogue site](https://mattbusel.github.io/llm-cpp/) | Filter all 26, real output, generated install commands |
+| [Catalogue site](https://llm-cpp.vercel.app/) | Filter all 26, real output, generated install commands |
 | [docs/REFERENCE.md](docs/REFERENCE.md) | Every library with what it does and what it needs, requirements, status |
 | [docs/USING-SEVERAL.md](docs/USING-SEVERAL.md) | Combining headers: a stream + retry + log program, an offline RAG pipeline |
 | [examples/offline](examples/offline) | Six programs that need no API key, with their committed output |
-| [Releases](https://github.com/Mattbusel/llm-cpp/releases) | The headers zip, built and link-checked by CI |
+| [Releases](https://gitlab.com/mattbusel/llm-cpp/-/releases) | The headers zip, built and link-checked by CI |
 
-Each library lives in its own repo (`github.com/Mattbusel/llm-<name>`); issues and pull requests are welcome there.
+Each library lives in its own repo (`gitlab.com/mattbusel/llm-<name>`); issues and pull requests are welcome there.
 
 ## Hire the author
 
-**Need this kind of engineering on your product?** I take on a small number of client builds: LLM features, iOS apps and performance work, fixed price. [Services and pricing](https://mattbusel.github.io/) · [Email](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
+**Need this kind of engineering on your product?** I take on a small number of client builds: LLM features, iOS apps and performance work, fixed price. [Services and pricing](https://mattbusel.vercel.app/) · [Email](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)

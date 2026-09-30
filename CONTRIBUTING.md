@@ -1,6 +1,6 @@
 # Contributing to llm-cpp
 
-llm-cpp is the index for 26 single-header C++17 libraries. Each library has its own repository, `github.com/Mattbusel/llm-<name>`, with the header in `include/llm_<name>.hpp`.
+llm-cpp is the index for 26 single-header C++17 libraries. Each library has its own repository, `gitlab.com/mattbusel/llm-<name>`, with the header in `include/llm_<name>.hpp`.
 
 ## Where to send what
 

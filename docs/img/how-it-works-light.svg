@@ -10,7 +10,7 @@
 <circle cx="126" cy="116" r="5" fill="#febc2e" opacity=".8"/>
 <circle cx="142" cy="116" r="5" fill="#28c840" opacity=".8"/>
 <text x="112" y="140" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="17" fill="#e9e6dc"><tspan fill="#8e897d">$ </tspan>curl -fsSLO \</text>
-<text x="112" y="164" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#e9e6dc" xml:space="preserve">  https://raw.githubusercontent.com/Mattbusel/llm-cache/main/include/llm_cache.hpp</text>
+<text x="112" y="164" font-family="ui-monospace,'Cascadia Mono','SF Mono',Menlo,Consolas,monospace" font-size="16" fill="#e9e6dc" xml:space="preserve">  https://gitlab.com/mattbusel/llm-cache/-/raw/main/include/llm_cache.hpp</text>
 <line x1="58" y1="196" x2="58" y2="254" stroke="#dcd8cd" stroke-width="3"/>
 <circle class="dot" cx="58" cy="196" r="6" fill="#c2410c"/>
 <circle cx="58" cy="270" r="20" fill="#c2410c"/>

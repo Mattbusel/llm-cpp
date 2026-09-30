@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>llm-cpp: single-header C++ libraries for LLM features</title>
 <meta name="description" content="{{N}} single-header C++17 libraries for OpenAI and Anthropic: streaming, retries, caching, cost, RAG, JSON output, agents. Copy one .hpp file.">
-<link rel="canonical" href="https://mattbusel.github.io/llm-cpp/">
+<link rel="canonical" href="https://llm-cpp.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="llm-cpp">
 <meta property="og:title" content="llm-cpp: {{N}} single-header C++17 libraries for LLM features">
 <meta property="og:description" content="Copy one .hpp file. No SDK, no package manager. {{OFFLINE}} need nothing, {{CURL}} need only libcurl.">
-<meta property="og:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<meta property="og:image" content="https://llm-cpp.vercel.app/og-1200.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The llm_cache.hpp header and a terminal compiling it and printing real cache hits">
-<meta property="og:url" content="https://mattbusel.github.io/llm-cpp/">
+<meta property="og:url" content="https://llm-cpp.vercel.app/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="llm-cpp: {{N}} single-header C++17 libraries for LLM features">
 <meta name="twitter:description" content="Copy one .hpp file. No SDK, no package manager. {{OFFLINE}} need nothing, {{CURL}} need only libcurl.">
-<meta name="twitter:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<meta name="twitter:image" content="https://llm-cpp.vercel.app/og-1200.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"llm-cpp","description":"{{N}} single-header C++17 libraries for building LLM features (streaming, retries, caching, cost estimation, RAG, structured output, agents) into native code with the OpenAI and Anthropic APIs.","url":"https://mattbusel.github.io/llm-cpp/","codeRepository":"https://github.com/Mattbusel/llm-cpp","programmingLanguage":"C++","runtimePlatform":"C++17","license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Matthew Busel","url":"https://mattbusel.github.io/"},"downloadUrl":"https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip","keywords":"C++, LLM, single-header, header-only, OpenAI, Anthropic, RAG, streaming, libcurl"}
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"llm-cpp","description":"{{N}} single-header C++17 libraries for building LLM features (streaming, retries, caching, cost estimation, RAG, structured output, agents) into native code with the OpenAI and Anthropic APIs.","url":"https://llm-cpp.vercel.app/","codeRepository":"https://gitlab.com/mattbusel/llm-cpp","programmingLanguage":"C++","runtimePlatform":"C++17","license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Matthew Busel","url":"https://mattbusel.vercel.app/"},"downloadUrl":"https://gitlab.com/mattbusel/llm-cpp/-/releases/permalink/latest/downloads/llm-cpp-headers.zip","keywords":"C++, LLM, single-header, header-only, OpenAI, Anthropic, RAG, streaming, libcurl"}
 </script>
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23161513'/%3E%3Ctext x='16' y='21.5' font-family='Consolas,monospace' font-size='15' font-weight='700' fill='%23f0763a' text-anchor='middle'%3E%23h%3C/text%3E%3C/svg%3E">
@@ -286,7 +286,7 @@ footer a{color:var(--ink2)}
       <a href="#examples">examples</a>
       <a href="#together">together</a>
       <a href="#install">install</a>
-      <a class="gh" href="https://github.com/Mattbusel/llm-cpp">GitHub</a>
+      <a class="gh" href="https://gitlab.com/mattbusel/llm-cpp">GitHub</a>
     </nav>
   </div>
 </header>
@@ -299,7 +299,7 @@ footer a{color:var(--ink2)}
       <h1>LLM features for <span class="cpp">C++</span>, one <code>.hpp</code> at a time.</h1>
       <p class="lede">{{N}} single-header libraries for streaming, retries, caching, cost estimates, RAG, reranking, tracing, structured output and agents. Copy the file you need into your project. No SDK, no package manager, no framework.</p>
       <div class="cta">
-        <a class="btn primary" href="https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip">Download all {{N}} headers (.zip)</a>
+        <a class="btn primary" href="https://gitlab.com/mattbusel/llm-cpp/-/releases/permalink/latest/downloads/llm-cpp-headers.zip">Download all {{N}} headers (.zip)</a>
         <a class="btn" href="#libraries">Browse the {{N}} libraries</a>
         <a class="btn" href="#examples">See real output</a>
       </div>
@@ -332,7 +332,7 @@ footer a{color:var(--ink2)}
     </div>
     <div class="copy-grid">
       <div class="tree">
-        <h3><span>github.com/Mattbusel/llm-cache</span><span>repo</span></h3>
+        <h3><span>gitlab.com/mattbusel/llm-cache</span><span>repo</span></h3>
         <ul>
           <li class="faded">examples/</li>
           <li><span class="ind">&#9492;&#9472; </span>include/</li>
@@ -403,7 +403,7 @@ footer a{color:var(--ink2)}
     </div>
     <div class="tabs" role="tablist" aria-label="Examples">{{TABS}}</div>
     {{PANELS}}
-    <p class="provenance">Compiled with {{COMPILER}} (<code>/std:c++17 /EHsc /O2</code>) against each library's current header and run on {{BUILD_DATE}}. Sources: <a href="https://github.com/Mattbusel/llm-cpp/tree/main/examples/offline">examples/offline</a>, rebuilt with g++ on every CI run. Prices come from llm-cost's built-in table.</p>
+    <p class="provenance">Compiled with {{COMPILER}} (<code>/std:c++17 /EHsc /O2</code>) against each library's current header and run on {{BUILD_DATE}}. Sources: <a href="https://gitlab.com/mattbusel/llm-cpp/-/tree/main/examples/offline">examples/offline</a>, rebuilt with g++ on every CI run. Prices come from llm-cost's built-in table.</p>
   </div>
 </section>
 
@@ -479,9 +479,9 @@ footer a{color:var(--ink2)}
 
 <footer>
   <div class="wrap">
-    <span>llm-cpp &middot; MIT &middot; <a href="https://github.com/Mattbusel/llm-cpp">github.com/Mattbusel/llm-cpp</a></span>
+    <span>llm-cpp &middot; MIT &middot; <a href="https://gitlab.com/mattbusel/llm-cpp">gitlab.com/mattbusel/llm-cpp</a></span>
     <span>Small, focused libraries, not a full SDK. Token counts in llm-cost are approximations.</span>
-    <span>Built by <a href="https://mattbusel.github.io/">Matthew Busel</a>. Issues and pull requests welcome in each library's repo.</span>
+    <span>Built by <a href="https://mattbusel.vercel.app/">Matthew Busel</a>. Issues and pull requests welcome in each library's repo.</span>
   </div>
 </footer>
 
