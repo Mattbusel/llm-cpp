@@ -4,12 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>llm-cpp: single-header C++ libraries for LLM features</title>
-<meta name="description" content="{{N}} single-header C++17 libraries for streaming, retries, caching, cost estimation, RAG, structured output and agents. Copy one .hpp file. {{OFFLINE}} need nothing, {{CURL}} need only libcurl.">
+<meta name="description" content="{{N}} single-header C++17 libraries for OpenAI and Anthropic: streaming, retries, caching, cost, RAG, JSON output, agents. Copy one .hpp file.">
+<link rel="canonical" href="https://mattbusel.github.io/llm-cpp/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="llm-cpp">
 <meta property="og:title" content="llm-cpp: {{N}} single-header C++17 libraries for LLM features">
 <meta property="og:description" content="Copy one .hpp file. No SDK, no package manager. {{OFFLINE}} need nothing, {{CURL}} need only libcurl.">
-<meta property="og:image" content="https://mattbusel.github.io/llm-cpp/og.png">
+<meta property="og:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The llm_cache.hpp header and a terminal compiling it and printing real cache hits">
 <meta property="og:url" content="https://mattbusel.github.io/llm-cpp/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="llm-cpp: {{N}} single-header C++17 libraries for LLM features">
+<meta name="twitter:description" content="Copy one .hpp file. No SDK, no package manager. {{OFFLINE}} need nothing, {{CURL}} need only libcurl.">
+<meta name="twitter:image" content="https://mattbusel.github.io/llm-cpp/og-1200.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"llm-cpp","description":"{{N}} single-header C++17 libraries for building LLM features (streaming, retries, caching, cost estimation, RAG, structured output, agents) into native code with the OpenAI and Anthropic APIs.","url":"https://mattbusel.github.io/llm-cpp/","codeRepository":"https://github.com/Mattbusel/llm-cpp","programmingLanguage":"C++","runtimePlatform":"C++17","license":"https://opensource.org/licenses/MIT","author":{"@type":"Person","name":"Matthew Busel","url":"https://mattbusel.github.io/"},"downloadUrl":"https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip","keywords":"C++, LLM, single-header, header-only, OpenAI, Anthropic, RAG, streaming, libcurl"}
+</script>
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23161513'/%3E%3Ctext x='16' y='21.5' font-family='Consolas,monospace' font-size='15' font-weight='700' fill='%23f0763a' text-anchor='middle'%3E%23h%3C/text%3E%3C/svg%3E">
 <style>
@@ -287,7 +299,8 @@ footer a{color:var(--ink2)}
       <h1>LLM features for <span class="cpp">C++</span>, one <code>.hpp</code> at a time.</h1>
       <p class="lede">{{N}} single-header libraries for streaming, retries, caching, cost estimates, RAG, reranking, tracing, structured output and agents. Copy the file you need into your project. No SDK, no package manager, no framework.</p>
       <div class="cta">
-        <a class="btn primary" href="#libraries">Browse the {{N}} libraries</a>
+        <a class="btn primary" href="https://github.com/Mattbusel/llm-cpp/releases/latest/download/llm-cpp-headers.zip">Download all {{N}} headers (.zip)</a>
+        <a class="btn" href="#libraries">Browse the {{N}} libraries</a>
         <a class="btn" href="#examples">See real output</a>
       </div>
       <dl class="stats">
@@ -410,7 +423,7 @@ footer a{color:var(--ink2)}
           <div><span>llm_impl_retry.cpp</span><span>#define LLM_RETRY_IMPLEMENTATION</span></div>
           <div><span>llm_impl_stream.cpp</span><span>#define LLM_STREAM_IMPLEMENTATION</span></div>
         </div>
-        <div class="verified"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 7.5l3 3 7-7"/></svg><span>Checked {{BUILD_DATE}}: all {{N}} implementations, each in its own .cpp, compile and link into one binary ({{COMPILER}}, libcurl from vcpkg).</span></div>
+        <div class="verified"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 7.5l3 3 7-7"/></svg><span>Checked {{LINK_DATE}}: all {{N}} implementations, each in its own .cpp, compile and link into one binary ({{COMPILER}}, libcurl from vcpkg). CI repeats it with g++ on every push.</span></div>
       </div>
       <figure class="shell">
         <figcaption><span>main.cpp: stream, retry on failure, log the call</span><button class="btn tiny" type="button" data-copy-from="main-src">copy</button></figcaption>

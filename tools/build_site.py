@@ -17,7 +17,8 @@ DATA = json.load(open(os.path.join(ROOT, "tools", "libraries.json"), encoding="u
 LIBS = DATA["libraries"]
 RAW = "https://raw.githubusercontent.com/Mattbusel/{name}/main/include/{file}"
 REPO = "https://github.com/Mattbusel/{name}"
-BUILD_DATE = "2026-09-25"
+BUILD_DATE = "2026-09-28"
+LINK_DATE = "2026-09-25"
 COMPILER = "MSVC 19.44 x64"
 
 EXAMPLES = [
@@ -208,7 +209,7 @@ def main():
         "N": str(n), "TOTAL": f"{total:,}", "OFFLINE": str(offline), "CURL": str(n - offline),
         "HERO_FILE": hero_file(), "HERO_TOTAL": str(DATA["hero"]["total"]), "HERO_TERM": hero_term(),
         "BARS": bars(), "CARDS": cards(), "RECIPES": recipes(), "TABS": tabs, "PANELS": panels,
-        "LIBJSON": lib_json, "BUILD_DATE": BUILD_DATE, "COMPILER": COMPILER,
+        "LIBJSON": lib_json, "BUILD_DATE": BUILD_DATE, "LINK_DATE": LINK_DATE, "COMPILER": COMPILER,
         "MAXLINES": str(max(l["lines"] for l in LIBS)), "MINLINES": str(min(l["lines"] for l in LIBS)),
     }.items():
         page = page.replace("{{" + k + "}}", v)
