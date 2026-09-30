@@ -9,7 +9,6 @@
 
 **Who it's for:** C++ developers shipping a game, desktop app, trading system, embedded tool or service who want LLM calls without a Python sidecar.
 
-[![CI](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/Mattbusel/llm-cpp/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://github.com/Mattbusel/llm-cpp/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -20,7 +19,7 @@
 The zip holds `include/` with every `llm_*.hpp`, six offline example programs and a short README. Or take just the one you need:
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/Mattbusel/llm-cache/main/include/llm_cache.hpp
+curl -fsSLO https://gitlab.com/mattbusel/llm-cache/-/raw/main/include/llm_cache.hpp
 ```
 
 **[Browse the catalogue site](https://mattbusel.github.io/llm-cpp/)**: filter the 26 libraries, see real output, and get an install command written for the headers you pick.
