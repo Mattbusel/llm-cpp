@@ -119,4 +119,4 @@ error: Missing required field: "tags"
 
 ## 雇用作者
 
-**你的产品需要这类工程能力吗？** 我会接少量客户项目：LLM 功能、iOS 应用和性能优化，固定价格。[服务与报价](https://mattbusel.vercel.app/) · [邮件](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
+**你的产品需要这类工程能力吗？** 我会接少量客户项目：LLM 功能、iOS 应用和性能优化，固定价格。[服务与报价](https://tensorust.com/) · [邮件](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
