@@ -5,6 +5,14 @@
 
 # llm-cpp: single-header C++ libraries for LLM features
 
+<!-- outcome-block -->
+**Add LLM calls to any C++ app by dropping in one header: 26 single-header C++17 libraries, no Python, no SDK, no package manager.**
+
+**Why this over the alternatives:** Official SDKs are Python and JavaScript. Each library here is one self-contained `.hpp`: define one macro and ship.
+
+**Guarantee:** if it doesn't do what this README says, [open an issue](https://github.com/Mattbusel/llm-cpp/issues) and I'll fix it.
+<!-- outcome-block -->
+
 English | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 **Add ChatGPT or Claude features to a C++ program by copying one file.** Streaming, retries, caching, cost estimates, RAG, structured JSON output, tool-calling agents and 19 more, as 26 single-header C++17 libraries for the OpenAI and Anthropic APIs. No SDK, no package manager.
