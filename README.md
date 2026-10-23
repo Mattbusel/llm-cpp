@@ -22,6 +22,12 @@ English | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국�
 [![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://gitlab.com/mattbusel/llm-cpp/-/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
+## Before you wire it in
+
+- [LLM VRAM calculator](https://tensorust.com/tools/llm-vram-calculator/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): check whether a local model fits your GPU before pointing these headers at llama.cpp.
+- [LLM API cost calculator](https://tensorust.com/tools/llm-api-cost/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): estimate what the hosted providers will cost, next to `llm_cost.hpp`.
+- [Run an LLM in the browser: WebGPU 63 tok/s vs WASM 1.6](https://tensorust.com/articles/run-llm-in-browser-webgpu/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): when skipping the server entirely is an option.
+
 ## Download
 
 ### [Download all 26 headers (.zip)](https://gitlab.com/mattbusel/llm-cpp/-/releases/permalink/latest/downloads/llm-cpp-headers.zip)
