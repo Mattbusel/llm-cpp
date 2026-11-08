@@ -6,39 +6,39 @@
 # llm-cpp: single-header C++ libraries for LLM features
 
 <!-- outcome-block -->
-**Add LLM calls to any C++ app by dropping in one header: 26 single-header C++17 libraries, no Python, no SDK, no package manager.**
+**Add LLM calls to a C++ app with one header. 26 single-header C++17 libraries. No Python, no SDK, no package manager.**
 
-**Why this over the alternatives:** Official SDKs are Python and JavaScript. Each library here is one self-contained `.hpp`: define one macro and ship.
+The official SDKs are Python and JavaScript. Each library here is one `.hpp`. Define one macro and ship.
 
-**Guarantee:** if it doesn't do what this README says, [open an issue](https://github.com/Mattbusel/llm-cpp/issues) and I'll fix it.
+If it doesn't do what this README says, [open an issue](https://github.com/Mattbusel/llm-cpp/issues) and I'll fix it.
 <!-- outcome-block -->
 
 English | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
-**Add ChatGPT or Claude features to a C++ program by copying one file.** Streaming, retries, caching, cost estimates, RAG, structured JSON output, tool-calling agents and 19 more, as 26 single-header C++17 libraries for the OpenAI and Anthropic APIs. No SDK, no package manager.
+**Add ChatGPT or Claude features to a C++ program by copying one file.** Streaming, retries, caching, cost estimates, RAG, structured JSON output, tool-calling agents and 19 more. Works with the OpenAI and Anthropic APIs.
 
-**Who it's for:** C++ developers shipping a game, desktop app, trading system, embedded tool or service who want LLM calls without a Python sidecar.
+For C++ games, desktop apps, trading systems, embedded tools and services that want LLM calls without a Python sidecar.
 
 [![Latest release](https://img.shields.io/github/v/release/Mattbusel/llm-cpp)](https://gitlab.com/mattbusel/llm-cpp/-/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 ## Before you wire it in
 
-- [LLM VRAM calculator](https://tensorust.com/tools/llm-vram-calculator/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): check whether a local model fits your GPU before pointing these headers at llama.cpp.
-- [LLM API cost calculator](https://tensorust.com/tools/llm-api-cost/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): estimate what the hosted providers will cost, next to `llm_cost.hpp`.
-- [Run an LLM in the browser: WebGPU 63 tok/s vs WASM 1.6](https://tensorust.com/articles/run-llm-in-browser-webgpu/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): when skipping the server entirely is an option.
+- [LLM VRAM calculator](https://tensorust.com/tools/llm-vram-calculator/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): check if a local model fits your GPU before using these headers with llama.cpp.
+- [LLM API cost calculator](https://tensorust.com/tools/llm-api-cost/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): estimate what hosted providers will cost, next to `llm_cost.hpp`.
+- [Run an LLM in the browser: WebGPU 63 tok/s vs WASM 1.6](https://tensorust.com/articles/run-llm-in-browser-webgpu/?utm_source=github&utm_medium=readme&utm_campaign=llm-cpp): if you can skip the server.
 
 ## Download
 
 ### [Download all 26 headers (.zip)](https://gitlab.com/mattbusel/llm-cpp/-/releases/permalink/latest/downloads/llm-cpp-headers.zip)
 
-The zip holds `include/` with every `llm_*.hpp`, six offline example programs and a short README. Or take just the one you need:
+The zip has `include/` with every `llm_*.hpp`, six offline examples and a short README. Or grab just one:
 
 ```bash
 curl -fsSLO https://gitlab.com/mattbusel/llm-cache/-/raw/main/include/llm_cache.hpp
 ```
 
-**[Browse the catalogue site](https://llm-cpp.vercel.app/)**: filter the 26 libraries, see real output, and get an install command written for the headers you pick.
+**[Browse the catalogue site](https://llm-cpp.vercel.app/)**: filter the 26 libraries, see real output, get an install command for the headers you pick.
 
 ## Which header do I need?
 
@@ -56,20 +56,20 @@ Green headers use only the C++ standard library. Orange ones call the OpenAI or 
   <img alt="Four steps. 1: curl llm_cache.hpp into your project. 2: the header's lines 1 to 85 are declarations, lines 86 to 210 are the implementation behind #ifdef LLM_CACHE_IMPLEMENTATION. 3: cache.cpp defines LLM_CACHE_IMPLEMENTATION before including it and gets the code; any other file just includes it. 4: cl compiles cache.cpp and the program prints one cache hit, four misses and two evictions." src="docs/img/how-it-works-light.svg" width="830">
 </picture>
 
-Every header follows this stb-style pattern, so once you have used one you have used all 26. Using several at once? Give each implementation its own `.cpp`: [docs/USING-SEVERAL.md](docs/USING-SEVERAL.md).
+Every header uses this stb-style pattern. Learn one, you know all 26. Using several? Give each implementation its own `.cpp`: [docs/USING-SEVERAL.md](docs/USING-SEVERAL.md).
 
 ## Examples (real output, no API key)
 
-These are real programs in [`examples/offline`](examples/offline). CI rebuilds them with g++ against each library's current header on every push and fails if the output below changes.
+Real programs in [`examples/offline`](examples/offline). On every push, CI rebuilds them with g++ against each current header. It fails if the output below changes.
 
-**Scrub personal data and API keys before a prompt leaves your app** ([guard.cpp](examples/offline/guard.cpp), llm-guard):
+**Strip personal data and API keys before a prompt leaves your app** ([guard.cpp](examples/offline/guard.cpp), llm-guard):
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/example-guard-dark.png">
   <img alt="guard.cpp scans a prompt for an email, a card number and an API key, scores it 0.75 for injection and prints the scrubbed text" src="assets/example-guard-light.png" width="830">
 </picture>
 
-**Price one prompt across models, and refuse a call that would cost more than a cent** ([cost.cpp](examples/offline/cost.cpp), llm-cost):
+**Price one prompt across models. Block a call that would cost more than a cent** ([cost.cpp](examples/offline/cost.cpp), llm-cost):
 
 ```text
 C:\demo> cl /nologo /std:c++17 /EHsc cost.cpp && cost.exe
@@ -90,7 +90,7 @@ claude-fable-5-1    4080 tokens  $0.0408
 blocked: Budget exceeded: estimated $0.0204 > limit $0.0100 (4080 tokens on claude-opus-4-5)
 ```
 
-**Get schema-valid JSON, re-prompting until the model complies** ([format.cpp](examples/offline/format.cpp), llm-format; a stand-in lambda plays the model):
+**Get JSON that matches a schema. Re-asks until the model gets it right** ([format.cpp](examples/offline/format.cpp), llm-format; a lambda stands in for the model):
 
 ```text
 valid: yes after 2 attempt(s)
@@ -106,7 +106,7 @@ error: Missing required field: "priority"
 error: Missing required field: "tags"
 ```
 
-Also in the folder: [cache.cpp](examples/offline/cache.cpp) (the output in the diagram above), [json.cpp](examples/offline/json.cpp) and [compress.cpp](examples/offline/compress.cpp). Compiled with MSVC 19.44 on 2026-09-28; token counts in llm-cost are approximations.
+Also in the folder: [cache.cpp](examples/offline/cache.cpp) (the output in the diagram above), [json.cpp](examples/offline/json.cpp) and [compress.cpp](examples/offline/compress.cpp). Compiled with MSVC 19.44 on 2026-09-28. Token counts in llm-cost are estimates.
 
 ## Use it in 3 steps
 
@@ -129,8 +129,8 @@ Also in the folder: [cache.cpp](examples/offline/cache.cpp) (the output in the d
 | [examples/offline](examples/offline) | Six programs that need no API key, with their committed output |
 | [Releases](https://gitlab.com/mattbusel/llm-cpp/-/releases) | The headers zip, built and link-checked by CI |
 
-Each library lives in its own repo (`gitlab.com/mattbusel/llm-<name>`); issues and pull requests are welcome there.
+Each library has its own repo (`gitlab.com/mattbusel/llm-<name>`). Issues and PRs welcome there.
 
 ## Hire the author
 
-**Need this kind of engineering on your product?** I take on a small number of client builds: LLM features, iOS apps and performance work, fixed price. [Services and pricing](https://tensorust.com/) · [Email](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
+**Need this on your product?** I take a few client builds: LLM features, iOS apps, performance work. Fixed price. [Services and pricing](https://tensorust.com/) · [Email](mailto:mattbusel@gmail.com) · [LinkedIn](https://www.linkedin.com/in/matthewbusel/)
