@@ -1,0 +1,34 @@
+name: Cost table
+
+# llm_cost.hpp's model table is generated from llm-prices. This fails when
+# llm-prices has changed a price since the header was generated; the log shows
+# the diff. Fix: python tools/gen_cost_table.py, see docs/COST-TABLE.md.
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - include/llm/llm_cost.hpp
+      - tools/gen_cost_table.py
+      - .github/workflows/cost-table.yml
+  pull_request:
+    paths:
+      - include/llm/llm_cost.hpp
+      - tools/gen_cost_table.py
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    name: llm_cost.hpp matches llm-prices
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare with llm-prices main
+        run: python tools/gen_cost_table.py --check

@@ -75,23 +75,21 @@ Real programs in [`examples/offline`](../examples/offline). On every push, CI re
   <img alt="guard.cpp scans a prompt for an email, a card number and an API key, scores it 0.75 for injection and prints the scrubbed text" src="../assets/example-guard-light.png" width="830">
 </picture>
 
-**Price one prompt across models. Block a call that would cost more than a cent** ([cost.cpp](../examples/offline/cost.cpp), llm-cost):
+**Price one prompt across models (130+ built in, from llm-prices). Block a call that would cost more than a cent** ([cost.cpp](../examples/offline/cost.cpp), llm-cost):
 
 ```text
 C:\demo> cl /nologo /std:c++17 /EHsc cost.cpp && cost.exe
 cost.cpp
-gpt-6-luna          4080 tokens  0.0408¢
-gpt-4o-mini         4080 tokens  0.0612¢
-claude-haiku-4-5    4080 tokens  0.4080¢
-gpt-6-sol           4080 tokens  0.8160¢
-claude-sonnet-5     4080 tokens  0.8160¢
-gpt-4o              4080 tokens  $0.0102
-claude-sonnet-4-5   4080 tokens  $0.0122
-claude-opus-5-5     4080 tokens  $0.0163
-claude-opus-4-5     4080 tokens  $0.0204
-gpt-6-astra         4080 tokens  $0.0408
-gpt-4-turbo         4080 tokens  $0.0408
-claude-fable-5-1    4080 tokens  $0.0408
+gpt-6-luna              4080 tokens  0.0408¢
+gemini-3.1-flash-lite   4080 tokens  0.1020¢
+deepseek-flash          4080 tokens  0.1224¢
+mistral-large-4         4080 tokens  0.2856¢
+claude-haiku-4-5        4080 tokens  0.4080¢
+grok-4.3                4080 tokens  0.5100¢
+gpt-6-sol               4080 tokens  0.8160¢
+claude-sonnet-5         4080 tokens  0.8160¢
+claude-opus-4-5         4080 tokens  $0.0204
+gpt-6-astra             4080 tokens  $0.0408
 
 blocked: Budget exceeded: estimated $0.0204 > limit $0.0100 (4080 tokens on claude-opus-4-5)
 ```

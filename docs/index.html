@@ -320,7 +320,7 @@ footer a{color:var(--ink2)}
         <div><dt>26</dt><dd>headers</dd></div>
         <div><dt>14</dt><dd>need nothing<br>but the std lib</dd></div>
         <div><dt>12</dt><dd>need only<br>libcurl</dd></div>
-        <div><dt>210-572</dt><dd>lines per<br>header</dd></div>
+        <div><dt>210-740</dt><dd>lines per<br>header</dd></div>
       </dl>
     </div>
     <div class="stack" aria-label="The llm_cache.hpp header, and a terminal compiling and running an example against it">
@@ -445,10 +445,10 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
     </div>
     <div class="bars-wrap">
       <div>
-        <p>Every header, drawn to scale. The largest is <b>572</b> lines and all 26 together are <b>8,948</b>, so when something misbehaves you open one file you can read in a sitting.</p>
+        <p>Every header, drawn to scale. The largest is <b>740</b> lines and all 26 together are <b>9,331</b>, so when something misbehaves you open one file you can read in a sitting.</p>
         <div class="legend"><span>standard library only</span><span class="lc">uses libcurl</span></div>
       </div>
-      <ol class="bars" aria-label="Line count of each header, largest first"><li class="bar none" style="--h:100.0%" title="llm_format.hpp: 572 lines"><span class="bar-fill"></span><span class="bar-n">572</span><span class="bar-l">format</span></li><li class="bar none" style="--h:93.9%" title="llm_parse.hpp: 537 lines"><span class="bar-fill"></span><span class="bar-n">537</span><span class="bar-l">parse</span></li><li class="bar curl" style="--h:84.1%" title="llm_stream.hpp: 481 lines"><span class="bar-fill"></span><span class="bar-n">481</span><span class="bar-l">stream</span></li><li class="bar curl" style="--h:82.0%" title="llm_finetune.hpp: 469 lines"><span class="bar-fill"></span><span class="bar-n">469</span><span class="bar-l">finetune</span></li><li class="bar none" style="--h:77.1%" title="llm_json.hpp: 441 lines"><span class="bar-fill"></span><span class="bar-n">441</span><span class="bar-l">json</span></li><li class="bar curl" style="--h:67.8%" title="llm_audio.hpp: 388 lines"><span class="bar-fill"></span><span class="bar-n">388</span><span class="bar-l">audio</span></li><li class="bar curl" style="--h:67.3%" title="llm_agent.hpp: 385 lines"><span class="bar-fill"></span><span class="bar-n">385</span><span class="bar-l">agent</span></li><li class="bar curl" style="--h:66.3%" title="llm_embed.hpp: 379 lines"><span class="bar-fill"></span><span class="bar-n">379</span><span class="bar-l">embed</span></li><li class="bar curl" style="--h:63.3%" title="llm_rag.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">rag</span></li><li class="bar curl" style="--h:63.3%" title="llm_batch.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">batch</span></li><li class="bar none" style="--h:62.4%" title="llm_cost.hpp: 357 lines"><span class="bar-fill"></span><span class="bar-n">357</span><span class="bar-l">cost</span></li><li class="bar curl" style="--h:61.4%" title="llm_chat.hpp: 351 lines"><span class="bar-fill"></span><span class="bar-n">351</span><span class="bar-l">chat</span></li><li class="bar curl" style="--h:58.9%" title="llm_vision.hpp: 337 lines"><span class="bar-fill"></span><span class="bar-n">337</span><span class="bar-l">vision</span></li><li class="bar curl" style="--h:58.4%" title="llm_ab.hpp: 334 lines"><span class="bar-fill"></span><span class="bar-n">334</span><span class="bar-l">ab</span></li><li class="bar curl" style="--h:55.1%" title="llm_eval.hpp: 315 lines"><span class="bar-fill"></span><span class="bar-n">315</span><span class="bar-l">eval</span></li><li class="bar none" style="--h:54.7%" title="llm_guard.hpp: 313 lines"><span class="bar-fill"></span><span class="bar-n">313</span><span class="bar-l">guard</span></li><li class="bar none" style="--h:54.0%" title="llm_pool.hpp: 309 lines"><span class="bar-fill"></span><span class="bar-n">309</span><span class="bar-l">pool</span></li><li class="bar curl" style="--h:52.8%" title="llm_rank.hpp: 302 lines"><span class="bar-fill"></span><span class="bar-n">302</span><span class="bar-l">rank</span></li><li class="bar none" style="--h:50.7%" title="llm_compress.hpp: 290 lines"><span class="bar-fill"></span><span class="bar-n">290</span><span class="bar-l">compress</span></li><li class="bar none" style="--h:46.7%" title="llm_retry.hpp: 267 lines"><span class="bar-fill"></span><span class="bar-n">267</span><span class="bar-l">retry</span></li><li class="bar none" style="--h:45.6%" title="llm_log.hpp: 261 lines"><span class="bar-fill"></span><span class="bar-n">261</span><span class="bar-l">log</span></li><li class="bar none" style="--h:43.4%" title="llm_trace.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">trace</span></li><li class="bar none" style="--h:43.4%" title="llm_mock.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">mock</span></li><li class="bar none" style="--h:38.3%" title="llm_router.hpp: 219 lines"><span class="bar-fill"></span><span class="bar-n">219</span><span class="bar-l">router</span></li><li class="bar none" style="--h:36.9%" title="llm_template.hpp: 211 lines"><span class="bar-fill"></span><span class="bar-n">211</span><span class="bar-l">template</span></li><li class="bar none" style="--h:36.7%" title="llm_cache.hpp: 210 lines"><span class="bar-fill"></span><span class="bar-n">210</span><span class="bar-l">cache</span></li></ol>
+      <ol class="bars" aria-label="Line count of each header, largest first"><li class="bar none" style="--h:100.0%" title="llm_cost.hpp: 740 lines"><span class="bar-fill"></span><span class="bar-n">740</span><span class="bar-l">cost</span></li><li class="bar none" style="--h:77.3%" title="llm_format.hpp: 572 lines"><span class="bar-fill"></span><span class="bar-n">572</span><span class="bar-l">format</span></li><li class="bar none" style="--h:72.6%" title="llm_parse.hpp: 537 lines"><span class="bar-fill"></span><span class="bar-n">537</span><span class="bar-l">parse</span></li><li class="bar curl" style="--h:65.0%" title="llm_stream.hpp: 481 lines"><span class="bar-fill"></span><span class="bar-n">481</span><span class="bar-l">stream</span></li><li class="bar curl" style="--h:63.4%" title="llm_finetune.hpp: 469 lines"><span class="bar-fill"></span><span class="bar-n">469</span><span class="bar-l">finetune</span></li><li class="bar none" style="--h:59.6%" title="llm_json.hpp: 441 lines"><span class="bar-fill"></span><span class="bar-n">441</span><span class="bar-l">json</span></li><li class="bar curl" style="--h:52.4%" title="llm_audio.hpp: 388 lines"><span class="bar-fill"></span><span class="bar-n">388</span><span class="bar-l">audio</span></li><li class="bar curl" style="--h:52.0%" title="llm_agent.hpp: 385 lines"><span class="bar-fill"></span><span class="bar-n">385</span><span class="bar-l">agent</span></li><li class="bar curl" style="--h:51.2%" title="llm_embed.hpp: 379 lines"><span class="bar-fill"></span><span class="bar-n">379</span><span class="bar-l">embed</span></li><li class="bar curl" style="--h:48.9%" title="llm_rag.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">rag</span></li><li class="bar curl" style="--h:48.9%" title="llm_batch.hpp: 362 lines"><span class="bar-fill"></span><span class="bar-n">362</span><span class="bar-l">batch</span></li><li class="bar curl" style="--h:47.4%" title="llm_chat.hpp: 351 lines"><span class="bar-fill"></span><span class="bar-n">351</span><span class="bar-l">chat</span></li><li class="bar curl" style="--h:45.5%" title="llm_vision.hpp: 337 lines"><span class="bar-fill"></span><span class="bar-n">337</span><span class="bar-l">vision</span></li><li class="bar curl" style="--h:45.1%" title="llm_ab.hpp: 334 lines"><span class="bar-fill"></span><span class="bar-n">334</span><span class="bar-l">ab</span></li><li class="bar curl" style="--h:42.6%" title="llm_eval.hpp: 315 lines"><span class="bar-fill"></span><span class="bar-n">315</span><span class="bar-l">eval</span></li><li class="bar none" style="--h:42.3%" title="llm_guard.hpp: 313 lines"><span class="bar-fill"></span><span class="bar-n">313</span><span class="bar-l">guard</span></li><li class="bar none" style="--h:41.8%" title="llm_pool.hpp: 309 lines"><span class="bar-fill"></span><span class="bar-n">309</span><span class="bar-l">pool</span></li><li class="bar curl" style="--h:40.8%" title="llm_rank.hpp: 302 lines"><span class="bar-fill"></span><span class="bar-n">302</span><span class="bar-l">rank</span></li><li class="bar none" style="--h:39.2%" title="llm_compress.hpp: 290 lines"><span class="bar-fill"></span><span class="bar-n">290</span><span class="bar-l">compress</span></li><li class="bar none" style="--h:36.1%" title="llm_retry.hpp: 267 lines"><span class="bar-fill"></span><span class="bar-n">267</span><span class="bar-l">retry</span></li><li class="bar none" style="--h:35.3%" title="llm_log.hpp: 261 lines"><span class="bar-fill"></span><span class="bar-n">261</span><span class="bar-l">log</span></li><li class="bar none" style="--h:33.5%" title="llm_trace.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">trace</span></li><li class="bar none" style="--h:33.5%" title="llm_mock.hpp: 248 lines"><span class="bar-fill"></span><span class="bar-n">248</span><span class="bar-l">mock</span></li><li class="bar none" style="--h:29.6%" title="llm_router.hpp: 219 lines"><span class="bar-fill"></span><span class="bar-n">219</span><span class="bar-l">router</span></li><li class="bar none" style="--h:28.5%" title="llm_template.hpp: 211 lines"><span class="bar-fill"></span><span class="bar-n">211</span><span class="bar-l">template</span></li><li class="bar none" style="--h:28.4%" title="llm_cache.hpp: 210 lines"><span class="bar-fill"></span><span class="bar-n">210</span><span class="bar-l">cache</span></li></ol>
     </div>
   </div>
 </section>
@@ -475,7 +475,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
     <div class="grid" id="grid">
 <article class="card" data-name="llm-stream" data-cat="core" data-deps="curl" data-text="llm-stream stream openai and anthropic chat responses token by token over sse">
   <header class="card-tab"><span class="card-file">llm_stream.hpp</span><span class="card-lines">481 lines</span></header>
-  <div class="card-meter"><span style="width:84.1%"></span></div>
+  <div class="card-meter"><span style="width:65.0%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-stream">llm-stream</a></h3>
   <p class="card-desc">Stream OpenAI and Anthropic chat responses token by token over SSE</p>
   
@@ -489,7 +489,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-retry" data-cat="core" data-deps="none" data-text="llm-retry exponential backoff with jitter, provider failover and a circuit breaker">
   <header class="card-tab"><span class="card-file">llm_retry.hpp</span><span class="card-lines">267 lines</span></header>
-  <div class="card-meter"><span style="width:46.7%"></span></div>
+  <div class="card-meter"><span style="width:36.1%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-retry">llm-retry</a></h3>
   <p class="card-desc">Exponential backoff with jitter, provider failover and a circuit breaker</p>
   
@@ -501,11 +501,11 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
     
   </div>
 </article>
-<article class="card" data-name="llm-cost" data-cat="core" data-deps="none" data-text="llm-cost approximate token counts and cost estimates for built-in openai and anthropic models, budget checks">
-  <header class="card-tab"><span class="card-file">llm_cost.hpp</span><span class="card-lines">357 lines</span></header>
-  <div class="card-meter"><span style="width:62.4%"></span></div>
+<article class="card" data-name="llm-cost" data-cat="core" data-deps="none" data-text="llm-cost approximate token counts and cost estimates for 130+ built-in models from 10 providers (generated from llm-prices), budget checks">
+  <header class="card-tab"><span class="card-file">llm_cost.hpp</span><span class="card-lines">740 lines</span></header>
+  <div class="card-meter"><span style="width:100.0%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-cost">llm-cost</a></h3>
-  <p class="card-desc">Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks</p>
+  <p class="card-desc">Approximate token counts and cost estimates for 130+ built-in models from 10 providers (generated from llm-prices), budget checks</p>
   
   <dl class="card-meta"><div><dt>needs</dt><dd class="dep-none">none</dd></div><div><dt>group</dt><dd>core</dd></div></dl>
   <code class="card-macro">#define LLM_COST_IMPLEMENTATION</code>
@@ -517,7 +517,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-cache" data-cat="core" data-deps="none" data-text="llm-cache lru response cache with ttl and hit/miss stats, so identical prompts skip the api">
   <header class="card-tab"><span class="card-file">llm_cache.hpp</span><span class="card-lines">210 lines</span></header>
-  <div class="card-meter"><span style="width:36.7%"></span></div>
+  <div class="card-meter"><span style="width:28.4%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-cache">llm-cache</a></h3>
   <p class="card-desc">LRU response cache with TTL and hit/miss stats, so identical prompts skip the API</p>
   
@@ -531,7 +531,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-format" data-cat="core" data-deps="none" data-text="llm-format define a schema, validate model json against it, and re-prompt until the output conforms">
   <header class="card-tab"><span class="card-file">llm_format.hpp</span><span class="card-lines">572 lines</span></header>
-  <div class="card-meter"><span style="width:100.0%"></span></div>
+  <div class="card-meter"><span style="width:77.3%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-format">llm-format</a></h3>
   <p class="card-desc">Define a schema, validate model JSON against it, and re-prompt until the output conforms</p>
   
@@ -545,7 +545,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-json" data-cat="core" data-deps="none" data-text="llm-json small json parser and builder for request bodies and model output">
   <header class="card-tab"><span class="card-file">llm_json.hpp</span><span class="card-lines">441 lines</span></header>
-  <div class="card-meter"><span style="width:77.1%"></span></div>
+  <div class="card-meter"><span style="width:59.6%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-json">llm-json</a></h3>
   <p class="card-desc">Small JSON parser and builder for request bodies and model output</p>
   
@@ -559,7 +559,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-parse" data-cat="data" data-deps="none" data-text="llm-parse strip html and markdown, extract titles, links, headings and code blocks, chunk text">
   <header class="card-tab"><span class="card-file">llm_parse.hpp</span><span class="card-lines">537 lines</span></header>
-  <div class="card-meter"><span style="width:93.9%"></span></div>
+  <div class="card-meter"><span style="width:72.6%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-parse">llm-parse</a></h3>
   <p class="card-desc">Strip HTML and markdown, extract titles, links, headings and code blocks, chunk text</p>
   
@@ -573,7 +573,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-embed" data-cat="data" data-deps="curl" data-text="llm-embed openai embeddings, cosine/dot/euclidean similarity and a small on-disk vector store">
   <header class="card-tab"><span class="card-file">llm_embed.hpp</span><span class="card-lines">379 lines</span></header>
-  <div class="card-meter"><span style="width:66.3%"></span></div>
+  <div class="card-meter"><span style="width:51.2%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-embed">llm-embed</a></h3>
   <p class="card-desc">OpenAI embeddings, cosine/dot/euclidean similarity and a small on-disk vector store</p>
   
@@ -587,7 +587,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-rag" data-cat="data" data-deps="curl" data-text="llm-rag end-to-end rag: chunk, embed, persist an index, retrieve top-k and answer">
   <header class="card-tab"><span class="card-file">llm_rag.hpp</span><span class="card-lines">362 lines</span></header>
-  <div class="card-meter"><span style="width:63.3%"></span></div>
+  <div class="card-meter"><span style="width:48.9%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-rag">llm-rag</a></h3>
   <p class="card-desc">End-to-end RAG: chunk, embed, persist an index, retrieve top-k and answer</p>
   
@@ -601,7 +601,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-rank" data-cat="data" data-deps="curl" data-text="llm-rank rerank passages with offline bm25, llm relevance scoring, or a hybrid of both">
   <header class="card-tab"><span class="card-file">llm_rank.hpp</span><span class="card-lines">302 lines</span></header>
-  <div class="card-meter"><span style="width:52.8%"></span></div>
+  <div class="card-meter"><span style="width:40.8%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-rank">llm-rank</a></h3>
   <p class="card-desc">Rerank passages with offline BM25, LLM relevance scoring, or a hybrid of both</p>
   <p class="card-note">libcurl (linked; BM25 itself is offline)</p>
@@ -615,7 +615,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-compress" data-cat="data" data-deps="none" data-text="llm-compress shrink conversation history: head/tail/smart truncation, sliding window, llm summary">
   <header class="card-tab"><span class="card-file">llm_compress.hpp</span><span class="card-lines">290 lines</span></header>
-  <div class="card-meter"><span style="width:50.7%"></span></div>
+  <div class="card-meter"><span style="width:39.2%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-compress">llm-compress</a></h3>
   <p class="card-desc">Shrink conversation history: head/tail/smart truncation, sliding window, LLM summary</p>
   <p class="card-note">none (libcurl only with LLM_COMPRESS_SUMMARIZE)</p>
@@ -629,7 +629,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-batch" data-cat="data" data-deps="curl" data-text="llm-batch run a jsonl file of prompts through a thread pool with rate limiting and resumable checkpoints">
   <header class="card-tab"><span class="card-file">llm_batch.hpp</span><span class="card-lines">362 lines</span></header>
-  <div class="card-meter"><span style="width:63.3%"></span></div>
+  <div class="card-meter"><span style="width:48.9%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-batch">llm-batch</a></h3>
   <p class="card-desc">Run a JSONL file of prompts through a thread pool with rate limiting and resumable checkpoints</p>
   
@@ -643,7 +643,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-log" data-cat="ops" data-deps="none" data-text="llm-log structured jsonl log of every call with latency, tokens and cost, plus query and summary">
   <header class="card-tab"><span class="card-file">llm_log.hpp</span><span class="card-lines">261 lines</span></header>
-  <div class="card-meter"><span style="width:45.6%"></span></div>
+  <div class="card-meter"><span style="width:35.3%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-log">llm-log</a></h3>
   <p class="card-desc">Structured JSONL log of every call with latency, tokens and cost, plus query and summary</p>
   
@@ -657,7 +657,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-trace" data-cat="ops" data-deps="none" data-text="llm-trace raii spans with parent/child nesting, token and cost attributes, otlp-style json export">
   <header class="card-tab"><span class="card-file">llm_trace.hpp</span><span class="card-lines">248 lines</span></header>
-  <div class="card-meter"><span style="width:43.4%"></span></div>
+  <div class="card-meter"><span style="width:33.5%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-trace">llm-trace</a></h3>
   <p class="card-desc">RAII spans with parent/child nesting, token and cost attributes, OTLP-style JSON export</p>
   
@@ -671,7 +671,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-pool" data-cat="ops" data-deps="none" data-text="llm-pool worker pool with priority queue and requests-per-minute and tokens-per-minute limits">
   <header class="card-tab"><span class="card-file">llm_pool.hpp</span><span class="card-lines">309 lines</span></header>
-  <div class="card-meter"><span style="width:54.0%"></span></div>
+  <div class="card-meter"><span style="width:41.8%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-pool">llm-pool</a></h3>
   <p class="card-desc">Worker pool with priority queue and requests-per-minute and tokens-per-minute limits</p>
   
@@ -685,7 +685,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-mock" data-cat="ops" data-deps="none" data-text="llm-mock fake llm with scripted, pattern, random or echo responses, simulated latency and streaming">
   <header class="card-tab"><span class="card-file">llm_mock.hpp</span><span class="card-lines">248 lines</span></header>
-  <div class="card-meter"><span style="width:43.4%"></span></div>
+  <div class="card-meter"><span style="width:33.5%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-mock">llm-mock</a></h3>
   <p class="card-desc">Fake LLM with scripted, pattern, random or echo responses, simulated latency and streaming</p>
   
@@ -699,7 +699,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-eval" data-cat="ops" data-deps="curl" data-text="llm-eval run a prompt n times, measure consistency, compare models or prompts, score responses">
   <header class="card-tab"><span class="card-file">llm_eval.hpp</span><span class="card-lines">315 lines</span></header>
-  <div class="card-meter"><span style="width:55.1%"></span></div>
+  <div class="card-meter"><span style="width:42.6%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-eval">llm-eval</a></h3>
   <p class="card-desc">Run a prompt N times, measure consistency, compare models or prompts, score responses</p>
   
@@ -713,7 +713,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-ab" data-cat="ops" data-deps="curl" data-text="llm-ab a/b test prompts or models with welch&#x27;s t-test, cohen&#x27;s d and custom scorers">
   <header class="card-tab"><span class="card-file">llm_ab.hpp</span><span class="card-lines">334 lines</span></header>
-  <div class="card-meter"><span style="width:58.4%"></span></div>
+  <div class="card-meter"><span style="width:45.1%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-ab">llm-ab</a></h3>
   <p class="card-desc">A/B test prompts or models with Welch&#x27;s t-test, Cohen&#x27;s d and custom scorers</p>
   
@@ -727,7 +727,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-chat" data-cat="app" data-deps="curl" data-text="llm-chat multi-turn conversation with token-budget trimming, pinned system prompt, save and restore">
   <header class="card-tab"><span class="card-file">llm_chat.hpp</span><span class="card-lines">351 lines</span></header>
-  <div class="card-meter"><span style="width:61.4%"></span></div>
+  <div class="card-meter"><span style="width:47.4%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-chat">llm-chat</a></h3>
   <p class="card-desc">Multi-turn conversation with token-budget trimming, pinned system prompt, save and restore</p>
   
@@ -741,7 +741,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-agent" data-cat="app" data-deps="curl" data-text="llm-agent tool-calling agent loop: register c++ lambdas as tools and let the model call them">
   <header class="card-tab"><span class="card-file">llm_agent.hpp</span><span class="card-lines">385 lines</span></header>
-  <div class="card-meter"><span style="width:67.3%"></span></div>
+  <div class="card-meter"><span style="width:52.0%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-agent">llm-agent</a></h3>
   <p class="card-desc">Tool-calling agent loop: register C++ lambdas as tools and let the model call them</p>
   
@@ -755,7 +755,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-vision" data-cat="app" data-deps="curl" data-text="llm-vision send images (file or url) plus a prompt to openai or anthropic vision models">
   <header class="card-tab"><span class="card-file">llm_vision.hpp</span><span class="card-lines">337 lines</span></header>
-  <div class="card-meter"><span style="width:58.9%"></span></div>
+  <div class="card-meter"><span style="width:45.5%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-vision">llm-vision</a></h3>
   <p class="card-desc">Send images (file or URL) plus a prompt to OpenAI or Anthropic vision models</p>
   
@@ -769,7 +769,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-template" data-cat="app" data-deps="none" data-text="llm-template mustache-style prompt templates with loops, conditionals and token-budget truncation">
   <header class="card-tab"><span class="card-file">llm_template.hpp</span><span class="card-lines">211 lines</span></header>
-  <div class="card-meter"><span style="width:36.9%"></span></div>
+  <div class="card-meter"><span style="width:28.5%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-template">llm-template</a></h3>
   <p class="card-desc">Mustache-style prompt templates with loops, conditionals and token-budget truncation</p>
   
@@ -783,7 +783,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-router" data-cat="app" data-deps="none" data-text="llm-router pick a model per prompt from a complexity score and a cost, latency, quality or budget strategy">
   <header class="card-tab"><span class="card-file">llm_router.hpp</span><span class="card-lines">219 lines</span></header>
-  <div class="card-meter"><span style="width:38.3%"></span></div>
+  <div class="card-meter"><span style="width:29.6%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-router">llm-router</a></h3>
   <p class="card-desc">Pick a model per prompt from a complexity score and a cost, latency, quality or budget strategy</p>
   
@@ -797,7 +797,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-guard" data-cat="app" data-deps="none" data-text="llm-guard detect and scrub pii (email, phone, ssn, card numbers, api keys) and score prompt-injection risk">
   <header class="card-tab"><span class="card-file">llm_guard.hpp</span><span class="card-lines">313 lines</span></header>
-  <div class="card-meter"><span style="width:54.7%"></span></div>
+  <div class="card-meter"><span style="width:42.3%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-guard">llm-guard</a></h3>
   <p class="card-desc">Detect and scrub PII (email, phone, SSN, card numbers, API keys) and score prompt-injection risk</p>
   
@@ -811,7 +811,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-audio" data-cat="app" data-deps="curl" data-text="llm-audio whisper transcription and translation, and text-to-speech, via the openai api">
   <header class="card-tab"><span class="card-file">llm_audio.hpp</span><span class="card-lines">388 lines</span></header>
-  <div class="card-meter"><span style="width:67.8%"></span></div>
+  <div class="card-meter"><span style="width:52.4%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-audio">llm-audio</a></h3>
   <p class="card-desc">Whisper transcription and translation, and text-to-speech, via the OpenAI API</p>
   
@@ -825,7 +825,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2</pre>
 </article>
 <article class="card" data-name="llm-finetune" data-cat="app" data-deps="curl" data-text="llm-finetune openai fine-tuning lifecycle: write jsonl, upload, create, poll, cancel, list models">
   <header class="card-tab"><span class="card-file">llm_finetune.hpp</span><span class="card-lines">469 lines</span></header>
-  <div class="card-meter"><span style="width:82.0%"></span></div>
+  <div class="card-meter"><span style="width:63.4%"></span></div>
   <h3><a href="https://gitlab.com/mattbusel/llm-finetune">llm-finetune</a></h3>
   <p class="card-desc">OpenAI fine-tuning lifecycle: write JSONL, upload, create, poll, cancel, list models</p>
   
@@ -899,7 +899,7 @@ api calls 4 | hits 1 | misses 4 | evictions 2
   </div>
 </section>
 <section class="ex" id="ex-cost" role="tabpanel" aria-labelledby="tab-cost" hidden>
-  <p class="ex-blurb"><a href="https://gitlab.com/mattbusel/llm-cost">llm-cost</a> <span class="dim">(357 lines, no dependencies)</span>. Price a prompt across the built-in model table before you send it, and refuse calls over a budget.</p>
+  <p class="ex-blurb"><a href="https://gitlab.com/mattbusel/llm-cost">llm-cost</a> <span class="dim">(740 lines, no dependencies)</span>. Price a prompt across the built-in model table before you send it, and refuse calls over a budget.</p>
   <div class="ex-grid">
     <figure class="editor">
       <figcaption><span>cost.cpp</span><button class="btn tiny" type="button" data-copy-from="src-cost">copy</button></figcaption>
@@ -912,8 +912,16 @@ api calls 4 | hits 1 | misses 4 | evictions 2
 </span><span class="ln">    <b class="k">while</b> (prompt.size() &lt; <b class="n">12000</b>)
 </span><span class="ln">        prompt += <b class="s">&quot;Summarise the attached incident report. &quot;</b>;
 </span><span class="ln">
-</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">auto</b>&amp; row : <b class="ns">llm</b>::compare_costs(prompt))
-</span><span class="ln">        <b class="ns">std</b>::printf(<b class="s">&quot;%-18s %5zu tokens  %s\n&quot;</b>, row.model_name.c_str(),
+</span><span class="ln">    <i class="c">// Any API id or alias from the built-in table (generated from llm-prices).</i>
+</span><span class="ln">    <b class="ns">std</b>::vector&lt;<b class="ns">llm</b>::Model&gt; shortlist;
+</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">char</b>* id : {<b class="s">&quot;gpt-6-luna&quot;</b>, <b class="s">&quot;gemini-3.1-flash-lite&quot;</b>, <b class="s">&quot;deepseek-chat&quot;</b>,
+</span><span class="ln">                           <b class="s">&quot;claude-haiku-4-5&quot;</b>, <b class="s">&quot;mistral-large-latest&quot;</b>, <b class="s">&quot;grok-4.3&quot;</b>,
+</span><span class="ln">                           <b class="s">&quot;gpt-6-sol&quot;</b>, <b class="s">&quot;claude-sonnet-5&quot;</b>, <b class="s">&quot;claude-opus-4-5&quot;</b>, <b class="s">&quot;gpt-6-astra&quot;</b>})
+</span><span class="ln">        <b class="k">if</b> (<b class="k">const</b> <b class="ns">llm</b>::Model* m = <b class="ns">llm</b>::find_model(id))
+</span><span class="ln">            shortlist.push_back(*m);
+</span><span class="ln">
+</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">auto</b>&amp; row : <b class="ns">llm</b>::compare_costs(prompt, shortlist))
+</span><span class="ln">        <b class="ns">std</b>::printf(<b class="s">&quot;%-22s %5zu tokens  %s\n&quot;</b>, row.model_name.c_str(),
 </span><span class="ln">                    row.tokens, <b class="ns">llm</b>::format_cost(row.input_cost_usd).c_str());
 </span><span class="ln">
 </span><span class="ln">    <b class="k">auto</b> tc = <b class="ns">llm</b>::count(prompt, <b class="ns">llm</b>::models::CLAUDE_OPUS);
@@ -930,18 +938,16 @@ api calls 4 | hits 1 | misses 4 | evictions 2
       <pre><span class="t-prompt">C:\demo&gt;</span> cl /nologo /std:c++17 /EHsc /O2 cost.cpp
 cost.cpp
 <span class="t-prompt">C:\demo&gt;</span> cost.exe
-gpt-6-luna          4080 tokens  0.0408¢
-gpt-4o-mini         4080 tokens  0.0612¢
-claude-haiku-4-5    4080 tokens  0.4080¢
-gpt-6-sol           4080 tokens  0.8160¢
-claude-sonnet-5     4080 tokens  0.8160¢
-gpt-4o              4080 tokens  $0.0102
-claude-sonnet-4-5   4080 tokens  $0.0122
-claude-opus-5-5     4080 tokens  $0.0163
-claude-opus-4-5     4080 tokens  $0.0204
-gpt-6-astra         4080 tokens  $0.0408
-gpt-4-turbo         4080 tokens  $0.0408
-claude-fable-5-1    4080 tokens  $0.0408
+gpt-6-luna              4080 tokens  0.0408¢
+gemini-3.1-flash-lite   4080 tokens  0.1020¢
+deepseek-flash          4080 tokens  0.1224¢
+mistral-large-4         4080 tokens  0.2856¢
+claude-haiku-4-5        4080 tokens  0.4080¢
+grok-4.3                4080 tokens  0.5100¢
+gpt-6-sol               4080 tokens  0.8160¢
+claude-sonnet-5         4080 tokens  0.8160¢
+claude-opus-4-5         4080 tokens  $0.0204
+gpt-6-astra             4080 tokens  $0.0408
 
 <span class="t-warn">blocked: Budget exceeded: estimated $0.0204 &gt; limit $0.0100 (4080 tokens on claude-opus-4-5)</span>
 <span class="t-prompt">C:\demo&gt;</span> <span class="cursor"></span></pre>

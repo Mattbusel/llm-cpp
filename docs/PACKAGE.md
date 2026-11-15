@@ -1,6 +1,6 @@
 # Using llm-cpp as a package
 
-llm-cpp 1.0 ships all 26 headers in `include/llm/` with CMake targets, so you can
+llm-cpp 1.x ships all 26 headers in `include/llm/` with CMake targets, so you can
 depend on it instead of copying files.
 
 ## FetchContent
@@ -8,7 +8,7 @@ depend on it instead of copying files.
 ```cmake
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.0.0.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.1.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 target_link_libraries(app PRIVATE llm::cache llm::json)
@@ -25,7 +25,7 @@ cmake --install build
 ```
 
 ```cmake
-find_package(llm-cpp 1.0 CONFIG REQUIRED COMPONENTS cache json stream)
+find_package(llm-cpp 1.1 CONFIG REQUIRED COMPONENTS cache json stream)
 target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)
 ```
 

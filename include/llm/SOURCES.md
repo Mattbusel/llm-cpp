@@ -12,7 +12,7 @@ repository and commit listed below. Regenerate with `python tools/sync_headers.p
 | `llm_cache.hpp` | [Mattbusel/llm-cache](https://github.com/Mattbusel/llm-cache) | [`8c66e859b4c1`](https://github.com/Mattbusel/llm-cache/tree/8c66e859b4c1ae55bde3b5a929540ad1e7c1f50a) | 2026-09-25 | MIT | none | `LLM_CACHE_IMPLEMENTATION` | `2df18b688e4a58f4` |
 | `llm_chat.hpp` | [Mattbusel/llm-chat](https://github.com/Mattbusel/llm-chat) | [`96bb182a2f47`](https://github.com/Mattbusel/llm-chat/tree/96bb182a2f47ef4fb45c2848537e95df315dd79c) | 2026-09-25 | MIT | libcurl | `LLM_CHAT_IMPLEMENTATION` | `89d75d3c2237c34d` |
 | `llm_compress.hpp` | [Mattbusel/llm-compress](https://github.com/Mattbusel/llm-compress) | [`4ce499716cf1`](https://github.com/Mattbusel/llm-compress/tree/4ce499716cf126f6c8311557ab71777e7f895af7) | 2026-09-25 | MIT | none | `LLM_COMPRESS_IMPLEMENTATION` | `627f9db0493cf3b6` |
-| `llm_cost.hpp` | [Mattbusel/llm-cost](https://github.com/Mattbusel/llm-cost) | [`f0f858fc60b6`](https://github.com/Mattbusel/llm-cost/tree/f0f858fc60b666b55223c0992a12057ffc9e6ad8) | 2026-09-25 | MIT | none | `LLM_COST_IMPLEMENTATION` | `fb659c425067f31d` |
+| `llm_cost.hpp` | [Mattbusel/llm-cost](https://github.com/Mattbusel/llm-cost) | [`d4f3240060c7`](https://github.com/Mattbusel/llm-cost/tree/d4f3240060c76803a721311efe9bcc03ccde5ff5) | 2026-11-15 | MIT | none | `LLM_COST_IMPLEMENTATION` | `a6b32c5a9a24c4ff` |
 | `llm_embed.hpp` | [Mattbusel/llm-embed](https://github.com/Mattbusel/llm-embed) | [`7d3077a88ee6`](https://github.com/Mattbusel/llm-embed/tree/7d3077a88ee69d28bad420ebf9191932240e63da) | 2026-09-25 | MIT | libcurl | `LLM_EMBED_IMPLEMENTATION` | `635e7e72bc02041e` |
 | `llm_eval.hpp` | [Mattbusel/llm-eval](https://github.com/Mattbusel/llm-eval) | [`8a05b3e75329`](https://github.com/Mattbusel/llm-eval/tree/8a05b3e753295ba4cf1defcdea358706fe075c20) | 2026-09-25 | MIT | libcurl | `LLM_EVAL_IMPLEMENTATION` | `026c82c5a7b9cfcc` |
 | `llm_finetune.hpp` | [Mattbusel/llm-finetune](https://github.com/Mattbusel/llm-finetune) | [`43daeb4da20d`](https://github.com/Mattbusel/llm-finetune/tree/43daeb4da20d6f1866a37ae87f3b55d46506d207) | 2026-09-25 | MIT | libcurl | `LLM_FINETUNE_IMPLEMENTATION` | `76fd8f99ded9c18e` |
@@ -42,7 +42,7 @@ llm-batch      2897bcf83bbaab91252b5023bb54ae3f9b246abd
 llm-cache      8c66e859b4c1ae55bde3b5a929540ad1e7c1f50a
 llm-chat       96bb182a2f47ef4fb45c2848537e95df315dd79c
 llm-compress   4ce499716cf126f6c8311557ab71777e7f895af7
-llm-cost       f0f858fc60b666b55223c0992a12057ffc9e6ad8
+llm-cost       d4f3240060c76803a721311efe9bcc03ccde5ff5
 llm-embed      7d3077a88ee69d28bad420ebf9191932240e63da
 llm-eval       8a05b3e753295ba4cf1defcdea358706fe075c20
 llm-finetune   43daeb4da20d6f1866a37ae87f3b55d46506d207

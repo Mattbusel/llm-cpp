@@ -15,8 +15,8 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = json.load(open(os.path.join(ROOT, "tools", "libraries.json"), encoding="utf-8"))
 LIBS = DATA["libraries"]
-RAW = "https://raw.githubusercontent.com/Mattbusel/{name}/main/include/{file}"
-REPO = "https://github.com/Mattbusel/{name}"
+RAW = "https://gitlab.com/mattbusel/{name}/-/raw/main/include/{file}"
+REPO = "https://gitlab.com/mattbusel/{name}"
 BUILD_DATE = "2026-09-28"
 LINK_DATE = "2026-09-25"
 COMPILER = "MSVC 19.44 x64"

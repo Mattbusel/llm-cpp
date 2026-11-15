@@ -912,8 +912,16 @@ api calls 4 | hits 1 | misses 4 | evictions 2
 </span><span class="ln">    <b class="k">while</b> (prompt.size() &lt; <b class="n">12000</b>)
 </span><span class="ln">        prompt += <b class="s">&quot;Summarise the attached incident report. &quot;</b>;
 </span><span class="ln">
-</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">auto</b>&amp; row : <b class="ns">llm</b>::compare_costs(prompt))
-</span><span class="ln">        <b class="ns">std</b>::printf(<b class="s">&quot;%-18s %5zu tokens  %s\n&quot;</b>, row.model_name.c_str(),
+</span><span class="ln">    <i class="c">// Any API id or alias from the built-in table (generated from llm-prices).</i>
+</span><span class="ln">    <b class="ns">std</b>::vector&lt;<b class="ns">llm</b>::Model&gt; shortlist;
+</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">char</b>* id : {<b class="s">&quot;gpt-6-luna&quot;</b>, <b class="s">&quot;gemini-3.1-flash-lite&quot;</b>, <b class="s">&quot;deepseek-chat&quot;</b>,
+</span><span class="ln">                           <b class="s">&quot;claude-haiku-4-5&quot;</b>, <b class="s">&quot;mistral-large-latest&quot;</b>, <b class="s">&quot;grok-4.3&quot;</b>,
+</span><span class="ln">                           <b class="s">&quot;gpt-6-sol&quot;</b>, <b class="s">&quot;claude-sonnet-5&quot;</b>, <b class="s">&quot;claude-opus-4-5&quot;</b>, <b class="s">&quot;gpt-6-astra&quot;</b>})
+</span><span class="ln">        <b class="k">if</b> (<b class="k">const</b> <b class="ns">llm</b>::Model* m = <b class="ns">llm</b>::find_model(id))
+</span><span class="ln">            shortlist.push_back(*m);
+</span><span class="ln">
+</span><span class="ln">    <b class="k">for</b> (<b class="k">const</b> <b class="k">auto</b>&amp; row : <b class="ns">llm</b>::compare_costs(prompt, shortlist))
+</span><span class="ln">        <b class="ns">std</b>::printf(<b class="s">&quot;%-22s %5zu tokens  %s\n&quot;</b>, row.model_name.c_str(),
 </span><span class="ln">                    row.tokens, <b class="ns">llm</b>::format_cost(row.input_cost_usd).c_str());
 </span><span class="ln">
 </span><span class="ln">    <b class="k">auto</b> tc = <b class="ns">llm</b>::count(prompt, <b class="ns">llm</b>::models::CLAUDE_OPUS);
@@ -930,18 +938,16 @@ api calls 4 | hits 1 | misses 4 | evictions 2
       <pre><span class="t-prompt">C:\demo&gt;</span> cl /nologo /std:c++17 /EHsc /O2 cost.cpp
 cost.cpp
 <span class="t-prompt">C:\demo&gt;</span> cost.exe
-gpt-6-luna          4080 tokens  0.0408¢
-gpt-4o-mini         4080 tokens  0.0612¢
-claude-haiku-4-5    4080 tokens  0.4080¢
-gpt-6-sol           4080 tokens  0.8160¢
-claude-sonnet-5     4080 tokens  0.8160¢
-gpt-4o              4080 tokens  $0.0102
-claude-sonnet-4-5   4080 tokens  $0.0122
-claude-opus-5-5     4080 tokens  $0.0163
-claude-opus-4-5     4080 tokens  $0.0204
-gpt-6-astra         4080 tokens  $0.0408
-gpt-4-turbo         4080 tokens  $0.0408
-claude-fable-5-1    4080 tokens  $0.0408
+gpt-6-luna              4080 tokens  0.0408¢
+gemini-3.1-flash-lite   4080 tokens  0.1020¢
+deepseek-flash          4080 tokens  0.1224¢
+mistral-large-4         4080 tokens  0.2856¢
+claude-haiku-4-5        4080 tokens  0.4080¢
+grok-4.3                4080 tokens  0.5100¢
+gpt-6-sol               4080 tokens  0.8160¢
+claude-sonnet-5         4080 tokens  0.8160¢
+claude-opus-4-5         4080 tokens  $0.0204
+gpt-6-astra             4080 tokens  $0.0408
 
 <span class="t-warn">blocked: Budget exceeded: estimated $0.0204 &gt; limit $0.0100 (4080 tokens on claude-opus-4-5)</span>
 <span class="t-prompt">C:\demo&gt;</span> <span class="cursor"></span></pre>

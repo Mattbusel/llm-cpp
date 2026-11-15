@@ -2,6 +2,41 @@
 
 All notable changes to llm-cpp. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-11-15
+
+`llm_cost.hpp` now prices 131 models from 10 providers instead of 12, and the
+table is generated from [llm-prices](https://github.com/Mattbusel/llm-prices), so
+it stays current with one command.
+
+### Added
+
+- `tools/gen_cost_table.py`: rewrites the `Provider` enum and the `llm::models`
+  table in `llm_cost.hpp` from llm-prices' `prices.json` (standard per-token
+  rates, checked against each provider's pricing page). `--check` exits 1 when
+  the header is out of date. See [docs/COST-TABLE.md](docs/COST-TABLE.md).
+- `.github/workflows/cost-table.yml`: runs the check every Monday, on demand,
+  and when the header or the script changes, so a price change in llm-prices
+  shows up here as a failed run.
+- llm-cost (now [`d4f3240`](https://github.com/Mattbusel/llm-cost/commit/d4f3240060c76803a721311efe9bcc03ccde5ff5)):
+  providers `Google`, `DeepSeek`, `Mistral`, `XAI`, `Cohere`, `Groq`, `Together`
+  and `Fireworks`; `find_model(id)` and `find_model(id, provider)` (ids and
+  aliases such as `claude-sonnet-4-5-20250929`, `deepseek-chat`,
+  `mistral-large-latest`); `all_models()`; `compare_costs(text, models)`.
+- `tests/upstream/cost/cost_table.cpp`: llm-cost's table and lookup tests, run
+  by ctest.
+
+### Changed
+
+- `compare_costs(text)` compares every listed chat model (126 today), with a
+  stable sort so ties print in the same order everywhere. `gpt-4-turbo` is
+  retired upstream and left out of it; `llm::models::GPT4_TURBO` still works.
+- `Model::context_window` of 0 means "not known" and is never reported as
+  exceeded. The twelve original models keep their context windows, names,
+  ids and prices.
+- `examples/offline/cost.cpp` picks ten models by id from four more providers.
+- `tools/build_site.py` reproduces the published site (GitLab links and the
+  language switcher), so the "Site is up to date" CI job passes again.
+
 ## [1.0.0] - 2026-11-15
 
 llm-cpp is now an installable package, not only an index of the 26 libraries.
@@ -53,6 +88,7 @@ llm-cpp is now an installable package, not only an index of the 26 libraries.
 
 - Index of the 26 libraries, grouped by category, with a decision tree.
 
+[1.1.0]: https://github.com/Mattbusel/llm-cpp/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Mattbusel/llm-cpp/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/Mattbusel/llm-cpp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Mattbusel/llm-cpp/releases/tag/v0.1.0

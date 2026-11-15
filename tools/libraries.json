@@ -23,11 +23,11 @@
   {
    "name": "llm-cost",
    "cat": "core",
-   "desc": "Approximate token counts and cost estimates for built-in OpenAI and Anthropic models, budget checks",
+   "desc": "Approximate token counts and cost estimates for 130+ built-in models from 10 providers (generated from llm-prices), budget checks",
    "deps": "none",
    "needs": "none",
-   "lines": 357,
-   "bytes": 12730,
+   "lines": 740,
+   "bytes": 37533,
    "macro": "LLM_COST_IMPLEMENTATION"
   },
   {
