@@ -1,0 +1,119 @@
+name: CMake
+
+# Builds the CMake package on Linux, macOS and Windows: every header's
+# compile-and-link test, all implementations in one binary, the offline
+# examples (output diffed), llm-retry's own tests and every upstream example.
+# Then installs it and builds a separate project against it with
+# find_package(llm-cpp CONFIG), from the build tree and via add_subdirectory.
+on:
+  push:
+    branches: [ '**' ]
+    tags-ignore: [ '**' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu (gcc, libcurl)
+            os: ubuntu-latest
+            curl: true
+          - name: ubuntu (gcc, no libcurl)
+            os: ubuntu-latest
+            curl: false
+          - name: macos (apple clang, libcurl)
+            os: macos-latest
+            curl: true
+          - name: windows (msvc, libcurl from vcpkg)
+            os: windows-latest
+            curl: true
+    env:
+      PREFIX: ${{ github.workspace }}/prefix
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libcurl (ubuntu)
+        if: runner.os == 'Linux' && matrix.curl
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libcurl4-openssl-dev
+
+      - name: Cache vcpkg packages (windows)
+        if: runner.os == 'Windows'
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg-cache
+          key: vcpkg-curl-x64-windows-v1
+
+      - name: Install libcurl (windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        env:
+          VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+        run: |
+          mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
+          root="${VCPKG_INSTALLATION_ROOT:-}"
+          if [ -z "$root" ] || [ ! -f "$root/scripts/buildsystems/vcpkg.cmake" ]; then
+            git clone -q https://github.com/microsoft/vcpkg "$RUNNER_TEMP/vcpkg"
+            "$RUNNER_TEMP/vcpkg/bootstrap-vcpkg.bat" -disableMetrics
+            root="$RUNNER_TEMP/vcpkg"
+          fi
+          root=$(cygpath -m "$root")
+          "$root/vcpkg" install curl:x64-windows
+          echo "TOOLCHAIN=-DCMAKE_TOOLCHAIN_FILE=$root/scripts/buildsystems/vcpkg.cmake" >> "$GITHUB_ENV"
+
+      - name: Configure
+        shell: bash
+        run: |
+          extra=""
+          if [ "${{ matrix.curl }}" = "false" ]; then extra="-DCMAKE_DISABLE_FIND_PACKAGE_CURL=ON"; fi
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" $TOOLCHAIN $extra
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Install
+        run: cmake --install build --config Release
+
+      - name: find_package from the install prefix
+        shell: bash
+        run: |
+          cmake -S tests/consumer -B build-consumer -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH="$PREFIX" -DCONSUMER_WITH_CURL=${{ matrix.curl && 'ON' || 'OFF' }} $TOOLCHAIN
+          cmake --build build-consumer --config Release
+          ctest --test-dir build-consumer -C Release --output-on-failure
+
+      - name: find_package from the build tree
+        shell: bash
+        run: |
+          cmake -S tests/consumer -B build-consumer-tree -DCMAKE_BUILD_TYPE=Release \
+            -Dllm-cpp_DIR="$PWD/build" $TOOLCHAIN
+          cmake --build build-consumer-tree --config Release
+          ctest --test-dir build-consumer-tree -C Release --output-on-failure
+
+      - name: add_subdirectory
+        shell: bash
+        run: |
+          cmake -S tests/consumer -B build-consumer-sub -DCMAKE_BUILD_TYPE=Release \
+            -DLLM_CPP_SOURCE_DIR="$PWD" -DCONSUMER_WITH_CURL=${{ matrix.curl && 'ON' || 'OFF' }} $TOOLCHAIN
+          cmake --build build-consumer-sub --config Release
+          ctest --test-dir build-consumer-sub -C Release --output-on-failure
+
+      - name: Asking for a libcurl component without libcurl must fail
+        if: ${{ !matrix.curl }}
+        shell: bash
+        run: |
+          if cmake -S tests/consumer -B build-consumer-neg -DCMAKE_PREFIX_PATH="$PREFIX" \
+               -DCONSUMER_WITH_CURL=ON -DCMAKE_DISABLE_FIND_PACKAGE_CURL=ON; then
+            echo "configure should have failed"; exit 1
+          fi
+          echo "failed as expected"

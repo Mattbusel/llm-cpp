@@ -1,0 +1,6 @@
+// Generated from tests/second_tu.cpp.in for llm_@LLM_NAME@.hpp.
+// Declarations only: the implementation is in tests/headers/@LLM_NAME@.cpp.
+#include <llm/llm_@LLM_NAME@.hpp>
+#include "llm_@LLM_NAME@.hpp"  // the flat include style resolves to the same file
+
+int main() { return 0; }

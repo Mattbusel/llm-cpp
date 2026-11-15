@@ -1,4 +1,5 @@
-# Runs the tests on pushes to the default branch that change code, and on merge requests.
+# Builds and tests the CMake package (vendored headers in include/llm/) on pushes
+# to the default branch that change code, and on merge requests.
 stages: [test]
 
 test:
@@ -10,27 +11,13 @@ test:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "web"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes: ["examples/**/*", "tools/**/*", "docs/**/*", ".gitlab-ci.yml"]
+      changes: ["include/**/*", "tests/**/*", "examples/**/*", "cmake/**/*", "CMakeLists.txt", "tools/**/*", ".gitlab-ci.yml"]
   script:
-    # The offline examples, built against each header's current main branch, must print exactly the committed output.
-    - mkdir -p third_party build/impl
-    - |
-      for lib in cache cost guard json format compress; do
-        curl -fsSL -o third_party/llm_$lib.hpp "https://gitlab.com/mattbusel/llm-$lib/-/raw/main/include/llm_$lib.hpp"
-        g++ -std=c++17 -O2 -Wall -Ithird_party examples/offline/$lib.cpp -o build/$lib
-        ./build/$lib > build/$lib.txt
-        diff -u examples/offline/output/$lib.txt build/$lib.txt
-        echo "ok: $lib"
-      done
-    # All 26 implementations compile and link into one binary.
-    - |
-      python3 -c "import json;[print(l['name'], l['macro']) for l in json.load(open('tools/libraries.json'))['libraries']]" > libs.txt
-      while read name macro; do
-        file=$(echo "${name#llm-}" | tr - _)
-        curl -fsSL -o "third_party/llm_$file.hpp" "https://gitlab.com/mattbusel/$name/-/raw/main/include/llm_$file.hpp"
-        printf '#define %s\n#include "llm_%s.hpp"\n' "$macro" "$file" > "build/impl/$file.cpp"
-        g++ -std=c++17 -O1 -Ithird_party -c "build/impl/$file.cpp" -o "build/impl/$file.o"
-      done < libs.txt
-      echo 'int main() { return 0; }' > build/main.cpp
-      g++ -std=c++17 build/main.cpp build/impl/*.o -lcurl -lpthread -o build/all26
-      echo "all 26 link"
+    - apt-get update -qq && apt-get install -y -qq cmake libcurl4-openssl-dev
+    - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/prefix
+    - cmake --build build --parallel 4
+    - ctest --test-dir build --output-on-failure
+    - cmake --install build
+    - cmake -S tests/consumer -B build-consumer -DCMAKE_PREFIX_PATH=$PWD/prefix -DCONSUMER_WITH_CURL=ON
+    - cmake --build build-consumer
+    - ctest --test-dir build-consumer --output-on-failure

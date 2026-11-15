@@ -1,0 +1,56 @@
+@PACKAGE_INIT@
+
+# llm-cpp @PROJECT_VERSION@: header-only INTERFACE targets
+#
+#   llm::llm                  every library + <llm/llm.hpp>
+#   llm::<name>               one library, e.g. llm::cache, llm::stream
+#   llm::compress_summarize   llm::compress with LLM_COMPRESS_SUMMARIZE (libcurl)
+#
+#   find_package(llm-cpp CONFIG REQUIRED)
+#   find_package(llm-cpp CONFIG REQUIRED COMPONENTS cache json stream)
+#
+# Asking for a component that needs libcurl makes libcurl a required
+# dependency; otherwise it is looked up quietly and linked when present.
+
+include(CMakeFindDependencyMacro)
+
+set(llm-cpp_PLAIN_COMPONENTS  @LLM_CPP_PLAIN_COMPONENTS@)
+set(llm-cpp_CURL_COMPONENTS   @LLM_CPP_CURL_COMPONENTS@ compress_summarize)
+set(llm-cpp_ALL_COMPONENTS    ${llm-cpp_PLAIN_COMPONENTS} ${llm-cpp_CURL_COMPONENTS} llm)
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_dependency(Threads)
+
+set(_llm_cpp_need_curl OFF)
+foreach(_c IN LISTS llm-cpp_FIND_COMPONENTS)
+    if(NOT _c IN_LIST llm-cpp_ALL_COMPONENTS)
+        set(llm-cpp_FOUND FALSE)
+        set(llm-cpp_NOT_FOUND_MESSAGE "llm-cpp has no component '${_c}'. Available: ${llm-cpp_ALL_COMPONENTS}")
+        return()
+    endif()
+    if(_c IN_LIST llm-cpp_CURL_COMPONENTS AND llm-cpp_FIND_REQUIRED_${_c})
+        set(_llm_cpp_need_curl ON)
+    endif()
+endforeach()
+
+if(_llm_cpp_need_curl)
+    find_dependency(CURL)
+elseif(NOT TARGET CURL::libcurl)
+    find_package(CURL QUIET)
+endif()
+unset(_llm_cpp_need_curl)
+
+if(NOT TARGET llm::llm)
+    include("${CMAKE_CURRENT_LIST_DIR}/llm-cppTargets.cmake")
+endif()
+
+foreach(_c IN LISTS llm-cpp_FIND_COMPONENTS)
+    if(TARGET llm::${_c})
+        set(llm-cpp_${_c}_FOUND TRUE)
+    else()
+        set(llm-cpp_${_c}_FOUND FALSE)
+    endif()
+endforeach()
+unset(_c)
+
+check_required_components(llm-cpp)
