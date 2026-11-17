@@ -1,7 +1,8 @@
 #pragma once
 
 // llm_stream.hpp — Zero-dependency single-header C++ library for streaming LLM responses.
-// Supports OpenAI and Anthropic APIs via libcurl SSE streaming.
+// Supports OpenAI (Chat Completions and the Responses API) and Anthropic via libcurl
+// SSE streaming.
 //
 // USAGE:
 //   In exactly ONE .cpp file before including:
@@ -14,6 +15,7 @@
 // Requires: libcurl (ships on macOS, most Linux distros; vcpkg/apt on Windows)
 // C++17 or later. Compiles with -Wall -Wextra -std=c++17.
 
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <functional>
@@ -39,9 +41,12 @@ struct Config {
 
 /// Statistics surfaced at the end of a stream.
 struct StreamStats {
-    size_t token_count    = 0;
+    size_t token_count    = 0;    ///< Number of text deltas received
     double elapsed_ms     = 0.0;
-    double tokens_per_sec = 0.0;
+    double tokens_per_sec = 0.0;  ///< Deltas per second
+    long   input_tokens   = -1;   ///< Billed input tokens, when the provider reports them (-1 if not)
+    long   output_tokens  = -1;   ///< Billed output tokens, when the provider reports them (-1 if not)
+    std::string response_id;      ///< Responses API: the response id (pass as previous_response_id)
 };
 
 using TokenCallback = std::function<void(std::string_view token)>;
@@ -83,6 +88,43 @@ void stream_openai(
 /// # Panics
 /// This function never panics.
 void stream_anthropic(
+    const std::string& prompt,
+    const Config&      config,
+    TokenCallback      on_token,
+    DoneCallback       on_done  = nullptr,
+    ErrorCallback      on_error = nullptr
+);
+
+/// Stream a response from OpenAI's Responses API (`POST /v1/responses`) via SSE.
+///
+/// Sends `input` = the prompt, `instructions` = `config.system_prompt`,
+/// `max_output_tokens` = `config.max_tokens`. `temperature` is sent except for the
+/// reasoning models that reject it (`o1`, `o3`, `o4`, `gpt-5` families). Text arrives
+/// from `response.output_text.delta` events; on `response.completed` the stats carry
+/// the billed `input_tokens` / `output_tokens` and the `response_id`. A
+/// `response.failed`, `response.incomplete` or `error` event is reported through
+/// `on_error` with the API's message, and `on_done` is not called.
+///
+/// # Arguments
+/// * `prompt`   - User input
+/// * `config`   - API key, model, generation parameters
+/// * `on_token` - Invoked for every streamed text fragment
+/// * `on_done`  - Invoked once when the response completes (optional)
+/// * `on_error` - Invoked on network, HTTP or API error (optional)
+///
+/// # Example
+/// ```cpp
+/// llm::Config cfg;
+/// cfg.api_key = std::getenv("OPENAI_API_KEY");
+/// cfg.model   = "gpt-4.1-mini";
+/// llm::stream_openai_responses("Hello!", cfg,
+///     [](std::string_view tok){ std::cout << tok; },
+///     [](const llm::StreamStats& s){ std::cout << s.output_tokens << " tokens\n"; });
+/// ```
+///
+/// # Panics
+/// This function never panics.
+void stream_openai_responses(
     const std::string& prompt,
     const Config&      config,
     TokenCallback      on_token,
@@ -228,7 +270,7 @@ struct CurlSlist {
 // ---------------------------------------------------------------------------
 // SSE streaming write-callback context
 // ---------------------------------------------------------------------------
-enum class Provider { OpenAI, Anthropic };
+enum class Provider { OpenAI, Anthropic, OpenAIResponses };
 
 struct StreamCtx {
     Provider      provider;
@@ -236,7 +278,58 @@ struct StreamCtx {
     std::string   buffer;        ///< Accumulates incomplete SSE lines between curl callbacks
     std::string   pending_event; ///< Last SSE event type (Anthropic uses this for routing)
     size_t        token_count = 0;
+    std::string   raw;           ///< First bytes of the body, for HTTP error messages
+    std::string   api_error;     ///< Responses API: error message from a failure event
+    bool          completed = false; ///< Responses API: response.completed was seen
+    long          input_tokens  = -1;
+    long          output_tokens = -1;
+    std::string   response_id;
 };
+
+/// Extract the integer value of `"key": 123` (first occurrence), or -1.
+static long json_extract_int(std::string_view json, std::string_view key) {
+    std::string pattern = "\"" + std::string(key) + "\"";
+    auto pos = json.find(pattern);
+    if (pos == std::string_view::npos) return -1;
+    pos += pattern.size();
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' || json[pos] == ':'))
+        ++pos;
+    long v = 0;
+    bool any = false;
+    while (pos < json.size() && json[pos] >= '0' && json[pos] <= '9') {
+        v = v * 10 + (json[pos] - '0');
+        any = true;
+        ++pos;
+    }
+    return any ? v : -1;
+}
+
+/// Handle one Responses API SSE event (a `data:` payload carrying its `type`).
+static void responses_event(StreamCtx* ctx, std::string_view payload) {
+    const std::string type = json_extract_string(payload, "type");
+    if (type == "response.output_text.delta") {
+        std::string token = json_extract_string(payload, "delta");
+        if (!token.empty() && ctx->on_token) {
+            ctx->on_token(token);
+            ++ctx->token_count;
+        }
+    } else if (type == "response.completed") {
+        ctx->completed = true;
+        auto usage = payload.find("\"usage\"");
+        if (usage != std::string_view::npos) {
+            ctx->input_tokens  = json_extract_int(payload.substr(usage), "input_tokens");
+            ctx->output_tokens = json_extract_int(payload.substr(usage), "output_tokens");
+        }
+        ctx->response_id = json_extract_nested(payload, "response", "id");
+    } else if (type == "response.failed" || type == "error") {
+        std::string msg = json_extract_nested(payload, "error", "message");
+        if (msg.empty()) msg = json_extract_string(payload, "message");
+        ctx->api_error = msg.empty() ? type : msg;
+    } else if (type == "response.incomplete") {
+        std::string reason = json_extract_nested(payload, "incomplete_details", "reason");
+        ctx->api_error = "response incomplete" + (reason.empty() ? std::string() : ": " + reason);
+    }
+}
 
 // ---------------------------------------------------------------------------
 // JSON delta extractors — one per provider
@@ -270,6 +363,8 @@ static size_t write_callback(char* ptr, size_t size, size_t nmemb, void* userdat
     auto* ctx = static_cast<StreamCtx*>(userdata);
 
     ctx->buffer.append(ptr, total);
+    if (ctx->raw.size() < 2048)
+        ctx->raw.append(ptr, std::min(total, static_cast<size_t>(2048) - ctx->raw.size()));
 
     // Process every complete newline-terminated SSE line
     size_t start = 0;
@@ -292,7 +387,9 @@ static size_t write_callback(char* ptr, size_t size, size_t nmemb, void* userdat
                 // OpenAI end-of-stream marker — nothing to extract
             } else {
                 std::string token;
-                if (ctx->provider == Provider::OpenAI) {
+                if (ctx->provider == Provider::OpenAIResponses) {
+                    responses_event(ctx, payload);
+                } else if (ctx->provider == Provider::OpenAI) {
                     token = openai_extract_delta(payload);
                 } else {
                     // Anthropic signals completion via message_stop event type
@@ -362,6 +459,26 @@ static std::string build_openai_body(const std::string& prompt, const Config& cf
     return b;
 }
 
+/// Reasoning models reject `temperature` on the Responses API.
+static bool rejects_temperature(const std::string& model) {
+    for (const char* p : {"o1", "o3", "o4", "gpt-5"}) {
+        if (model.rfind(p, 0) == 0) return true;
+    }
+    return false;
+}
+
+static std::string build_responses_body(const std::string& prompt, const Config& cfg) {
+    std::string b = "{\"model\":\"" + json_escape(cfg.model) + "\","
+                    "\"stream\":true,"
+                    "\"max_output_tokens\":" + std::to_string(cfg.max_tokens) + ",";
+    if (!rejects_temperature(cfg.model))
+        b += "\"temperature\":" + std::to_string(cfg.temperature) + ",";
+    if (!cfg.system_prompt.empty())
+        b += "\"instructions\":\"" + json_escape(cfg.system_prompt) + "\",";
+    b += "\"input\":\"" + json_escape(prompt) + "\"}";
+    return b;
+}
+
 static std::string build_anthropic_body(const std::string& prompt, const Config& cfg) {
     std::string b;
     b  = "{\"model\":\""    + json_escape(cfg.model) + "\","
@@ -418,8 +535,22 @@ static void do_stream(
     long http_code = 0;
     curl_easy_getinfo(static_cast<CURL*>(curl), CURLINFO_RESPONSE_CODE, &http_code);
     if (http_code >= 400) {
-        if (on_error) on_error("HTTP error " + std::to_string(http_code));
+        std::string msg = "HTTP error " + std::to_string(http_code);
+        std::string detail = json_extract_nested(ctx.raw, "error", "message");
+        if (!detail.empty()) msg += ": " + detail;
+        if (on_error) on_error(msg);
         return;
+    }
+
+    if (provider == Provider::OpenAIResponses) {
+        if (!ctx.api_error.empty()) {
+            if (on_error) on_error(ctx.api_error);
+            return;
+        }
+        if (!ctx.completed) {
+            if (on_error) on_error("stream ended before response.completed");
+            return;
+        }
     }
 
     if (on_done) {
@@ -427,6 +558,9 @@ static void do_stream(
         stats.token_count    = ctx.token_count;
         stats.elapsed_ms     = ms;
         stats.tokens_per_sec = (ms > 0.0) ? (ctx.token_count / (ms / 1000.0)) : 0.0;
+        stats.input_tokens   = ctx.input_tokens;
+        stats.output_tokens  = ctx.output_tokens;
+        stats.response_id    = ctx.response_id;
         on_done(stats);
     }
 }
@@ -463,6 +597,20 @@ void stream_anthropic(
         "https://api.anthropic.com/v1/messages",
         detail::build_anthropic_body(prompt, config),
         headers, detail::Provider::Anthropic,
+        on_token, on_done, on_error);
+}
+
+void stream_openai_responses(
+    const std::string& prompt, const Config& config,
+    TokenCallback on_token, DoneCallback on_done, ErrorCallback on_error)
+{
+    detail::CurlSlist headers;
+    headers.append(("Authorization: Bearer " + config.api_key).c_str());
+    headers.append("Content-Type: application/json");
+    detail::do_stream(
+        "https://api.openai.com/v1/responses",
+        detail::build_responses_body(prompt, config),
+        headers, detail::Provider::OpenAIResponses,
         on_token, on_done, on_error);
 }
 

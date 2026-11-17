@@ -2,6 +2,27 @@
 
 All notable changes to llm-cpp. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-11-16
+
+OpenAI's Responses API in `llm_stream.hpp`.
+
+### Added
+
+- llm-stream (now [`08b091a`](https://github.com/Mattbusel/llm-stream/commit/08b091a344b0ece7c8e6e5b99610df3e2b5e3b32)):
+  `llm::stream_openai_responses(prompt, config, on_token, on_done, on_error)` posts to
+  `/v1/responses` (`input`, `instructions` from `system_prompt`, `max_output_tokens`;
+  `temperature` left out for the `o1`/`o3`/`o4`/`gpt-5` models that reject it) and streams
+  `response.output_text.delta` text. `StreamStats` gains `input_tokens`, `output_tokens`
+  (from `response.completed`, -1 when not reported) and `response_id`.
+  `response.failed`, `response.incomplete` and `error` events go to `on_error` with the
+  API's message, and a stream that ends without `response.completed` is an error.
+- HTTP errors from every `llm_stream.hpp` call now include the response body's
+  `error.message` (they used to say only "HTTP error 400").
+- `tests/upstream/stream/test_responses_sse.cpp`: feeds Responses API SSE (in 1, 7 and
+  4096 byte chunks), failure, error and incomplete events to the parser, checks the request
+  body, and that Chat Completions parsing is unchanged. Runs offline.
+- Examples `stream/responses_stream.cpp` and `stream/anthropic_stream.cpp` (compiled in CI).
+
 ## [1.1.0] - 2026-11-15
 
 `llm_cost.hpp` now prices 131 models from 10 providers instead of 12, and the

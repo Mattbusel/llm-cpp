@@ -1,4 +1,4 @@
-llm-cpp 1.1.0: `llm_cost.hpp` prices 131 models from 10 providers (OpenAI, Anthropic, Google, DeepSeek, Mistral, xAI, Cohere, Groq, Together, Fireworks) instead of 12. The table is generated from [llm-prices](https://github.com/Mattbusel/llm-prices) by `tools/gen_cost_table.py`, and a weekly job fails when llm-prices changes a price. New in llm-cost: `find_model("deepseek-chat")`, `all_models()` and `compare_costs(text, models)`. The twelve original constants are unchanged.
+llm-cpp 1.2.0: `llm_stream.hpp` streams from OpenAI's Responses API (`POST /v1/responses`) with `llm::stream_openai_responses()`: text from `response.output_text.delta`, and `StreamStats` now carries the billed `input_tokens` / `output_tokens` and the `response_id`. Failed, incomplete and error events reach `on_error` with the API's message; HTTP errors include the body's `error.message`. New examples for the Responses API and Anthropic streaming, and an offline SSE parser test.
 
 llm-cpp is an installable package: all 26 single-header C++17 libraries in `include/llm/`, with CMake targets, install rules and a package config.
 
@@ -7,7 +7,7 @@ llm-cpp is an installable package: all 26 single-header C++17 libraries in `incl
 ```cmake
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.1.0.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.2.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)
@@ -16,7 +16,7 @@ target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)
 or install it (`cmake -S . -B build && cmake --install build`) and
 
 ```cmake
-find_package(llm-cpp 1.1 CONFIG REQUIRED COMPONENTS cache json stream)
+find_package(llm-cpp 1.2 CONFIG REQUIRED COMPONENTS cache json stream)
 target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)
 ```
 
