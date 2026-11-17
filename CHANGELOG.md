@@ -2,6 +2,14 @@
 
 All notable changes to llm-cpp. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - 2026-11-16
+
+### Fixed
+
+- MSVC: `llm_stream.hpp` 1.2.0 did not compile with MSVC when libcurl's headers bring in
+  `windows.h`, whose `min` macro turned `std::min(...)` into error C2589. It is
+  `(std::min)(...)` now (llm-stream [`08dcc05`](https://github.com/Mattbusel/llm-stream/commit/08dcc05487a59a43a5d4107441cf7d30c5998ae4)).
+
 ## [1.2.0] - 2026-11-16
 
 OpenAI's Responses API in `llm_stream.hpp`.

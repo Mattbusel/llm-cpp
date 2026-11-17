@@ -364,7 +364,7 @@ static size_t write_callback(char* ptr, size_t size, size_t nmemb, void* userdat
 
     ctx->buffer.append(ptr, total);
     if (ctx->raw.size() < 2048)
-        ctx->raw.append(ptr, std::min(total, static_cast<size_t>(2048) - ctx->raw.size()));
+        ctx->raw.append(ptr, (std::min)(total, static_cast<size_t>(2048) - ctx->raw.size()));  // (std::min): windows.h min macro
 
     // Process every complete newline-terminated SSE line
     size_t start = 0;
