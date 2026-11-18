@@ -2,6 +2,34 @@
 
 All notable changes to llm-cpp. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] - 2026-11-18
+
+`llm_stream.hpp` now has a standalone Server-Sent Events parser, so a project
+with its own HTTP client can use llm-cpp for the SSE side of streaming
+(llm-stream [`ea23a2d`](https://github.com/Mattbusel/llm-stream/commit/ea23a2d)).
+
+### Added
+
+- `llm::SseParser` (incremental: `feed(chunk, on_event)`, `finish(on_event)`) and
+  `llm::parse_sse(body)`. They follow the WHATWG event-stream rules: LF, CRLF or
+  CR line ends, also split across chunks, a leading BOM, `:` comments, one
+  optional space after the colon, multi-line `data:`, `id:` and `retry:`, and
+  events with no data dropped. `finish()` also delivers a last event that has no
+  closing blank line.
+- The parser is header-only (inline) and needs no `LLM_STREAM_IMPLEMENTATION`.
+  Define `LLM_STREAM_NO_CURL` before including `llm_stream.hpp` to get only the
+  parser, without `<curl/curl.h>` and the network API (for example in a
+  WebAssembly build or a codebase that already has an HTTP stack).
+- Tests: `upstream_stream_test_sse` (parser, every chunk size, built with
+  `LLM_STREAM_NO_CURL`); `upstream_stream_test_responses_sse` now also covers the
+  Anthropic path.
+
+### Changed
+
+- The libcurl streaming functions run on the same parser. `event:` and `data:`
+  without a space after the colon, lone CR line ends and multi-line `data:` are
+  now handled, and a final event without a closing blank line is no longer lost.
+
 ## [1.3.0] - 2026-11-17
 
 Builds cleanly inside strict codebases: every header compiles warning-free at

@@ -13,7 +13,7 @@ endif()
 
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.3.0.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.4.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 add_executable(app main.cpp)

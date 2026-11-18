@@ -14,6 +14,12 @@
 //
 // Requires: libcurl (ships on macOS, most Linux distros; vcpkg/apt on Windows)
 // C++17 or later. Compiles with -Wall -Wextra -std=c++17.
+//
+// SSE PARSER ONLY:
+//   llm::SseParser and llm::parse_sse() are header-only (inline) and need neither
+//   libcurl nor LLM_STREAM_IMPLEMENTATION. Use them to parse text/event-stream
+//   bodies fetched by your own HTTP client. Define LLM_STREAM_NO_CURL before
+//   including to get only the parser, without <curl/curl.h> and the network API.
 
 #include <algorithm>
 #include <chrono>
@@ -22,6 +28,158 @@
 #include <mutex>
 #include <string>
 #include <string_view>
+#include <utility>
+#include <vector>
+
+namespace llm {
+
+// ---------------------------------------------------------------------------
+// Server-Sent Events parser (header-only, standard library only)
+// ---------------------------------------------------------------------------
+
+/// One Server-Sent Events event.
+struct SseEvent {
+    std::string event = "message"; ///< `event:` field; "message" when the event has none
+    std::string data;              ///< `data:` lines joined with '\n'
+    std::string id;                ///< Last `id:` seen on the stream (it carries over, per the spec)
+};
+
+using SseCallback = std::function<void(const SseEvent& event)>;
+
+/// Incremental parser for a `text/event-stream` body, following the WHATWG rules:
+/// LF, CRLF or CR line ends (also when split across chunks), a leading UTF-8 BOM,
+/// `:` comment lines, one optional space after the colon, multi-line `data:` joined
+/// with '\n', events dispatched on a blank line, and events with no `data:` dropped.
+/// Feed bytes in whatever chunks they arrive.
+///
+/// # Example
+/// ```cpp
+/// llm::SseParser p;
+/// p.feed("event: ping\ndata: {\"a\"", on_event);
+/// p.feed(":1}\n\n", on_event);   // on_event({"ping", "{\"a\":1}", ""})
+/// p.finish(on_event);
+/// ```
+class SseParser {
+public:
+    /// Parse `chunk` and call `on_event` for every event it completes.
+    inline void feed(std::string_view chunk, const SseCallback& on_event);
+    /// End of stream: parse a last line that has no line end and dispatch a final
+    /// event that has data but no blank line after it (lenient: browsers drop it).
+    /// The parser is then reset for a new stream.
+    inline void finish(const SseCallback& on_event);
+    /// Forget all state, including the last event id and retry value.
+    void reset() { *this = SseParser(); }
+    /// Last valid `retry:` value in milliseconds, or -1 if none was sent.
+    long retry_ms() const { return retry_ms_; }
+
+private:
+    inline void process_line(const SseCallback& on_event);
+    inline void dispatch(const SseCallback& on_event);
+
+    std::string line_;            ///< Partial line carried over between chunks
+    std::string event_;           ///< Event type buffer
+    std::string data_;            ///< Data buffer, each line followed by '\n'
+    std::string id_;              ///< Last event id buffer
+    long        retry_ms_ = -1;
+    bool        skip_lf_  = false; ///< The previous chunk ended in CR: drop a leading LF
+    bool        first_line_ = true; ///< Strip a UTF-8 BOM from the first line
+};
+
+/// Parse a complete SSE body and return its events (calls `SseParser::finish`).
+inline std::vector<SseEvent> parse_sse(std::string_view body) {
+    std::vector<SseEvent> events;
+    SseParser parser;
+    const SseCallback collect = [&events](const SseEvent& e) { events.push_back(e); };
+    parser.feed(body, collect);
+    parser.finish(collect);
+    return events;
+}
+
+inline void SseParser::feed(std::string_view chunk, const SseCallback& on_event) {
+    size_t i = 0;
+    if (skip_lf_ && !chunk.empty()) {
+        skip_lf_ = false;
+        if (chunk[0] == '\n') i = 1;
+    }
+    while (i < chunk.size()) {
+        const size_t end = chunk.find_first_of("\r\n", i);
+        if (end == std::string_view::npos) {
+            line_.append(chunk.data() + i, chunk.size() - i);
+            return;
+        }
+        line_.append(chunk.data() + i, end - i);
+        process_line(on_event);
+        i = end + 1;
+        if (chunk[end] == '\r') {
+            if (i == chunk.size()) skip_lf_ = true;     // CRLF may be split across chunks
+            else if (chunk[i] == '\n') ++i;
+        }
+    }
+}
+
+inline void SseParser::finish(const SseCallback& on_event) {
+    if (!line_.empty()) process_line(on_event);
+    dispatch(on_event);
+    reset();
+}
+
+inline void SseParser::process_line(const SseCallback& on_event) {
+    std::string line;
+    line.swap(line_);
+    if (first_line_) {
+        first_line_ = false;
+        if (line.compare(0, 3, "\xEF\xBB\xBF") == 0) line.erase(0, 3);
+    }
+    if (line.empty()) {
+        dispatch(on_event);
+        return;
+    }
+    if (line[0] == ':') return; // comment
+    std::string_view field(line);
+    std::string_view value;
+    const size_t colon = field.find(':');
+    if (colon != std::string_view::npos) {
+        value = field.substr(colon + 1);
+        field = field.substr(0, colon);
+        if (!value.empty() && value[0] == ' ') value.remove_prefix(1);
+    }
+    if (field == "event") {
+        event_.assign(value.data(), value.size());
+    } else if (field == "data") {
+        data_.append(value.data(), value.size());
+        data_ += '\n';
+    } else if (field == "id") {
+        if (value.find('\0') == std::string_view::npos) id_.assign(value.data(), value.size());
+    } else if (field == "retry") {
+        long ms = 0;
+        bool ok = !value.empty() && value.size() <= 9;
+        for (char c : value) {
+            if (c < '0' || c > '9') { ok = false; break; }
+            ms = ms * 10 + (c - '0');
+        }
+        if (ok) retry_ms_ = ms;
+    }
+}
+
+inline void SseParser::dispatch(const SseCallback& on_event) {
+    if (data_.empty()) {
+        event_.clear();
+        return;
+    }
+    data_.pop_back(); // the '\n' after the last data line
+    SseEvent ev;
+    if (!event_.empty()) ev.event = std::move(event_);
+    ev.data = std::move(data_);
+    ev.id   = id_;
+    event_.clear();
+    data_.clear();
+    if (on_event) on_event(ev);
+}
+
+} // namespace llm
+
+#ifndef LLM_STREAM_NO_CURL
+
 #include <curl/curl.h>
 
 namespace llm {
@@ -275,8 +433,7 @@ enum class Provider { OpenAI, Anthropic, OpenAIResponses };
 struct StreamCtx {
     Provider      provider;
     TokenCallback on_token;
-    std::string   buffer;        ///< Accumulates incomplete SSE lines between curl callbacks
-    std::string   pending_event; ///< Last SSE event type (Anthropic uses this for routing)
+    SseParser     sse;           ///< Carries partial lines and events between curl callbacks
     size_t        token_count = 0;
     std::string   raw;           ///< First bytes of the body, for HTTP error messages
     std::string   api_error;     ///< Responses API: error message from a failure event
@@ -358,66 +515,46 @@ static std::string anthropic_extract_delta(std::string_view payload,
     return {};
 }
 
+/// Route one complete SSE event to the provider's handler.
+static void handle_event(StreamCtx* ctx, const SseEvent& ev) {
+    const std::string_view payload = ev.data;
+    if (payload == "[DONE]") return; // OpenAI end-of-stream marker, nothing to extract
+
+    std::string token;
+    if (ctx->provider == Provider::OpenAIResponses) {
+        responses_event(ctx, payload);
+    } else if (ctx->provider == Provider::OpenAI) {
+        token = openai_extract_delta(payload);
+    } else {
+        // Anthropic signals completion via the message_stop event type
+        const bool is_stop =
+            ev.event == "message_stop" ||
+            json_extract_string(payload, "type") == "message_stop";
+        if (!is_stop) {
+            token = anthropic_extract_delta(payload, ev.event);
+        }
+    }
+
+    if (!token.empty() && ctx->on_token) {
+        ctx->on_token(token);
+        ++ctx->token_count;
+    }
+}
+
 static size_t write_callback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const size_t total = size * nmemb;
     auto* ctx = static_cast<StreamCtx*>(userdata);
 
-    ctx->buffer.append(ptr, total);
     if (ctx->raw.size() < 2048)
         ctx->raw.append(ptr, (std::min)(total, static_cast<size_t>(2048) - ctx->raw.size()));  // (std::min): windows.h min macro
 
-    // Process every complete newline-terminated SSE line
-    size_t start = 0;
-    while (true) {
-        auto nl = ctx->buffer.find('\n', start);
-        if (nl == std::string::npos) break;
-
-        std::string_view line(ctx->buffer.data() + start, nl - start);
-        // Strip trailing CR (CRLF line endings)
-        if (!line.empty() && line.back() == '\r')
-            line = line.substr(0, line.size() - 1);
-
-        if (line.substr(0, 7) == "event: ") {
-            // Track the SSE event type for Anthropic event-based routing
-            ctx->pending_event = std::string(line.substr(7));
-        } else if (line.substr(0, 6) == "data: ") {
-            std::string_view payload = line.substr(6);
-
-            if (payload == "[DONE]") {
-                // OpenAI end-of-stream marker — nothing to extract
-            } else {
-                std::string token;
-                if (ctx->provider == Provider::OpenAIResponses) {
-                    responses_event(ctx, payload);
-                } else if (ctx->provider == Provider::OpenAI) {
-                    token = openai_extract_delta(payload);
-                } else {
-                    // Anthropic signals completion via message_stop event type
-                    std::string_view ev = ctx->pending_event;
-                    const bool is_stop =
-                        ev == "message_stop" ||
-                        json_extract_string(payload, "type") == "message_stop";
-                    if (!is_stop) {
-                        token = anthropic_extract_delta(payload, ev);
-                    }
-                }
-
-                if (!token.empty() && ctx->on_token) {
-                    ctx->on_token(token);
-                    ++ctx->token_count;
-                }
-            }
-        } else if (line.empty()) {
-            // An empty line is the SSE event separator — clear the event type
-            ctx->pending_event.clear();
-        }
-
-        start = nl + 1;
-    }
-
-    // Keep any incomplete line in the buffer for the next curl callback
-    ctx->buffer.erase(0, start);
+    ctx->sse.feed(std::string_view(ptr, total), [ctx](const SseEvent& ev) { handle_event(ctx, ev); });
     return total;
+}
+
+/// Flush an event left without a closing blank line when the body ends.
+static void finish_stream(StreamCtx* ctx) {
+    ctx->sse.finish([ctx](const SseEvent& ev) { handle_event(ctx, ev); });
 }
 
 // ---------------------------------------------------------------------------
@@ -531,6 +668,7 @@ static void do_stream(
         if (on_error) on_error(curl_easy_strerror(res));
         return;
     }
+    finish_stream(&ctx);
 
     long http_code = 0;
     curl_easy_getinfo(static_cast<CURL*>(curl), CURLINFO_RESPONSE_CODE, &http_code);
@@ -627,3 +765,5 @@ void stream(
 } // namespace llm
 
 #endif // LLM_STREAM_IMPLEMENTATION
+
+#endif // LLM_STREAM_NO_CURL

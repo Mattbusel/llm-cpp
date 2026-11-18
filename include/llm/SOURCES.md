@@ -27,7 +27,7 @@ repository and commit listed below. Regenerate with `python tools/sync_headers.p
 | `llm_rank.hpp` | [Mattbusel/llm-rank](https://github.com/Mattbusel/llm-rank) | [`319ca6b3dcfd`](https://github.com/Mattbusel/llm-rank/tree/319ca6b3dcfd6a53b75d8d64558f503bf150e233) | 2026-11-17 | MIT | libcurl | `LLM_RANK_IMPLEMENTATION` | `33866705ac8c8a7d` |
 | `llm_retry.hpp` | [Mattbusel/llm-retry](https://github.com/Mattbusel/llm-retry) | [`d1a307b833ac`](https://github.com/Mattbusel/llm-retry/tree/d1a307b833ac08d9d503139c2d709f3f4ac45a44) | 2026-10-18 | MIT | none | `LLM_RETRY_IMPLEMENTATION` | `6cba6fe7b31d99fa` |
 | `llm_router.hpp` | [Mattbusel/llm-router](https://github.com/Mattbusel/llm-router) | [`ed9cbe2b04f9`](https://github.com/Mattbusel/llm-router/tree/ed9cbe2b04f999fff9daf77cefffb3f98ee3395b) | 2026-11-17 | MIT | none | `LLM_ROUTER_IMPLEMENTATION` | `b7766b99d8a753dd` |
-| `llm_stream.hpp` | [Mattbusel/llm-stream](https://github.com/Mattbusel/llm-stream) | [`08dcc05487a5`](https://github.com/Mattbusel/llm-stream/tree/08dcc05487a59a43a5d4107441cf7d30c5998ae4) | 2026-11-16 | MIT | libcurl | `LLM_STREAM_IMPLEMENTATION` | `defc95f6214831e7` |
+| `llm_stream.hpp` | [Mattbusel/llm-stream](https://github.com/Mattbusel/llm-stream) | [`ea23a2d6a103`](https://github.com/Mattbusel/llm-stream/tree/ea23a2d6a1033786bdc9a4747a8300e64fc8af78) | 2026-11-18 | MIT | libcurl | `LLM_STREAM_IMPLEMENTATION` | `d7dea129e86ae3a0` |
 | `llm_template.hpp` | [Mattbusel/llm-template](https://github.com/Mattbusel/llm-template) | [`839973753e14`](https://github.com/Mattbusel/llm-template/tree/839973753e149a7eb4fe1a18739364608c1f9679) | 2026-09-25 | MIT | none | `LLM_TEMPLATE_IMPLEMENTATION` | `f3319985090c99ca` |
 | `llm_trace.hpp` | [Mattbusel/llm-trace](https://github.com/Mattbusel/llm-trace) | [`daf582af2339`](https://github.com/Mattbusel/llm-trace/tree/daf582af233973be47d364fda282faeddc640ac5) | 2026-11-17 | MIT | none | `LLM_TRACE_IMPLEMENTATION` | `82f08bf2ab02b05d` |
 | `llm_vision.hpp` | [Mattbusel/llm-vision](https://github.com/Mattbusel/llm-vision) | [`6570bd870a3b`](https://github.com/Mattbusel/llm-vision/tree/6570bd870a3b9e0903d62d72b577da2a49deaca7) | 2026-11-17 | MIT | libcurl | `LLM_VISION_IMPLEMENTATION` | `51f8138da19446de` |
@@ -57,7 +57,7 @@ llm-rag        ee0c8fb1578698e3e38153130b565351c6f7aae1
 llm-rank       319ca6b3dcfd6a53b75d8d64558f503bf150e233
 llm-retry      d1a307b833ac08d9d503139c2d709f3f4ac45a44
 llm-router     ed9cbe2b04f999fff9daf77cefffb3f98ee3395b
-llm-stream     08dcc05487a59a43a5d4107441cf7d30c5998ae4
+llm-stream     ea23a2d6a1033786bdc9a4747a8300e64fc8af78
 llm-template   839973753e149a7eb4fe1a18739364608c1f9679
 llm-trace      daf582af233973be47d364fda282faeddc640ac5
 llm-vision     6570bd870a3b9e0903d62d72b577da2a49deaca7

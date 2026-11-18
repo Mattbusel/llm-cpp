@@ -1,4 +1,4 @@
-llm-cpp 1.3.0: builds cleanly inside strict codebases. Every header now compiles warning-free at `-Wall -Wextra -Wpedantic -Wshadow` (GCC, Clang) and `/W4 /permissive-` (MSVC), enforced in CI with `-Werror`/`/WX`. Fixed: an unguarded `#define NOMINMAX` in 15 headers that broke `/WX`/`-Werror` builds passing `-DNOMINMAX`; 8 headers that did not compile after `<windows.h>` (C2589 on `std::min`/`std::max`); `LLM_TRACE` used twice in one scope did not compile; version macros that still said 1.1.0. `llm-cpp.pc` now declares `Requires: libcurl`. New: [docs/INTEGRATION.md](https://github.com/Mattbusel/llm-cpp/blob/v1.3.0/docs/INTEGRATION.md) and [SECURITY.md](https://github.com/Mattbusel/llm-cpp/blob/v1.3.0/SECURITY.md). No API changes.
+llm-cpp 1.4.0: `llm_stream.hpp` gains a standalone Server-Sent Events parser. `llm::SseParser` (incremental) and `llm::parse_sse(body)` follow the WHATWG event-stream rules (CRLF/CR line ends split across chunks, comments, multi-line `data:`, `id:`, `retry:`), are header-only with no `LLM_STREAM_IMPLEMENTATION`, and with `LLM_STREAM_NO_CURL` compile without libcurl, so projects with their own HTTP client can use them. The libcurl streaming functions now run on the same parser. See [CHANGELOG.md](https://github.com/Mattbusel/llm-cpp/blob/v1.4.0/CHANGELOG.md).
 
 llm-cpp is an installable package: all 26 single-header C++17 libraries in `include/llm/`, with CMake targets, install rules and a package config.
 
@@ -7,7 +7,7 @@ llm-cpp is an installable package: all 26 single-header C++17 libraries in `incl
 ```cmake
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.3.0.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.4.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)

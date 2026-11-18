@@ -11,7 +11,7 @@ depend on it instead of copying files.
 ```cmake
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.3.0.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.4.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 target_link_libraries(app PRIVATE llm::cache llm::json)

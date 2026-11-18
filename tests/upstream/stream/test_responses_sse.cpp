@@ -116,6 +116,38 @@ int main() {
         CHECK(text == "ab");
     }
 
+    // Anthropic Messages parsing: text deltas only, ping/message_stop ignored, any chunking.
+    for (size_t chunk : {static_cast<size_t>(1), static_cast<size_t>(5), static_cast<size_t>(4096)}) {
+        std::string text;
+        llm::detail::StreamCtx ctx;
+        ctx.provider = llm::detail::Provider::Anthropic;
+        ctx.on_token = [&](std::string_view t) { text += t; };
+        feed(ctx,
+             "event: message_start\r\n"
+             "data: {\"type\":\"message_start\",\"message\":{\"usage\":{\"input_tokens\":3}}}\r\n\r\n"
+             "event: ping\ndata: {\"type\": \"ping\"}\n\n"
+             "event: content_block_delta\n"
+             "data: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"Hel\"}}\n\n"
+             "event: content_block_delta\n"
+             "data: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"lo\"}}\n\n"
+             "event: message_stop\ndata: {\"type\":\"message_stop\"}\n\n",
+             chunk);
+        CHECK(text == "Hello");
+        CHECK(ctx.token_count == 2);
+    }
+
+    // A last event with no closing blank line is delivered when the stream ends.
+    {
+        std::string text;
+        llm::detail::StreamCtx ctx;
+        ctx.provider = llm::detail::Provider::OpenAI;
+        ctx.on_token = [&](std::string_view t) { text += t; };
+        feed(ctx, "data: {\"choices\":[{\"delta\":{\"content\":\"z\"}}]}\n", 4096);
+        CHECK(text.empty());
+        llm::detail::finish_stream(&ctx);
+        CHECK(text == "z");
+    }
+
     if (failures == 0) std::printf("test_responses_sse: all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

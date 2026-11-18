@@ -16,9 +16,9 @@
 // include paths and libraries.
 
 #define LLM_CPP_VERSION_MAJOR 1
-#define LLM_CPP_VERSION_MINOR 3
+#define LLM_CPP_VERSION_MINOR 4
 #define LLM_CPP_VERSION_PATCH 0
-#define LLM_CPP_VERSION "1.3.0"
+#define LLM_CPP_VERSION "1.4.0"
 
 // No external dependencies.
 #include "llm_cache.hpp"
