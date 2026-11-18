@@ -1,5 +1,8 @@
 # Using llm-cpp as a package
 
+Short version, and what a reviewer asks before adding a dependency:
+[INTEGRATION.md](INTEGRATION.md).
+
 llm-cpp 1.x ships all 26 headers in `include/llm/` with CMake targets, so you can
 depend on it instead of copying files.
 
@@ -8,7 +11,7 @@ depend on it instead of copying files.
 ```cmake
 include(FetchContent)
 FetchContent_Declare(llm-cpp
-  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.2.1.tar.gz)
+  URL https://github.com/Mattbusel/llm-cpp/archive/refs/tags/v1.3.0.tar.gz)
 FetchContent_MakeAvailable(llm-cpp)
 
 target_link_libraries(app PRIVATE llm::cache llm::json)
@@ -25,14 +28,14 @@ cmake --install build
 ```
 
 ```cmake
-find_package(llm-cpp 1.1 CONFIG REQUIRED COMPONENTS cache json stream)
+find_package(llm-cpp 1.3 CONFIG REQUIRED COMPONENTS cache json stream)
 target_link_libraries(app PRIVATE llm::cache llm::json llm::stream)
 ```
 
 Point CMake at the prefix with `-DCMAKE_PREFIX_PATH=/opt/llm-cpp`. A build tree
 works too: `-Dllm-cpp_DIR=<llm-cpp build dir>`. `llm-cpp.pc` is installed for
-pkg-config (`pkg-config --cflags llm-cpp`; add `-lcurl` yourself for the network
-libraries).
+pkg-config. When libcurl was found at configure time it declares
+`Requires: libcurl`, so `pkg-config --cflags --libs llm-cpp` includes it.
 
 ## Implementation macro
 
@@ -90,13 +93,15 @@ other library: JSON handling is built in (and `llm::json` is available on its ow
 ## Building the tests
 
 ```sh
-cmake -S . -B build -DLLM_CPP_BUILD_TESTS=ON
+cmake -S . -B build -DLLM_CPP_BUILD_TESTS=ON -DLLM_CPP_STRICT_WARNINGS=ON
 cmake --build build
 ctest --test-dir build
 ```
 
 Without libcurl the network libraries' tests and examples are skipped.
 `-DLLM_CPP_BUILD_EXAMPLES=OFF` skips the 106 upstream examples.
+`LLM_CPP_STRICT_WARNINGS=ON` (what CI uses) builds the header tests with
+`-Wall -Wextra -Wpedantic -Wshadow -Werror`, or `/W4 /WX /permissive-` on MSVC.
 
 ## Updating the headers
 

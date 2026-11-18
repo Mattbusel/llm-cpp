@@ -23,6 +23,7 @@ endif()
 option(LLM_CPP_BUILD_TESTS    "Build the llm-cpp compile and link tests" ${_llm_is_top})
 option(LLM_CPP_BUILD_EXAMPLES "Build every library's upstream examples as part of the tests" ON)
 option(LLM_CPP_INSTALL        "Generate the install target" ${_llm_is_top})
+option(LLM_CPP_STRICT_WARNINGS "Build the header tests with -Wall -Wextra -Wpedantic -Wshadow (/W4 on MSVC) as errors" OFF)
 
 # ---------------------------------------------------------------------------
 # Components. Every library is a header-only INTERFACE target llm::<name>.
@@ -130,7 +131,13 @@ if(LLM_CPP_INSTALL)
         "${PROJECT_BINARY_DIR}/llm-cppConfigVersion.cmake"
         DESTINATION ${LLM_CPP_CMAKE_DIR})
 
-    # pkg-config: header-only, Cflags only. Network components still need -lcurl.
+    # pkg-config: header-only. When libcurl was found, the network headers'
+    # dependency is declared so `pkg-config --cflags --libs llm-cpp` brings it.
+    if(CURL_FOUND)
+        set(LLM_CPP_PC_REQUIRES "Requires: libcurl")
+    else()
+        set(LLM_CPP_PC_REQUIRES "")
+    endif()
     configure_file(cmake/llm-cpp.pc.in "${PROJECT_BINARY_DIR}/llm-cpp.pc" @ONLY)
     install(FILES "${PROJECT_BINARY_DIR}/llm-cpp.pc"
             DESTINATION ${CMAKE_INSTALL_DATADIR}/pkgconfig)

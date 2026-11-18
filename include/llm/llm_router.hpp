@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_router.hpp -- Zero-dependency single-header C++ prompt router.
 // Routes prompts to different models based on complexity scoring and strategy.
@@ -101,7 +103,7 @@ int score_complexity(const std::string& prompt) {
     // Question count (up to 15 points)
     int questions = 0;
     for (char c : prompt) if (c == '?') ++questions;
-    score += std::min(15, questions * 5);
+    score += (std::min)(15, questions * 5);
 
     // Technical keyword density (up to 25 points)
     static const char* tech_words[] = {
@@ -115,7 +117,7 @@ int score_complexity(const std::string& prompt) {
     int kw_hits = 0;
     for (int i = 0; tech_words[i]; ++i)
         if (lower.find(tech_words[i]) != std::string::npos) ++kw_hits;
-    score += std::min(25, kw_hits * 4);
+    score += (std::min)(25, kw_hits * 4);
 
     // Multi-step indicators (up to 15 points)
     static const char* step_words[] = {
@@ -124,12 +126,12 @@ int score_complexity(const std::string& prompt) {
     int step_hits = 0;
     for (int i = 0; step_words[i]; ++i)
         if (lower.find(step_words[i]) != std::string::npos) ++step_hits;
-    score += std::min(15, step_hits * 3);
+    score += (std::min)(15, step_hits * 3);
 
     // Code block presence (15 points)
     if (prompt.find("```") != std::string::npos) score += 15;
 
-    return std::min(100, score);
+    return (std::min)(100, score);
 }
 
 Router::Router(RouterConfig config) : m_cfg(std::move(config)) {
@@ -157,16 +159,16 @@ double Router::model_score(const ModelProfile& m, int complexity,
     switch (strategy) {
         case RoutingStrategy::CostOptimized:
             // High score = low cost * fits complexity
-            return complexity_fit * (1.0 / std::max(0.001, m.cost_per_1k));
+            return complexity_fit * (1.0 / (std::max)(0.001, m.cost_per_1k));
 
         case RoutingStrategy::LatencyOptimized:
-            return complexity_fit * (1.0 / std::max(0.001, m.latency_score));
+            return complexity_fit * (1.0 / (std::max)(0.001, m.latency_score));
 
         case RoutingStrategy::QualityOptimized:
             return complexity_fit * eq;
 
         case RoutingStrategy::Balanced:
-            return complexity_fit * (eq / std::max(0.001, m.cost_per_1k * m.latency_score));
+            return complexity_fit * (eq / (std::max)(0.001, m.cost_per_1k * m.latency_score));
 
         case RoutingStrategy::Budget:
             // Filter by cost tier, then pick best quality

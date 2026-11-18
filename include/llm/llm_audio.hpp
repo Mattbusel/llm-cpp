@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 // llm_audio.hpp — Single-header C++ audio transcription, translation, and TTS via OpenAI
 // MIT License — Mattbusel, 2026
 // Usage: #define LLM_AUDIO_IMPLEMENTATION in ONE .cpp before including
@@ -373,7 +375,7 @@ std::vector<uint8_t> text_to_speech_bytes(const std::string& text,
 
     // TTS returns binary audio on success; errors come back as JSON
     if (result.size() > 10) {
-        std::string prefix(result.begin(), result.begin() + std::min(result.size(), (size_t)20));
+        std::string prefix(result.begin(), result.begin() + (std::min)(result.size(), (size_t)20));
         if (prefix.find("{\"error\"") != std::string::npos) {
             std::string resp(result.begin(), result.end());
             std::string msg = detail_audio::jstr(resp, "message");

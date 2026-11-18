@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_vision.hpp -- Zero-dependency single-header C++ multimodal image+text.
 // Base64-encode images inline, supports OpenAI GPT-4V and Anthropic Claude vision.

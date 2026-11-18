@@ -230,7 +230,6 @@ HTMLParseResult parse_html(const std::string& html, const ParseConfig& cfg) {
     bool in_script  = false;
     bool in_style   = false;
     bool in_title   = false;
-    bool in_heading = false;
     std::string tag_buf;
     std::string text_buf;
 
@@ -263,7 +262,6 @@ HTMLParseResult parse_html(const std::string& html, const ParseConfig& cfg) {
                 // headings
                 else if (tl.size() == 2 && tl[0] == 'h' && tl[1] >= '1' && tl[1] <= '6') {
                     flush_text();
-                    in_heading = true;
                     result.text += '\n';
                 }
                 else if (tl.size() == 3 && tl[0] == '/' && tl[1] == 'h' && tl[2] >= '1' && tl[2] <= '6') {
@@ -276,7 +274,6 @@ HTMLParseResult parse_html(const std::string& html, const ParseConfig& cfg) {
                             if (!heading.empty()) result.headings.push_back(heading);
                         }
                     }
-                    in_heading = false;
                     result.text += '\n';
                 }
                 // links
@@ -455,12 +452,12 @@ std::vector<std::string> chunk(const std::string& text, const ChunkConfig& cfg) 
     if (text.empty()) return chunks;
 
     size_t sz  = cfg.chunk_size;
-    size_t ov  = std::min(cfg.overlap, sz / 2);
+    size_t ov  = (std::min)(cfg.overlap, sz / 2);
     size_t pos = 0;
     size_t len = text.size();
 
     while (pos < len) {
-        size_t end = std::min(pos + sz, len);
+        size_t end = (std::min)(pos + sz, len);
 
         if (end < len) {
             // Try to find a paragraph boundary
@@ -470,7 +467,7 @@ std::vector<std::string> chunk(const std::string& text, const ChunkConfig& cfg) 
                     end = pb + 2;
             }
             // Otherwise try sentence boundary
-            if (end == std::min(pos + sz, len) && cfg.split_on_sentences) {
+            if (end == (std::min)(pos + sz, len) && cfg.split_on_sentences) {
                 size_t sb = text.rfind('.', end);
                 if (sb == std::string::npos) sb = text.rfind('!', end);
                 if (sb == std::string::npos) sb = text.rfind('?', end);

@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_batch.hpp -- Zero-dependency single-header C++ batch LLM processor.
 // JSONL batch processing, thread pool, checkpointing/resumability, rate limiting.
@@ -284,7 +286,7 @@ std::vector<BatchResult> process_batch(const std::vector<BatchItem>& items,
     }
 
     size_t total = items.size();
-    size_t num_threads = std::min(config.num_threads, items.size());
+    size_t num_threads = (std::min)(config.num_threads, items.size());
 
     auto worker = [&]() {
         while (true) {

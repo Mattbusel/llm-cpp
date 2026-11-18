@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 // llm_json.hpp — Single-header C++ JSON parser and builder
 // MIT License — Mattbusel, 2026
 // Usage: #define LLM_JSON_IMPLEMENTATION in ONE .cpp before including

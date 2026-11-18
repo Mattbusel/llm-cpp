@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_guard.hpp -- Zero-dependency single-header C++ PII detection and guard.
 // Detects/scrubs: Email, Phone, SSN, CreditCard (Luhn), APIKey patterns.
@@ -85,7 +87,6 @@ static bool luhn_check(const std::string& digits) {
 static bool is_digit(char c)  { return c >= '0' && c <= '9'; }
 static bool is_alpha(char c)  { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'); }
 static bool is_alnum(char c)  { return is_digit(c) || is_alpha(c); }
-static bool is_hex(char c)    { return is_digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'); }
 
 // Email: local@domain.tld
 static bool try_email(const std::string& s, size_t start, size_t& end) {
@@ -112,7 +113,6 @@ static bool try_phone(const std::string& s, size_t start, size_t& end) {
     int digits = 0;
     if (i < s.size() && s[i] == '+') ++i;
     // collect digit/sep chars up to 15 digits
-    size_t run_start = i;
     while (i < s.size() && (is_digit(s[i]) || s[i] == '-' || s[i] == '.' || s[i] == ' '
                              || s[i] == '(' || s[i] == ')')) {
         if (is_digit(s[i])) ++digits;
@@ -226,7 +226,7 @@ static double compute_injection_score(const std::string& text) {
         if (lower.find(signals[i]) != std::string::npos) ++hits;
 
     // each hit contributes; cap at 1.0
-    double score = std::min(1.0, hits * 0.25);
+    double score = (std::min)(1.0, hits * 0.25);
     return score;
 }
 

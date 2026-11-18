@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_embed.hpp -- Zero-dependency single-header C++ text embeddings,
 // cosine similarity, and nearest-neighbor vector search via OpenAI API.

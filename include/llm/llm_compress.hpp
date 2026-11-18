@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_compress.hpp -- Zero-dependency single-header C++ conversation compressor.
 // Strategies: TruncateHead, TruncateTail, TruncateSmart, SlidingWindow, Summarize.
@@ -104,6 +106,7 @@ static size_t msg_tokens(const CompressMessage& m) {
     return (m.content.size() + 3) / 4;
 }
 
+#ifdef LLM_COMPRESS_SUMMARIZE
 static std::string jesc(const std::string& s) {
     std::string o;
     for (unsigned char c : s) {
@@ -121,7 +124,6 @@ static std::string jesc(const std::string& s) {
     return o;
 }
 
-#ifdef LLM_COMPRESS_SUMMARIZE
 static size_t wcb(char* p, size_t s, size_t n, void* ud) {
     static_cast<std::string*>(ud)->append(p, s * n); return s * n;
 }

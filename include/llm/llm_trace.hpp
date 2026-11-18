@@ -85,7 +85,11 @@ private:
     friend class ActiveSpan;
 };
 
-#define LLM_TRACE(name) auto _llm_span_##__LINE__ = ::llm::Tracer::global().start(name)
+// One RAII span per use. The line number is expanded before pasting, so
+// several LLM_TRACE calls can share a scope.
+#define LLM_TRACE_CONCAT_(a, b) a##b
+#define LLM_TRACE_CONCAT(a, b) LLM_TRACE_CONCAT_(a, b)
+#define LLM_TRACE(name) auto LLM_TRACE_CONCAT(llm_trace_span_, __LINE__) = ::llm::Tracer::global().start(name)
 
 } // namespace llm
 

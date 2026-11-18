@@ -2,6 +2,56 @@
 
 All notable changes to llm-cpp. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-11-17
+
+Builds cleanly inside strict codebases: every header compiles warning-free at
+`-Wall -Wextra -Wpedantic -Wshadow` (GCC, Clang) and `/W4 /permissive-` (MSVC),
+and CI now enforces it with `-Werror` / `/WX`. No API changes.
+
+### Fixed
+
+- 15 headers did an unguarded `#define NOMINMAX`. A project that passes
+  `-DNOMINMAX` (common on Windows) got a macro redefinition, MSVC C4005 or
+  GCC/Clang "NOMINMAX redefined", which fails `/WX` and `-Werror` builds. They now
+  define it only on Windows and only when it is not defined yet: ab, audio,
+  batch, chat, compress, embed, eval, finetune, guard, json, mock, rag, rank,
+  router, vision.
+- 8 headers failed to compile after `#include <windows.h>` without `NOMINMAX`
+  (error C2589 on `std::min`/`std::max`): audio, batch, eval, guard, parse, rag,
+  rank, router. The calls are `(std::min)(...)` / `(std::max)(...)` now, as
+  `llm_stream.hpp` has been since 1.2.1.
+- `LLM_TRACE` pasted `__LINE__` unexpanded, so two `LLM_TRACE(...)` calls in one
+  scope declared the same variable and did not compile. It expands the line
+  number first now (llm-trace [`daf582a`](https://github.com/Mattbusel/llm-trace/commit/daf582af233973be47d364fda282faeddc640ac5)).
+- Warnings in consuming builds: unused `jesc()` in `llm_compress.hpp` without
+  `LLM_COMPRESS_SUMMARIZE`, unused `is_hex()` and a local in `llm_guard.hpp`, a
+  set-but-unused flag in `llm_parse.hpp`, and an implicit `size_t` to `double`
+  conversion in `llm_rank.hpp` (MSVC C4244).
+- `LLM_CPP_VERSION_MINOR` / `_PATCH` said 1.1.0 in the 1.2.0 and 1.2.1 releases
+  while `LLM_CPP_VERSION` said 1.2.x. They agree again, and `link_all` fails if
+  they ever drift.
+
+### Added
+
+- `LLM_CPP_STRICT_WARNINGS` CMake option (off by default): the header tests,
+  `link_all` and the new tests build with `-Wall -Wextra -Wpedantic -Wshadow
+  -Werror`, or `/W4 /WX /permissive-` on MSVC. CI turns it on everywhere and adds
+  a Clang job on Ubuntu.
+- Tests: `hygiene` (every header with `NOMINMAX` predefined, two `LLM_TRACE` in
+  one scope), `windows_h_<name>` (Windows: each header after `<windows.h>`), and
+  `header_compress_summarize` (the `LLM_COMPRESS_SUMMARIZE` path).
+- `llm-cpp.pc` declares `Requires: libcurl` when libcurl was found at configure
+  time, so `pkg-config --cflags --libs llm-cpp` carries the network headers'
+  dependency.
+- [docs/INTEGRATION.md](docs/INTEGRATION.md): the five-line integration and what
+  a reviewer asks before adding the dependency (compilers, warnings, run-time
+  behaviour, versioning). [examples/fetchcontent/](examples/fetchcontent/) is that
+  integration as a project; CI builds and runs it on every platform.
+- [SECURITY.md](SECURITY.md), with private vulnerability reporting turned on.
+
+Headers re-synced from their repositories (commits in
+[include/llm/SOURCES.md](include/llm/SOURCES.md)).
+
 ## [1.2.1] - 2026-11-16
 
 ### Fixed

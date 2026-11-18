@@ -29,6 +29,10 @@ jobs:
           - name: ubuntu (gcc, no libcurl)
             os: ubuntu-latest
             curl: false
+          - name: ubuntu (clang, libcurl)
+            os: ubuntu-latest
+            curl: true
+            cxx: clang++
           - name: macos (apple clang, libcurl)
             os: macos-latest
             curl: true
@@ -73,7 +77,9 @@ jobs:
         run: |
           extra=""
           if [ "${{ matrix.curl }}" = "false" ]; then extra="-DCMAKE_DISABLE_FIND_PACKAGE_CURL=ON"; fi
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" $TOOLCHAIN $extra
+          if [ -n "${{ matrix.cxx }}" ]; then extra="$extra -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}"; fi
+          # Header tests as errors at -Wall -Wextra -Wpedantic -Wshadow (/W4 /permissive- on MSVC).
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PREFIX" -DLLM_CPP_STRICT_WARNINGS=ON $TOOLCHAIN $extra
 
       - name: Build
         run: cmake --build build --config Release --parallel 4
@@ -107,6 +113,13 @@ jobs:
             -DLLM_CPP_SOURCE_DIR="$PWD" -DCONSUMER_WITH_CURL=${{ matrix.curl && 'ON' || 'OFF' }} $TOOLCHAIN
           cmake --build build-consumer-sub --config Release
           ctest --test-dir build-consumer-sub -C Release --output-on-failure
+
+      - name: FetchContent example (examples/fetchcontent, built from this checkout)
+        shell: bash
+        run: |
+          cmake -S examples/fetchcontent -B build-fc -DCMAKE_BUILD_TYPE=Release -DFETCHCONTENT_SOURCE_DIR_LLM-CPP="$PWD" $TOOLCHAIN
+          cmake --build build-fc --config Release
+          if [ -f build-fc/Release/app.exe ]; then build-fc/Release/app.exe; else build-fc/app; fi
 
       - name: Asking for a libcurl component without libcurl must fail
         if: ${{ !matrix.curl }}

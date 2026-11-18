@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_ab.hpp -- A/B testing framework for LLM prompts and models.
 // Welch t-test, Cohen d, custom scorers. libcurl required.

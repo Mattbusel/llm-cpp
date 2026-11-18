@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_rag.hpp -- Zero-dependency single-header C++ retrieval-augmented generation.
 // Chunk text, embed via OpenAI, store in flat-file vector index, retrieve, generate.
@@ -204,7 +206,7 @@ std::vector<std::string> chunk_text(const std::string& text,
 
     size_t pos = 0;
     while (pos < text.size()) {
-        size_t end = std::min(pos + chunk_size, text.size());
+        size_t end = (std::min)(pos + chunk_size, text.size());
 
         // Try to break at sentence boundary (". " followed by non-lowercase)
         if (end < text.size()) {
@@ -259,7 +261,7 @@ std::string RagPipeline::complete(const std::string& prompt) {
 float RagPipeline::cosine_sim(const std::vector<float>& a,
                                const std::vector<float>& b) const {
     float dot=0,na=0,nb=0;
-    size_t n = std::min(a.size(),b.size());
+    size_t n = (std::min)(a.size(),b.size());
     for(size_t i=0;i<n;++i){dot+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}
     float d = std::sqrt(na)*std::sqrt(nb);
     return d>0?dot/d:0;
@@ -295,7 +297,7 @@ std::vector<Chunk> RagPipeline::retrieve(const std::string& question) {
     std::sort(scored.begin(), scored.end(),
               [](const auto& a, const auto& b){ return a.first > b.first; });
     std::vector<Chunk> out;
-    size_t k = std::min(m_cfg.top_k, scored.size());
+    size_t k = (std::min)(m_cfg.top_k, scored.size());
     for (size_t i = 0; i < k; ++i)
         out.push_back(m_chunks[scored[i].second]);
     return out;

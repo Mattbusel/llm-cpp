@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_finetune.hpp -- Zero-dependency single-header C++ fine-tuning job manager.
 // Upload training data, start jobs, poll status, list/delete fine-tuned models.

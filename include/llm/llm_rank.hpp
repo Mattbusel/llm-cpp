@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_rank.hpp -- Reranking: score and sort passages by relevance.
 // BM25 local reranking (no API) + LLM reranking + hybrid mode.
@@ -164,7 +166,7 @@ static double parse_score(const std::string& s) {
         if (std::isdigit((unsigned char)s[i])) last = i;
     if (last == std::string::npos) return 0.5;
     double v = std::stod(s.substr(last));
-    return std::max(0.0, std::min(10.0, v)) / 10.0;
+    return (std::max)(0.0, (std::min)(10.0, v)) / 10.0;
 }
 
 static void assign_ranks(std::vector<RankResult>& results) {
@@ -212,7 +214,7 @@ std::vector<double> BM25::scores(const std::string& query) const {
         for (size_t di = 0; di < docs_.size(); ++di) {
             int tf = 0;
             for (auto& t : docs_[di].terms) if (t == term) ++tf;
-            double dl = docs_[di].len;
+            double dl = static_cast<double>(docs_[di].len);
             double num = tf * (k1_ + 1.0);
             double den = tf + k1_ * (1.0 - b_ + b_ * dl / avg_dl_);
             sc[di] += idf_[qi] * num / den;
@@ -281,7 +283,7 @@ std::vector<RankResult> rerank_hybrid(const std::string& query,
 
     // Step 2: LLM rerank top-k
     std::vector<std::string> top_passages;
-    for (size_t i = 0; i < std::min(llm_top_k, local.size()); ++i)
+    for (size_t i = 0; i < (std::min)(llm_top_k, local.size()); ++i)
         top_passages.push_back(local[i].passage);
 
     auto llm_results = rerank_llm(query, top_passages, llm_cfg);

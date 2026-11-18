@@ -1,0 +1,7 @@
+// Generated from tests/windows_h.cpp.in for llm_@LLM_NAME@.hpp (Windows only).
+// Compile-only: <windows.h> without NOMINMAX defines min and max as macros,
+// which turns an unparenthesized std::min(...) or std::max(...) in a header
+// into a syntax error (C2589). Every header must build after it.
+#include <windows.h>
+#define LLM_@LLM_NAME_UPPER@_IMPLEMENTATION
+#include <llm/llm_@LLM_NAME@.hpp>

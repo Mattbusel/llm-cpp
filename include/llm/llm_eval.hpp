@@ -1,5 +1,7 @@
 #pragma once
-#define NOMINMAX
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX  // keep <windows.h> from defining min/max macros
+#endif
 
 // llm_eval.hpp — Zero-dependency single-header C++ LLM evaluation library.
 // Run prompts N times, measure variance, compare models, score responses.
@@ -226,8 +228,8 @@ static EvalMetrics compute_metrics(const std::vector<EvalRun>& runs) {
     for (size_t i = 0; i < runs.size(); ++i)
         for (size_t j = i + 1; j < runs.size(); ++j) {
             double s = jaccard(runs[i].response, runs[j].response);
-            ss += s; m.min_similarity = std::min(m.min_similarity, s);
-            m.max_similarity = std::max(m.max_similarity, s); ++pairs;
+            ss += s; m.min_similarity = (std::min)(m.min_similarity, s);
+            m.max_similarity = (std::max)(m.max_similarity, s); ++pairs;
         }
     m.avg_similarity = pairs > 0 ? ss / pairs : 1.0;
 
